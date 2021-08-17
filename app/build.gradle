@@ -37,6 +37,8 @@ android {
         dataBinding {
             enabled = true
         }
+
+        viewBinding = true
     }
 }
 
@@ -54,4 +56,7 @@ dependencies {
 
     //https://github.com/oneHamidreza/MeowBottomNavigation
     implementation 'com.etebarian:meow-bottom-navigation:1.2.0'
+
+    //https://github.com/yuriy-budiyev/code-scanner
+    implementation 'com.budiyev.android:code-scanner:2.1.0'
 }
