@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -22,15 +24,14 @@ class GrabFragment : Fragment() {
     private var _binding:FragmentGrabBinding ? = null
     private val binding get() = _binding!!
 
-    val REQUEST_ID_MULTIPLE_PERMISSIONS = 7
-
-
+    val CAMERA_PERMISION_CODE = 100
     private lateinit var codeScanner: CodeScanner
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //android.util.Log.e("ON CREATE","FRAGMENT")
     }
 
     override fun onCreateView(
@@ -38,104 +39,110 @@ class GrabFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentGrabBinding.inflate(inflater,container,false)
-        val view = binding.root
+        var view = binding.root
 
-        checkAndroidVersion(view)
+        android.util.Log.e("ON CREATEVIEW","FRAGMENT")
+
+        codeScanner = CodeScanner(requireActivity(), _binding!!.scannerView)
+
+        //clicksListener()
 
 
 
+        checkPermision(Manifest.permission.CAMERA, CAMERA_PERMISION_CODE)
 
 
 
         return view
     }
 
-    fun getDataCodeScanner(view: View)
-    {
-        val activity = requireActivity()
-        codeScanner = CodeScanner(activity, _binding!!.scannerView)
-
-
-        codeScanner.decodeCallback = DecodeCallback {
-            activity.runOnUiThread {
-                Toast.makeText(activity, it.text, Toast.LENGTH_LONG).show()
-            }
-        }
+    private fun clicksListener() {
 
         _binding!!.scannerView.setOnClickListener {
             codeScanner.startPreview()
+            android.util.Log.e("CLICKED","START SCANNER")
         }
+    }
 
 
+    fun getDataCodeScanner()
+    {
+
+        android.util.Log.e("INICIA","GETDATASCANNER")
+
+        codeScanner.formats = CodeScanner.ALL_FORMATS
+        codeScanner.isAutoFocusEnabled = true // Whether to enable auto focus or not
+
+        //Decode code
+        codeScanner.decodeCallback = DecodeCallback {
+            requireActivity().runOnUiThread {
+                Toast.makeText(requireActivity(), it.text, Toast.LENGTH_LONG).show()
+                android.util.Log.e("Scan result","QR CODE: ${it.text}")
+            }
+        }
 
         // or ErrorCallback.SUPPRESS
         codeScanner.errorCallback = ErrorCallback {
-            activity?.runOnUiThread(Runnable {
+            requireActivity().runOnUiThread(Runnable {
                 //on main thread
-                Toast.makeText(view.context, "Camera initialization error: ${it.message}",Toast.LENGTH_LONG).show()
                 android.util.Log.e("ERROR","Camera initialization error: ${it.message}")
             })
 
         }
 
-    }
-
-    override fun onResume() {
-        super.onResume()
         codeScanner.startPreview()
-    }
 
-    override fun onPause() {
-        codeScanner.releaseResources()
-        super.onPause()
-    }
 
-    private fun checkAndroidVersion( view: View) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-             var verdad= checkAndRequestPermissions()
-                if(verdad)
-                {
-                    getDataCodeScanner(view)
-                }
-
-        } else {
-            // code for lollipop and pre-lollipop devices
+        _binding?.scannerView?.setOnClickListener {
+            codeScanner.startPreview()
         }
+
     }
 
 
-    private fun checkAndRequestPermissions(): Boolean {
-        val camera = ContextCompat.checkSelfPermission(
-            requireActivity(),
-            Manifest.permission.CAMERA
-        )
-        val write = ContextCompat.checkSelfPermission(
-            requireActivity(),
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
-        val read =
-            ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)
-        val listPermissionsNeeded: MutableList<String> = ArrayList()
-        if (write != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    override fun onStop() {
+        super.onStop()
+        android.util.Log.e("ON STOP","FRAGMENT")
+        if(codeScanner!= null)
+        {
+            android.util.Log.e("ON PAUSE","RUN")
+            codeScanner.releaseResources()
         }
-        if (camera != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(Manifest.permission.CAMERA)
-        }
-        if (read != PackageManager.PERMISSION_GRANTED) {
-            listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE)
-        }
-        if (!listPermissionsNeeded.isEmpty()) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                listPermissionsNeeded.toTypedArray(),
-                REQUEST_ID_MULTIPLE_PERMISSIONS
-            )
-            return false
-        }
-        return true
     }
 
+    private fun checkPermision(permission: String, requesCode: Int)
+    {
+        if(ContextCompat.checkSelfPermission(requireContext(),permission)==PackageManager.PERMISSION_DENIED)
+        {
+            ActivityCompat.requestPermissions(requireActivity(), arrayOf(permission),requesCode)
+
+        }else
+        {
+            android.util.Log.e("CAMERA PERMISION","Permision Granted Already")
+            getDataCodeScanner()
+        }
+
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if(requestCode == CAMERA_PERMISION_CODE)
+        {
+            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                android.util.Log.e("CAMERA PERMISION","Permision Granted Already")
+                getDataCodeScanner()
+            }else
+            {
+                android.util.Log.e("CAMERA PERMISION","Denied")
+            }
+        }
+    }
 
     companion object {
         @JvmStatic
