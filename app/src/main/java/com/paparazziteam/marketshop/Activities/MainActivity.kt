@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
 
     fun setBotomNavigation()
     {
+        addFragment(HomeFragment.newInstance())
 
         with(bottomNavigation) {
             this?.add(MeowBottomNavigation.Model(1, R.drawable.ic_home))
@@ -43,16 +44,16 @@ class MainActivity : AppCompatActivity() {
             {
                 1 -> {
                     android.util.Log.d("CLICKED","HOME")
-                    replaceFragment(HomeFragment.newInstance(), true)
+                    replaceFragment(HomeFragment.newInstance())
                 }
 
                 2 -> {
                     android.util.Log.d("CLICKED","GRAB CAMERA")
-                    replaceFragment(GrabFragment.newInstance(), true)
+                    replaceFragment(GrabFragment.newInstance())
                 }
                 3 -> {
                     android.util.Log.d("CLICKED","PROFILE")
-                    replaceFragment(ProfileFragment.newInstance(), true)
+                    replaceFragment(ProfileFragment.newInstance())
                 }
 
 
@@ -70,20 +71,33 @@ class MainActivity : AppCompatActivity() {
     }
 
     //This code replace current fragment with other
-    fun replaceFragment(fragment: Fragment, isTransition:Boolean)
+    fun replaceFragment(fragment: Fragment)
     {
         val fragmentTransition = supportFragmentManager.beginTransaction()
 
-        if(isTransition)
-        {
-            fragmentTransition.setCustomAnimations(android.R.anim.slide_in_left,android.R.anim.slide_out_right)
-        }else
-        {
+
             fragmentTransition
                 .replace(R.id.fragmentContainer, fragment)
                 .addToBackStack(Fragment::class.java.simpleName)
                 .commit()
-        }
+
+            android.util.Log.d("FRAGMENT","REEMPLAZADO")
+
+
+    }
+
+    fun addFragment(fragment: Fragment)
+    {
+        val fragmentTransition = supportFragmentManager.beginTransaction()
+
+
+        fragmentTransition
+            .replace(R.id.fragmentContainer, fragment)
+            .addToBackStack(Fragment::class.java.simpleName)
+            .commit()
+
+        android.util.Log.d("FRAGMENT","ADD FRAGMENT")
+
 
     }
 }

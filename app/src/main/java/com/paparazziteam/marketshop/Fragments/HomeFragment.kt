@@ -30,7 +30,10 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_grab, container, false)
+
+
+
+        return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
 
@@ -38,7 +41,7 @@ class HomeFragment : Fragment() {
         @JvmStatic
         fun newInstance() =
             HomeFragment().apply {
-
+                arguments = Bundle().apply {  }
             }
     }
 }

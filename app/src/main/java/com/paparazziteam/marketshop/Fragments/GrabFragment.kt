@@ -38,6 +38,7 @@ class GrabFragment : Fragment() {
         @JvmStatic
         fun newInstance() =
             GrabFragment().apply {
+                arguments = Bundle().apply {  }
 
             }
     }
