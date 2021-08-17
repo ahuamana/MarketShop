@@ -27,6 +27,17 @@ class GrabFragment : Fragment() {
     val CAMERA_PERMISION_CODE = 100
     private lateinit var codeScanner: CodeScanner
 
+    private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission())
+    { isGranted:Boolean ->
+        if(isGranted)
+        {
+            android.util.Log.i("Permision","Granted")
+            getDataCodeScanner()
+        } else
+        {
+            android.util.Log.i("Permision","Denied")
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -114,7 +125,7 @@ class GrabFragment : Fragment() {
     {
         if(ContextCompat.checkSelfPermission(requireContext(),permission)==PackageManager.PERMISSION_DENIED)
         {
-            ActivityCompat.requestPermissions(requireActivity(), arrayOf(permission),requesCode)
+            requestPermissionLauncher.launch(Manifest.permission.CAMERA)
 
         }else
         {
@@ -124,25 +135,7 @@ class GrabFragment : Fragment() {
 
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        if(requestCode == CAMERA_PERMISION_CODE)
-        {
-            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-            {
-                android.util.Log.e("CAMERA PERMISION","Permision Granted Already")
-                getDataCodeScanner()
-            }else
-            {
-                android.util.Log.e("CAMERA PERMISION","Denied")
-            }
-        }
-    }
 
     companion object {
         @JvmStatic
