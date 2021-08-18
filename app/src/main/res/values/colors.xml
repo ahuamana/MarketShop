@@ -10,4 +10,5 @@
 
 
     <color name="primaryColor">#02d8e1</color>
+    <color name="colorGray">#999999</color>
 </resources>
