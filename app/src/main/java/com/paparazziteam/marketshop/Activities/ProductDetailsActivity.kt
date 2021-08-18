@@ -3,6 +3,7 @@ package com.paparazziteam.marketshop.Activities
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnSuccessListener
@@ -25,6 +26,8 @@ class ProductDetailsActivity : AppCompatActivity() {
     var mProductProvider = ProductProvider()
 
     var mProduct = Product()
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,11 +85,39 @@ class ProductDetailsActivity : AppCompatActivity() {
 
         mProduct.precioUnitario = binding.textViewPrecio.text.toString().toDouble()
 
+        if(!binding.textViewName.text.toString().equals("Ingresa nombre de producto"))
+        {
+            if(!binding.textViewPrecio.text.toString().equals("0.0"))
+            {
+                if(!mProduct.photo.equals("None"))
+                {
+
+                }
+                else
+                {
+                    Toast.makeText(applicationContext,"Debes guardar una ",Toast.LENGTH_SHORT).show()
+                }
+
+            }else
+            {
+                Toast.makeText(applicationContext,"El precio no puede ser 0.0",Toast.LENGTH_SHORT).show()
+            }
+
+        }else
+        {
+            Toast.makeText(applicationContext,"Debe asignar un nombre de producto ",Toast.LENGTH_SHORT).show()
+        }
+
+
+    }
+
+    private fun createProduct() {
 
         mProductProvider.createProduct(mProduct).addOnCompleteListener(OnCompleteListener { task->
 
             if(task.isSuccessful)
             {
+                Toast.makeText(applicationContext,"Creado en la base de datos correctamente!",Toast.LENGTH_SHORT).show()
                 Log.i("TAG","id creado: true")
             }else
             {
@@ -94,7 +125,9 @@ class ProductDetailsActivity : AppCompatActivity() {
             }
 
 
+
         })
+
     }
 
     fun setNameNew(nameNew: String)
