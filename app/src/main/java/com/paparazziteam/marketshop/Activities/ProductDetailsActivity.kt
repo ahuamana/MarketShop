@@ -16,13 +16,27 @@ class ProductDetailsActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        var code = intent.getStringExtra("CODE_RESULT")
+
+        getDataFromIntent()
+        setOnClickListener()
+
+
+
+    }
+
+    private fun setOnClickListener() {
 
         binding.backImage.setOnClickListener(View.OnClickListener {
-
             finish()
         })
 
+
+    }
+
+    private fun getDataFromIntent() {
+
+        var code = intent.getStringExtra("CODE_RESULT")
+        binding.textViewBarcode.setText(code)
 
 
     }
