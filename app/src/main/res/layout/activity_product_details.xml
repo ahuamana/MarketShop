@@ -213,13 +213,9 @@
                     <ImageView
                         android:id="@+id/imageViewEditBarcode"
                         android:layout_width="25dp"
+                        android:visibility="gone"
                         android:layout_height="25dp"
                         android:src="@drawable/ic_edit_gray"/>
-
-
-
-
-
 
                 </LinearLayout>
 
