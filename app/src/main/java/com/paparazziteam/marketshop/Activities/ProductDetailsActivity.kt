@@ -21,9 +21,9 @@ class ProductDetailsActivity : AppCompatActivity() {
     var mBottomSheetPrecio: BottomSheetPrecio? = null
 
 
-    var mProductProvider: ProductProvider ?= null
+    var mProductProvider = ProductProvider()
 
-    var mProduct: Product ?= null
+    var mProduct = Product()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,9 +75,9 @@ class ProductDetailsActivity : AppCompatActivity() {
 
         var document = Firebase.firestore.collection("Products").document()
 
-        mProduct!!.id = document.toString()
+        mProduct.id = document.toString()
 
-        mProductProvider!!.createProduct(mProduct!!).addOnCompleteListener(OnCompleteListener { task->
+        mProductProvider.createProduct(mProduct).addOnCompleteListener(OnCompleteListener { task->
 
             if(task.isSuccessful)
             {
@@ -103,11 +103,12 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     private fun getDataFromIntent() {
 
-        mProduct!!.code = intent.getStringExtra("CODE_RESULT").toString()
+        mProduct.code = intent.getStringExtra("CODE_RESULT").toString()
+        Log.e("TAG","CODE: ${mProduct.code}")
 
-        getDataFirestore()
+        //getDataFirestore()
 
-        binding.textViewBarcode.setText(mProduct!!.code)
+        binding.textViewBarcode.setText(mProduct.code)
 
 
     }
@@ -116,9 +117,9 @@ class ProductDetailsActivity : AppCompatActivity() {
 
         mProductProvider = ProductProvider()
 
-        if (mProduct!!.code != null) {
+        if (mProduct.code != null) {
 
-            mProductProvider!!.getBarcodeInfo(mProduct!!.code).get().addOnCompleteListener(
+            mProductProvider!!.getBarcodeInfo(mProduct.code).get().addOnCompleteListener(
                 OnCompleteListener { querySnapshot ->
 
                     if(querySnapshot != null)
