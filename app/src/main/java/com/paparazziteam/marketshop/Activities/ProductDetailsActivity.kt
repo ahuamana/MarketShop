@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.paparazziteam.marketshop.Fragments.BottomSheetName
@@ -17,8 +18,8 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityProductDetailsBinding
 
-    var mBottomSheetName:BottomSheetName? = null
-    var mBottomSheetPrecio: BottomSheetPrecio? = null
+    var mBottomSheetName = BottomSheetName()
+    var mBottomSheetPrecio = BottomSheetPrecio()
 
 
     var mProductProvider = ProductProvider()
@@ -51,13 +52,13 @@ class ProductDetailsActivity : AppCompatActivity() {
         binding.imageViewEditName.setOnClickListener(View.OnClickListener {
 
             mBottomSheetName = BottomSheetName.newInstance(binding.textViewName.text.toString())
-            mBottomSheetName!!.show(supportFragmentManager, mBottomSheetName!!.tag)
+            mBottomSheetName.show(supportFragmentManager, mBottomSheetName.tag)
 
         })
 
         binding.imageViewEditPrecio.setOnClickListener(View.OnClickListener {
             mBottomSheetPrecio = BottomSheetPrecio.newInstance(binding.textViewPrecio.text.toString())
-            mBottomSheetPrecio!!.show(supportFragmentManager, mBottomSheetName!!.tag)
+            mBottomSheetPrecio.show(supportFragmentManager, mBottomSheetName.tag)
 
         })
 
@@ -73,9 +74,14 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     private fun createData() {
 
-        var document = Firebase.firestore.collection("Products").document()
+        var document = mProductProvider.mCollection.document().id
 
-        mProduct.id = document.toString()
+        mProduct.id = document
+        mProduct.name = binding.textViewName.text.toString()
+
+
+        mProduct.precioUnitario = binding.textViewPrecio.text.toString().toDouble()
+
 
         mProductProvider.createProduct(mProduct).addOnCompleteListener(OnCompleteListener { task->
 
@@ -103,35 +109,50 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     private fun getDataFromIntent() {
 
-        mProduct.code = intent.getStringExtra("CODE_RESULT").toString()
-        Log.e("TAG","CODE: ${mProduct.code}")
+        mProduct.barcode = intent.getStringExtra("CODE_RESULT").toString()
+        Log.e("TAG","CODE: ${mProduct.barcode}")
 
-        //getDataFirestore()
+        getDataFirestore()
 
-        binding.textViewBarcode.setText(mProduct.code)
+        binding.textViewBarcode.setText(mProduct.barcode)
 
 
     }
 
     private fun getDataFirestore() {
 
-        mProductProvider = ProductProvider()
 
-        if (mProduct.code != null) {
 
-            mProductProvider!!.getBarcodeInfo(mProduct.code).get().addOnCompleteListener(
-                OnCompleteListener { querySnapshot ->
+        if (mProduct.barcode != null) {
 
-                    if(querySnapshot != null)
+            mProductProvider.getBarcodeInfo(mProduct.barcode).get().addOnSuccessListener(
+                OnSuccessListener {documents ->
+
+                    if(documents != null)
                     {
+
+                        for (document in documents) {
+
+
+                            //var data = document.data.get("precioUnitario").toString()
+                            binding.textViewName.setText(document.data.get("name").toString())
+                            binding.textViewPrecio.setText(document.data.get("precioUnitario").toString())
+
+                            Log.e("TAG","documentSnapshot: ${document.data.get("precioUnitario")}")
+                            //Log.e("TAG","documentSnapshot: ${document.data.get("name")}")
+                            //Log.d("TAG", "${document.id} => ${document.data}")
+                            break;
+                        }
+
+
 
                     }else
                     {
-                        Log.i("TAG","querysnapshot: null")
+                        Log.e("TAG","documentSnapshot: null")
                     }
 
-
                 })
+
         }
     }
 }

@@ -57,9 +57,9 @@ class GrabFragment : Fragment() {
 
         android.util.Log.e("ON CREATEVIEW","FRAGMENT")
 
-        codeScanner = CodeScanner(requireActivity(), _binding!!.scannerView)
+        codeScanner = CodeScanner(requireActivity(), binding.scannerView)
 
-        //clicksListener()
+        clicksListener()
 
 
 
@@ -116,7 +116,7 @@ class GrabFragment : Fragment() {
         codeScanner.startPreview()
 
 
-        _binding?.scannerView?.setOnClickListener {
+        binding.scannerView.setOnClickListener {
             codeScanner.startPreview()
         }
 

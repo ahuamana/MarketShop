@@ -12,24 +12,22 @@ import com.paparazziteam.marketshop.Models.Product
 
 class ProductProvider {
 
-    var mCollection: CollectionReference ? = null
+    var mCollection: CollectionReference
 
-
-    fun ProductProvider()
-    {
+    init {
         mCollection = Firebase.firestore.collection("Products")
     }
 
 
-
     fun createProduct(product:Product): Task<Void>
     {
-        return mCollection!!.document(product.id).set(product)
+        return mCollection.document(product.id).set(product)
     }
 
     fun getBarcodeInfo(barcode: String) : Query
     {
-        return mCollection!!.whereEqualTo("code",barcode)
+        return mCollection
+            .whereEqualTo("barcode",barcode)
     }
 
 
