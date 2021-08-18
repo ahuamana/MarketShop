@@ -147,6 +147,12 @@ class GrabFragment : Fragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        codeScanner.startPreview()
+    }
+
 
 
 

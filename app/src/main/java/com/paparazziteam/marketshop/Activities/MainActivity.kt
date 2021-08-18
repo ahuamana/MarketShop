@@ -101,11 +101,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    override fun onRestart() {
-        super.onRestart()
 
-        android.util.Log.d("ON RESTART","FRAGMENT")
-    }
 
 
 }
