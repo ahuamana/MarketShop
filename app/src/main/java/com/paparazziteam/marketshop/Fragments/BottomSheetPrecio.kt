@@ -8,17 +8,18 @@ import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.paparazziteam.marketshop.Activities.ProductDetailsActivity
 import com.paparazziteam.marketshop.databinding.BottomSheetNameBinding
+import com.paparazziteam.marketshop.databinding.BottomSheetPrecioBinding
 
-public class BottomSheetName : BottomSheetDialogFragment() {
+public class BottomSheetPrecio : BottomSheetDialogFragment() {
 
-    var _binding: BottomSheetNameBinding ? = null
+    var _binding: BottomSheetPrecioBinding ? = null
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //var newcode = arguments?.getString("name")
-        //Log.i("NAME RECEIVER","name: $newcode")
+        var newcode = arguments?.getString("code")
+        Log.i("CODE RECEIVER","CODE: $newcode")
 
     }
 
@@ -29,14 +30,15 @@ public class BottomSheetName : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = BottomSheetNameBinding.inflate(inflater,container,false)
+        _binding = BottomSheetPrecioBinding.inflate(inflater,container,false)
         var view = binding.root
 
 
-        var name = arguments?.getString("name")
-        Log.i("NAME RECEIVER","name: $name")
-        binding.editTextUsername.setText(name)
+        var precio = arguments?.getString("precio")
+        Log.i("PRECIO RECEIVER","PRECIO: $precio")
 
+
+        binding.editTextUsername.setText(precio)
 
 
         setOnclickListeners()
@@ -58,22 +60,24 @@ public class BottomSheetName : BottomSheetDialogFragment() {
 
     private fun updateName() {
 
-        var newName = binding.editTextUsername.text.toString().trimEnd()
+        var newPrecio = binding.editTextUsername.text.toString().trimEnd()
 
-        if(!newName.equals(""))
+        if(!newPrecio.equals(""))
         {
-            (activity as ProductDetailsActivity?)!!.setNameNew(newName)
+            (activity as ProductDetailsActivity?)!!.setPrecioNew(newPrecio)
             dismiss()
         }
 
     }
 
+
+
     companion object{
 
-        fun newInstance(name: String): BottomSheetName = BottomSheetName().apply {
+        fun newInstance(precio: String): BottomSheetPrecio = BottomSheetPrecio().apply {
 
                     arguments = Bundle().apply {
-                        putString("name", name)
+                        putString("precio", precio)
                     }
 
         }
