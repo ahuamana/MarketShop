@@ -8,18 +8,21 @@ import com.paparazziteam.marketshop.Fragments.GrabFragment
 import com.paparazziteam.marketshop.Fragments.HomeFragment
 import com.paparazziteam.marketshop.Fragments.ProfileFragment
 import com.paparazziteam.marketshop.R
+import com.paparazziteam.marketshop.databinding.ActivityMainBinding
 
 
 class MainActivity : AppCompatActivity() {
 
-    var bottomNavigation: MeowBottomNavigation? = null
+    private lateinit var binding: ActivityMainBinding
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        linkXML();
-
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+        //Your Code Here
 
 
         setBotomNavigation()
@@ -32,13 +35,13 @@ class MainActivity : AppCompatActivity() {
     {
         addFragment(HomeFragment.newInstance())
 
-        with(bottomNavigation) {
+        with(binding.bottomNavigation) {
             this?.add(MeowBottomNavigation.Model(1, R.drawable.ic_home))
             this?.add(MeowBottomNavigation.Model(2, R.drawable.ic_camera))
             this?.add(MeowBottomNavigation.Model(3, R.drawable.ic_person))
         }
 
-        bottomNavigation!!.setOnClickMenuListener {
+        binding.bottomNavigation.setOnClickMenuListener {
 
             when(it.id)
             {
@@ -65,10 +68,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun linkXML()
-    {
-        bottomNavigation = findViewById(R.id.bottomNavigation);
-    }
+
 
     //This code replace current fragment with other
     fun replaceFragment(fragment: Fragment)
@@ -100,4 +100,12 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+    override fun onRestart() {
+        super.onRestart()
+
+        android.util.Log.d("ON RESTART","FRAGMENT")
+    }
+
+
 }
