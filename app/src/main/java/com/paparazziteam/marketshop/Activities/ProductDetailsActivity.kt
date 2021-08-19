@@ -38,8 +38,6 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     var mProduct = Product()
 
-    var mFile: String = "None"
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -162,7 +160,7 @@ class ProductDetailsActivity : AppCompatActivity() {
         {
             if(!binding.textViewPrecio.text.toString().equals("0.0"))
             {
-                if(!mFile.equals("None"))
+                if(!mProduct.photo.equals("null"))
                 {
                     createProduct()
                 }
@@ -230,12 +228,14 @@ class ProductDetailsActivity : AppCompatActivity() {
         {
             if(!mProduct.photo.equals("null"))
             {
-                var uri = "content://media/external/file/7252".toUri()
+                var tempUri = Uri.parse(mProduct.photo.subSequence(1,mProduct.photo.length-1).toString())
 
-                var path = RealPathUtil.getRealPath(this,uri)
+                //var uri = "content://media/external/file/7252".toUri()
+
+                var path = RealPathUtil.getRealPath(this,tempUri)
 
                 Log.e("TAG","PHOTO PATH: ${path}")
-                Log.e("TAG","PHOTO URI: ${uri}")
+                Log.e("TAG","PHOTO URI: ${tempUri}")
                 binding.circleImageProduct.setImageURI(null)
 
                 val imgFile = File(path)
