@@ -1,19 +1,28 @@
 package com.paparazziteam.marketshop.Activities
 
+import RealPathUtil
+import android.content.Intent
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnSuccessListener
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import com.paparazziteam.marketshop.Fragments.BottomSheetName
 import com.paparazziteam.marketshop.Fragments.BottomSheetPrecio
 import com.paparazziteam.marketshop.Models.Product
 import com.paparazziteam.marketshop.Providers.ProductProvider
 import com.paparazziteam.marketshop.databinding.ActivityProductDetailsBinding
+import io.ak1.pix.helpers.*
+import io.ak1.pix.models.Flash
+import io.ak1.pix.models.Mode
+import io.ak1.pix.models.Options
+import io.ak1.pix.models.Ratio
+
 
 class ProductDetailsActivity : AppCompatActivity() {
 
@@ -26,6 +35,8 @@ class ProductDetailsActivity : AppCompatActivity() {
     var mProductProvider = ProductProvider()
 
     var mProduct = Product()
+
+    var mFile: String = "None"
 
 
 
@@ -40,6 +51,10 @@ class ProductDetailsActivity : AppCompatActivity() {
 
 
         setOnClickListener()
+
+
+
+
 
 
 
@@ -72,8 +87,64 @@ class ProductDetailsActivity : AppCompatActivity() {
 
         })
 
+        binding.fabSelectImage.setOnClickListener(View.OnClickListener {
+            showCameraWhatsapp()
+        })
 
     }
+
+
+
+    private fun showCameraWhatsapp() {
+
+        val options = Options().apply{
+            ratio = Ratio.RATIO_AUTO                                    //Image/video capture ratio
+            count = 1                                                   //Number of images to restrict selection count
+            spanCount = 4                                               //Number for columns in grid
+            path = "Pix/Camera"                                         //Custom Path For media Storage
+            isFrontFacing = false                                       //Front Facing camera on start
+            videoDurationLimitInSeconds = 10                            //Duration for video recording
+            mode = Mode.Picture                                             //Option to select only pictures or videos or both
+            flash = Flash.Auto                                          //Option to select flash type
+            preSelectedUrls = ArrayList<Uri>()                          //Pre selected Image Urls
+        }
+
+        Log.e("TAG","CAMERA: ABIERTA")
+
+
+
+        addPixToActivity(android.R.id.content ,options)
+        {
+            when (it.status)
+            {
+                PixEventCallback.Status.SUCCESS -> {
+                    it.data
+
+                    val intent: Intent = Intent(baseContext, ProductDetailsActivity::class.java).apply{
+                        putExtra("CODE_RESULT",mProduct.barcode)
+                        putExtra("CAMERA_RESULT",it.data.toString())
+                    }
+
+                    startActivity(intent)
+
+                    Log.e("TAG","CAMERA RESULT: SUCCESS")
+                    Log.e("TAG","CAMERA RESULT: ${it.data.toString()}")
+
+
+                }//use results as it.data
+
+                PixEventCallback.Status.BACK_PRESSED -> {
+
+                    Log.e("TAG","CAMERA RESULT: FAIL")
+
+                }// back pressed called
+            }
+        }
+
+
+
+    }
+
 
     private fun createData() {
 
@@ -89,9 +160,9 @@ class ProductDetailsActivity : AppCompatActivity() {
         {
             if(!binding.textViewPrecio.text.toString().equals("0.0"))
             {
-                if(!mProduct.photo.equals("None"))
+                if(!mFile.equals("None"))
                 {
-
+                    createProduct()
                 }
                 else
                 {
@@ -145,12 +216,37 @@ class ProductDetailsActivity : AppCompatActivity() {
         mProduct.barcode = intent.getStringExtra("CODE_RESULT").toString()
         Log.e("TAG","CODE: ${mProduct.barcode}")
 
+        mProduct.photo = intent.getStringExtra("CAMERA_RESULT").toString()
+        Log.e("TAG","PHOTO: ${mProduct.photo}")
+
+
         getDataFirestore()
 
         binding.textViewBarcode.setText(mProduct.barcode)
 
+        if(mProduct.photo!= null)
+        {
+            if(!mProduct.photo.equals("null"))
+            {
+                var uri = "content://media/external/file/7252".toUri()
+
+                var path = RealPathUtil.getRealPath(this,uri)
+
+                Log.e("TAG","PHOTO PATH: ${path}")
+                Log.e("TAG","PHOTO URI: ${uri}")
+                binding.circleImageProduct.setImageURI(null)
+                binding.circleImageProduct.setImageURI(path!!.toUri())
+
+                binding.circleImageProduct.setImageBitmap(BitmapFactory.decodeFile(path))
+
+
+            }
+
+        }
+
 
     }
+
 
     private fun getDataFirestore() {
 
@@ -188,4 +284,6 @@ class ProductDetailsActivity : AppCompatActivity() {
 
         }
     }
+
+
 }
