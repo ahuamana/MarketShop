@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toUri
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.paparazziteam.marketshop.Fragments.BottomSheetName
@@ -38,7 +37,7 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     var mProduct = Product()
 
-
+    var isCameraOpen = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,6 +110,7 @@ class ProductDetailsActivity : AppCompatActivity() {
 
         Log.e("TAG","CAMERA: ABIERTA")
 
+        isCameraOpen = !isCameraOpen
 
 
         addPixToActivity(android.R.id.content ,options)
@@ -251,12 +251,33 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     }
 
+    override fun onBackPressed() {
+
+        if(isCameraOpen)
+        {
+            isCameraOpen= !isCameraOpen
+            val intent: Intent = Intent(baseContext, ProductDetailsActivity::class.java).apply{
+                putExtra("CODE_RESULT",mProduct.barcode)
+                putExtra("CAMERA_RESULT","null")
+            }
+            startActivity(intent)
+
+        }else
+        {
+            val intent: Intent = Intent(baseContext, MainActivity::class.java).apply{
+
+
+            }
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK) //Eliminar actividades que quedaron atras
+            startActivity(intent)
+        }
+    }
+
 
     private fun getDataFirestore() {
 
-
-
-        if (mProduct.barcode != null) {
+       if (mProduct.barcode != null)
+       {
 
             mProductProvider.getBarcodeInfo(mProduct.barcode).get().addOnSuccessListener(
                 OnSuccessListener {documents ->
