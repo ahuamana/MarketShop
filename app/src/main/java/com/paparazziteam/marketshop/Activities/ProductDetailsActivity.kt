@@ -239,6 +239,8 @@ class ProductDetailsActivity : AppCompatActivity() {
                 binding.circleImageProduct.setImageURI(null)
 
                 val imgFile = File(path)
+                binding.circleImageProduct.borderColor = 0
+                binding.circleImageProduct.borderWidth = 0
                 binding.circleImageProduct.setImageBitmap(BitmapFactory.decodeFile(imgFile.absolutePath))
 
 
