@@ -151,10 +151,6 @@ class ProductDetailsActivity : AppCompatActivity() {
         var document = mProductProvider.mCollection.document().id
 
         mProduct.id = document
-        mProduct.name = binding.textViewName.text.toString()
-
-
-        mProduct.precioUnitario = binding.textViewPrecio.text.toString().toDouble()
 
         if(!binding.textViewName.text.toString().equals("Ingresa nombre de producto"))
         {
@@ -162,11 +158,13 @@ class ProductDetailsActivity : AppCompatActivity() {
             {
                 if(!mProduct.photo.equals("null"))
                 {
+                    mProduct.name = binding.textViewName.text.toString()
+                    mProduct.precioUnitario = binding.textViewPrecio.text.toString().toDouble()
                     createProduct()
                 }
                 else
                 {
-                    Toast.makeText(applicationContext,"Debes guardar una ",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext,"Debes añadir una foto ",Toast.LENGTH_SHORT).show()
                 }
 
             }else

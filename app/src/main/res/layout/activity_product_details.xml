@@ -104,7 +104,8 @@
                             android:id="@+id/textViewName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Nombre de producto"
+                            android:inputType="text"
+                            android:text="Ingresa nombre de producto"
                             android:textColor="@color/black"
                             android:textSize="15dp"/>
 
@@ -153,7 +154,8 @@
                             android:id="@+id/textViewPrecio"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Precio del producto"
+                            android:text="0.0"
+                            android:inputType="numberDecimal"
                             android:textColor="@color/black"
                             android:textSize="15dp"/>
 
