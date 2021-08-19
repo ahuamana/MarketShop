@@ -35,7 +35,7 @@ public class BottomSheetName : BottomSheetDialogFragment() {
 
         var name = arguments?.getString("name")
         Log.i("NAME RECEIVER","name: $name")
-        binding.editTextUsername.setText(name)
+        binding.editTextName.setText(name)
 
 
 
@@ -58,7 +58,7 @@ public class BottomSheetName : BottomSheetDialogFragment() {
 
     private fun updateName() {
 
-        var newName = binding.editTextUsername.text.toString().trimEnd()
+        var newName = binding.editTextName.text.toString().trimEnd()
 
         if(!newName.equals(""))
         {

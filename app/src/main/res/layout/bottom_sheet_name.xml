@@ -19,7 +19,7 @@
             android:layout_marginLeft="3dp"/>
 
         <EditText
-            android:id="@+id/editTextUsername"
+            android:id="@+id/editTextName"
             android:layout_width="match_parent"
             android:inputType="text"
             android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "

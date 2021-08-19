@@ -1,16 +1,16 @@
 package com.paparazziteam.marketshop.Fragments
 
 import android.os.Bundle
+import android.text.InputType
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.paparazziteam.marketshop.Activities.ProductDetailsActivity
-import com.paparazziteam.marketshop.databinding.BottomSheetNameBinding
 import com.paparazziteam.marketshop.databinding.BottomSheetPrecioBinding
 
-public class BottomSheetPrecio : BottomSheetDialogFragment() {
+class BottomSheetPrecio : BottomSheetDialogFragment() {
 
     var _binding: BottomSheetPrecioBinding ? = null
     private val binding get() = _binding!!
@@ -35,11 +35,14 @@ public class BottomSheetPrecio : BottomSheetDialogFragment() {
 
 
         var precio = arguments?.getString("precio")
-        Log.i("PRECIO RECEIVER","PRECIO: $precio")
+        Log.e("PRECIO RECEIVER","PRECIO: $precio")
 
 
-        binding.editTextUsername.setText(precio)
 
+        binding.editTextPrecio.setText(precio)
+        binding.editTextPrecio.inputType = InputType.TYPE_NUMBER_FLAG_DECIMAL
+
+        Log.e("INPUTTYPE","INPUTTYPE: ${binding.editTextPrecio.inputType}")
 
         setOnclickListeners()
 
@@ -60,7 +63,7 @@ public class BottomSheetPrecio : BottomSheetDialogFragment() {
 
     private fun updateName() {
 
-        var newPrecio = binding.editTextUsername.text.toString().trimEnd()
+        var newPrecio = binding.editTextPrecio.text.toString().trimEnd()
 
         if(!newPrecio.equals(""))
         {

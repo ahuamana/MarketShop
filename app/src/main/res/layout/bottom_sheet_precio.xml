@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -18,8 +19,8 @@
             android:textStyle="bold"
             android:layout_marginLeft="3dp"/>
 
-        <EditText
-            android:id="@+id/editTextUsername"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextPrecio"
             android:layout_width="match_parent"
             android:inputType="numberDecimal"
             android:digits="1234567890."
