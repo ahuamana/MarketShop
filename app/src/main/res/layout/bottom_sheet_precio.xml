@@ -21,6 +21,8 @@
         <EditText
             android:id="@+id/editTextUsername"
             android:layout_width="match_parent"
+            android:inputType="numberDecimal"
+            android:digits="1234567890."
             android:layout_height="wrap_content"/>
 
         <LinearLayout

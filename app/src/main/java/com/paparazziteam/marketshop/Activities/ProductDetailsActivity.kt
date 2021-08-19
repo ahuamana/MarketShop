@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toUri
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.paparazziteam.marketshop.Fragments.BottomSheetName
@@ -38,7 +37,7 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     var mProduct = Product()
 
-
+    var isCameraOpen = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +66,7 @@ class ProductDetailsActivity : AppCompatActivity() {
             finish()
         })
 
-        binding.fabSelectImage.setOnClickListener(View.OnClickListener {
+        binding.imageViewEditName.setOnClickListener(View.OnClickListener {
 
             mBottomSheetName = BottomSheetName.newInstance(binding.textViewName.text.toString())
             mBottomSheetName.show(supportFragmentManager, mBottomSheetName.tag)
@@ -111,6 +110,7 @@ class ProductDetailsActivity : AppCompatActivity() {
 
         Log.e("TAG","CAMERA: ABIERTA")
 
+        isCameraOpen = !isCameraOpen
 
 
         addPixToActivity(android.R.id.content ,options)
@@ -123,6 +123,8 @@ class ProductDetailsActivity : AppCompatActivity() {
                     val intent: Intent = Intent(baseContext, ProductDetailsActivity::class.java).apply{
                         putExtra("CODE_RESULT",mProduct.barcode)
                         putExtra("CAMERA_RESULT",it.data.toString())
+                        putExtra("NOMBRE",mProduct.name)
+                        putExtra("PRECIO",mProduct.precioUnitario)
                     }
 
                     startActivity(intent)
@@ -151,10 +153,6 @@ class ProductDetailsActivity : AppCompatActivity() {
         var document = mProductProvider.mCollection.document().id
 
         mProduct.id = document
-        mProduct.name = binding.textViewName.text.toString()
-
-
-        mProduct.precioUnitario = binding.textViewPrecio.text.toString().toDouble()
 
         if(!binding.textViewName.text.toString().equals("Ingresa nombre de producto"))
         {
@@ -162,11 +160,13 @@ class ProductDetailsActivity : AppCompatActivity() {
             {
                 if(!mProduct.photo.equals("null"))
                 {
+                    mProduct.name = binding.textViewName.text.toString()
+                    mProduct.precioUnitario = binding.textViewPrecio.text.toString().toDouble()
                     createProduct()
                 }
                 else
                 {
-                    Toast.makeText(applicationContext,"Debes guardar una ",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext,"Debes añadir una foto ",Toast.LENGTH_SHORT).show()
                 }
 
             }else
@@ -204,11 +204,13 @@ class ProductDetailsActivity : AppCompatActivity() {
     fun setNameNew(nameNew: String)
     {
         binding.textViewName.setText(nameNew)
+        mProduct.name = nameNew
     }
 
     fun setPrecioNew(precioNew: String)
     {
         binding.textViewPrecio.setText(precioNew)
+        mProduct.precioUnitario =  precioNew.toDouble()
     }
 
     private fun getDataFromIntent() {
@@ -217,7 +219,29 @@ class ProductDetailsActivity : AppCompatActivity() {
         Log.e("TAG","CODE: ${mProduct.barcode}")
 
         mProduct.photo = intent.getStringExtra("CAMERA_RESULT").toString()
+
         Log.e("TAG","PHOTO: ${mProduct.photo}")
+
+
+        var nombre = intent.getStringExtra("NOMBRE").toString()
+
+        if(!nombre.equals("null"))
+        {
+            Log.e("TAG","NOMBRE RECIBIDO: ${nombre}")
+            binding.textViewName.text = nombre
+        }
+
+        var precio = intent.getStringExtra("PRECIO").toString()
+
+        if(!precio.equals("null"))
+        {
+            Log.e("TAG","PRECIO RECIBIDO: ${precio}")
+            binding.textViewPrecio.text = precio
+        }
+
+
+
+
 
 
         getDataFirestore()
@@ -251,12 +275,34 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     }
 
+    override fun onBackPressed() {
+
+        if(isCameraOpen)
+        {
+            isCameraOpen= !isCameraOpen
+            val intent: Intent = Intent(baseContext, ProductDetailsActivity::class.java).apply{
+                putExtra("CODE_RESULT",mProduct.barcode)
+                putExtra("CAMERA_RESULT","null")
+                putExtra("NOMBRE",mProduct.name)
+                putExtra("PRECIO",mProduct.precioUnitario)
+            }
+            startActivity(intent)
+
+        }else
+        {
+            val intent: Intent = Intent(baseContext, MainActivity::class.java).apply{
+
+            }
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK) //Eliminar actividades que quedaron atras
+            startActivity(intent)
+        }
+    }
+
 
     private fun getDataFirestore() {
 
-
-
-        if (mProduct.barcode != null) {
+       if (mProduct.barcode != null)
+       {
 
             mProductProvider.getBarcodeInfo(mProduct.barcode).get().addOnSuccessListener(
                 OnSuccessListener {documents ->
