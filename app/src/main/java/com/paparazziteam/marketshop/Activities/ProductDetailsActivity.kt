@@ -123,6 +123,8 @@ class ProductDetailsActivity : AppCompatActivity() {
                     val intent: Intent = Intent(baseContext, ProductDetailsActivity::class.java).apply{
                         putExtra("CODE_RESULT",mProduct.barcode)
                         putExtra("CAMERA_RESULT",it.data.toString())
+                        putExtra("NOMBRE",mProduct.name)
+                        putExtra("PRECIO",mProduct.precioUnitario)
                     }
 
                     startActivity(intent)
@@ -202,11 +204,13 @@ class ProductDetailsActivity : AppCompatActivity() {
     fun setNameNew(nameNew: String)
     {
         binding.textViewName.setText(nameNew)
+        mProduct.name = nameNew
     }
 
     fun setPrecioNew(precioNew: String)
     {
         binding.textViewPrecio.setText(precioNew)
+        mProduct.precioUnitario =  precioNew.toDouble()
     }
 
     private fun getDataFromIntent() {
@@ -215,7 +219,29 @@ class ProductDetailsActivity : AppCompatActivity() {
         Log.e("TAG","CODE: ${mProduct.barcode}")
 
         mProduct.photo = intent.getStringExtra("CAMERA_RESULT").toString()
+
         Log.e("TAG","PHOTO: ${mProduct.photo}")
+
+
+        var nombre = intent.getStringExtra("NOMBRE").toString()
+
+        if(!nombre.equals("null"))
+        {
+            Log.e("TAG","NOMBRE RECIBIDO: ${nombre}")
+            binding.textViewName.text = nombre
+        }
+
+        var precio = intent.getStringExtra("PRECIO").toString()
+
+        if(!precio.equals("null"))
+        {
+            Log.e("TAG","PRECIO RECIBIDO: ${precio}")
+            binding.textViewPrecio.text = precio
+        }
+
+
+
+
 
 
         getDataFirestore()
@@ -257,13 +283,14 @@ class ProductDetailsActivity : AppCompatActivity() {
             val intent: Intent = Intent(baseContext, ProductDetailsActivity::class.java).apply{
                 putExtra("CODE_RESULT",mProduct.barcode)
                 putExtra("CAMERA_RESULT","null")
+                putExtra("NOMBRE",mProduct.name)
+                putExtra("PRECIO",mProduct.precioUnitario)
             }
             startActivity(intent)
 
         }else
         {
             val intent: Intent = Intent(baseContext, MainActivity::class.java).apply{
-
 
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK) //Eliminar actividades que quedaron atras
