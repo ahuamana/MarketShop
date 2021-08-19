@@ -2,11 +2,12 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
 }
 
 android {
     compileSdkVersion 30
-    buildToolsVersion "30.0.0"
+    buildToolsVersion "30.0.2"
 
     defaultConfig {
         applicationId "com.paparazziteam.marketshop"
@@ -50,9 +51,12 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.firebase:firebase-storage-ktx:20.0.0'
+    implementation 'com.google.firebase:firebase-firestore-ktx:23.0.3'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
 
     //https://github.com/oneHamidreza/MeowBottomNavigation
     implementation 'com.etebarian:meow-bottom-navigation:1.2.0'
@@ -60,7 +64,12 @@ dependencies {
     //https://github.com/yuriy-budiyev/code-scanner
     implementation 'com.budiyev.android:code-scanner:2.1.0'
 
+    //https://github.com/akshay2211/PixImagePicker
+    implementation  'io.ak1.pix:piximagepicker:1.6.2'
 
     //Circle imageview
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //zelory compressor android
+    implementation 'id.zelory:compressor:2.1.1'
 }
