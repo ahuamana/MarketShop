@@ -17,11 +17,13 @@ import com.paparazziteam.marketshop.Fragments.BottomSheetPrecio
 import com.paparazziteam.marketshop.Models.Product
 import com.paparazziteam.marketshop.Providers.ProductProvider
 import com.paparazziteam.marketshop.databinding.ActivityProductDetailsBinding
-import io.ak1.pix.helpers.*
+import io.ak1.pix.helpers.PixEventCallback
+import io.ak1.pix.helpers.addPixToActivity
 import io.ak1.pix.models.Flash
 import io.ak1.pix.models.Mode
 import io.ak1.pix.models.Options
 import io.ak1.pix.models.Ratio
+import java.io.File
 
 
 class ProductDetailsActivity : AppCompatActivity() {
@@ -235,9 +237,9 @@ class ProductDetailsActivity : AppCompatActivity() {
                 Log.e("TAG","PHOTO PATH: ${path}")
                 Log.e("TAG","PHOTO URI: ${uri}")
                 binding.circleImageProduct.setImageURI(null)
-                binding.circleImageProduct.setImageURI(path!!.toUri())
 
-                binding.circleImageProduct.setImageBitmap(BitmapFactory.decodeFile(path))
+                val imgFile = File(path)
+                binding.circleImageProduct.setImageBitmap(BitmapFactory.decodeFile(imgFile.absolutePath))
 
 
             }
