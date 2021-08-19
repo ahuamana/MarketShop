@@ -66,7 +66,7 @@ class ProductDetailsActivity : AppCompatActivity() {
             finish()
         })
 
-        binding.fabSelectImage.setOnClickListener(View.OnClickListener {
+        binding.imageViewEditName.setOnClickListener(View.OnClickListener {
 
             mBottomSheetName = BottomSheetName.newInstance(binding.textViewName.text.toString())
             mBottomSheetName.show(supportFragmentManager, mBottomSheetName.tag)
