@@ -24,10 +24,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
         //Your Code Here
 
-
         setBotomNavigation()
-
-
 
     }
 

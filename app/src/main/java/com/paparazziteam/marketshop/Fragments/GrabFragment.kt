@@ -3,22 +3,17 @@ package com.paparazziteam.marketshop.Fragments
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
 import com.paparazziteam.marketshop.Activities.ProductDetailsActivity
-import com.paparazziteam.marketshop.R
 import com.paparazziteam.marketshop.databinding.FragmentGrabBinding
 
 
@@ -150,7 +145,7 @@ class GrabFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        codeScanner.startPreview()
+        requestPermissionLauncher.launch(Manifest.permission.CAMERA)
     }
 
 

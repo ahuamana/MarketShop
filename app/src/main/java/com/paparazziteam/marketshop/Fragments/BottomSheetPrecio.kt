@@ -2,26 +2,28 @@ package com.paparazziteam.marketshop.Fragments
 
 import android.os.Bundle
 import android.text.InputType
+import android.text.TextWatcher
+import android.text.method.DigitsKeyListener
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.paparazziteam.marketshop.Activities.ProductDetailsActivity
 import com.paparazziteam.marketshop.databinding.BottomSheetPrecioBinding
+import com.paparazziteam.marketshop.Utils.InputFilterCharacter
+
+import android.text.InputFilter
+
+
+
 
 class BottomSheetPrecio : BottomSheetDialogFragment() {
 
     var _binding: BottomSheetPrecioBinding ? = null
     private val binding get() = _binding!!
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        var newcode = arguments?.getString("code")
-        Log.i("CODE RECEIVER","CODE: $newcode")
-
-    }
 
 
 
@@ -38,11 +40,12 @@ class BottomSheetPrecio : BottomSheetDialogFragment() {
         Log.e("PRECIO RECEIVER","PRECIO: $precio")
 
 
-
         binding.editTextPrecio.setText(precio)
-        binding.editTextPrecio.inputType = InputType.TYPE_NUMBER_FLAG_DECIMAL
 
-        Log.e("INPUTTYPE","INPUTTYPE: ${binding.editTextPrecio.inputType}")
+        binding.editTextPrecio.setFilters(arrayOf<InputFilter>(InputFilterCharacter()))
+
+
+
 
         setOnclickListeners()
 
@@ -52,13 +55,13 @@ class BottomSheetPrecio : BottomSheetDialogFragment() {
 
     private fun setOnclickListeners() {
 
-        binding.btnSave.setOnClickListener(View.OnClickListener {
+        binding.btnSave.setOnClickListener{
             updateName()
-        })
+        }
 
-        binding.btnCancel.setOnClickListener(View.OnClickListener {
+        binding.btnCancel.setOnClickListener{
             dismiss()
-        })
+        }
     }
 
     private fun updateName() {

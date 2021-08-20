@@ -63,7 +63,13 @@ class ProductDetailsActivity : AppCompatActivity() {
 
         //return to main activity
         binding.backImage.setOnClickListener(View.OnClickListener {
-            finish()
+
+            val intent: Intent = Intent(baseContext, MainActivity::class.java).apply{
+
+            }
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK) //Eliminar actividades que quedaron atras
+            startActivity(intent)
+
         })
 
         binding.imageViewEditName.setOnClickListener(View.OnClickListener {
