@@ -264,7 +264,9 @@ class ProductDetailsActivity : AppCompatActivity() {
 
                 var path = RealPathUtil.getRealPath(this,tempUri)
 
-                Log.e("TAG","PHOTO PATH: ${path}")
+                mProduct.photo = path!!
+
+                Log.e("TAG","PHOTO PATH: ${mProduct.photo}")
                 Log.e("TAG","PHOTO URI: ${tempUri}")
                 binding.circleImageProduct.setImageURI(null)
 
@@ -274,7 +276,11 @@ class ProductDetailsActivity : AppCompatActivity() {
                 binding.circleImageProduct.setImageBitmap(BitmapFactory.decodeFile(imgFile.absolutePath))
 
 
+            }else
+            {
+                binding.circleImageProduct.setImageBitmap(BitmapFactory.decodeFile(File(mProduct.photo).absolutePath))
             }
+
 
         }
 
