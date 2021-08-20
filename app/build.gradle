@@ -73,4 +73,7 @@ dependencies {
 
     //zelory compressor android
     implementation 'id.zelory:compressor:2.1.1'
+
+    //https://github.com/ShawnLin013/NumberPicker
+    implementation 'io.github.ShawnLin013:number-picker:2.4.13'
 }
