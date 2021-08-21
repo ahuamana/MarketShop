@@ -1,6 +1,7 @@
 package com.paparazziteam.marketshop.Fragments
 
 import android.os.Bundle
+import android.text.method.DigitsKeyListener
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,19 +10,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.paparazziteam.marketshop.Activities.ProductDetailsActivity
 import com.paparazziteam.marketshop.databinding.BottomSheetNameBinding
 
-public class BottomSheetName : BottomSheetDialogFragment() {
+class BottomSheetName : BottomSheetDialogFragment() {
 
     var _binding: BottomSheetNameBinding ? = null
     private val binding get() = _binding!!
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        //var newcode = arguments?.getString("name")
-        //Log.i("NAME RECEIVER","name: $newcode")
-
-    }
-
 
 
     override fun onCreateView(
@@ -35,7 +27,8 @@ public class BottomSheetName : BottomSheetDialogFragment() {
 
         var name = arguments?.getString("name")
         Log.i("NAME RECEIVER","name: $name")
-        binding.editTextUsername.setText(name)
+        binding.editTextName.setText(name)
+
 
 
 
@@ -47,18 +40,22 @@ public class BottomSheetName : BottomSheetDialogFragment() {
 
     private fun setOnclickListeners() {
 
-        binding.btnSave.setOnClickListener(View.OnClickListener {
-            updateName()
-        })
 
-        binding.btnCancel.setOnClickListener(View.OnClickListener {
+
+
+
+        binding.btnSave.setOnClickListener{
+            updateName()
+        }
+
+        binding.btnCancel.setOnClickListener {
             dismiss()
-        })
+        }
     }
 
     private fun updateName() {
 
-        var newName = binding.editTextUsername.text.toString().trimEnd()
+        var newName = binding.editTextName.text.toString().trimEnd()
 
         if(!newName.equals(""))
         {

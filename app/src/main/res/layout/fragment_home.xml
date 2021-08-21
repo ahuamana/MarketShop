@@ -13,4 +13,5 @@
         android:textColor="@color/black"
         android:text="HOME FRAGMENT" />
 
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

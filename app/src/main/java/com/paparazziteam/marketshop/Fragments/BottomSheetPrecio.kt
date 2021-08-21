@@ -7,21 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.paparazziteam.marketshop.Activities.ProductDetailsActivity
-import com.paparazziteam.marketshop.databinding.BottomSheetNameBinding
 import com.paparazziteam.marketshop.databinding.BottomSheetPrecioBinding
 
-public class BottomSheetPrecio : BottomSheetDialogFragment() {
+import android.text.InputFilter
+
+
+
+
+class BottomSheetPrecio : BottomSheetDialogFragment() {
 
     var _binding: BottomSheetPrecioBinding ? = null
     private val binding get() = _binding!!
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        var newcode = arguments?.getString("code")
-        Log.i("CODE RECEIVER","CODE: $newcode")
-
-    }
 
 
 
@@ -35,10 +31,14 @@ public class BottomSheetPrecio : BottomSheetDialogFragment() {
 
 
         var precio = arguments?.getString("precio")
-        Log.i("PRECIO RECEIVER","PRECIO: $precio")
+        Log.e("PRECIO RECEIVER","PRECIO: $precio")
 
 
-        binding.editTextUsername.setText(precio)
+        //binding.editTextPrecio.setText(precio)
+
+
+
+
 
 
         setOnclickListeners()
@@ -49,18 +49,18 @@ public class BottomSheetPrecio : BottomSheetDialogFragment() {
 
     private fun setOnclickListeners() {
 
-        binding.btnSave.setOnClickListener(View.OnClickListener {
+        binding.btnSave.setOnClickListener{
             updateName()
-        })
+        }
 
-        binding.btnCancel.setOnClickListener(View.OnClickListener {
+        binding.btnCancel.setOnClickListener{
             dismiss()
-        })
+        }
     }
 
     private fun updateName() {
 
-        var newPrecio = binding.editTextUsername.text.toString().trimEnd()
+        var newPrecio = binding.firstNumber.value.toString()+ "." + binding.afterPeriod.value.toString() + binding.secondAfterPeriod.value.toString()
 
         if(!newPrecio.equals(""))
         {
