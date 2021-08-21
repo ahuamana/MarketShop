@@ -129,10 +129,7 @@ class ProductDetailsActivity : AppCompatActivity() {
             {
                 PixEventCallback.Status.SUCCESS -> {
 
-                    if(!it.data.toString().equals(""))
-                    {
-                        mProduct.photo = it.data.toString()
-                    }
+                    mProduct.photo = it.data.toString()
 
                     Log.e("TAG","PRECIO ENVIADO: ${binding.textViewPrecio.text}")
                     Log.e("TAG","NOMBRE ENVIADO: ${binding.textViewName.text}")
@@ -278,15 +275,14 @@ class ProductDetailsActivity : AppCompatActivity() {
                {
                    Log.e("TAG","PHOTO PATH: PHOTO PATH ES DIFERENTE A VACIO")
 
+                   //show real path from URI
                    var tempUri = Uri.parse(mProduct.photo.subSequence(1,mProduct.photo.length-1).toString())
-
                    //var uri = "content://media/external/file/7252".toUri()
-
                    var path = RealPathUtil.getRealPath(this,tempUri)
 
-                   mProduct.photo = path!!
+                   //mProduct.photo = path!!
 
-                   Log.e("TAG","PHOTO PATH: ${mProduct.photo}")
+                   Log.e("TAG","PHOTO PRODUCT PATH: ${mProduct.photo}")
                    Log.e("TAG","PHOTO URI: ${tempUri}")
                    binding.circleImageProduct.setImageURI(null)
 
@@ -324,7 +320,7 @@ class ProductDetailsActivity : AppCompatActivity() {
             isCameraOpen= !isCameraOpen
             val intent: Intent = Intent(baseContext, ProductDetailsActivity::class.java).apply{
                 putExtra("CODE_RESULT",mProduct.barcode)
-                putExtra("CAMERA_RESULT",photoPicker)
+                putExtra("CAMERA_RESULT",mProduct.photo)
                 putExtra("NOMBRE",binding.textViewName.text.toString())
                 putExtra("PRECIO",binding.textViewPrecio.text)
             }
