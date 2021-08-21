@@ -129,14 +129,17 @@ class ProductDetailsActivity : AppCompatActivity() {
             {
                 PixEventCallback.Status.SUCCESS -> {
 
-                     photoPicker= it.data.toString()
+                    if(!it.data.toString().equals(""))
+                    {
+                        mProduct.photo = it.data.toString()
+                    }
 
                     Log.e("TAG","PRECIO ENVIADO: ${binding.textViewPrecio.text}")
                     Log.e("TAG","NOMBRE ENVIADO: ${binding.textViewName.text}")
 
                     val intent: Intent = Intent(baseContext, ProductDetailsActivity::class.java).apply{
                         putExtra("CODE_RESULT",mProduct.barcode)
-                        putExtra("CAMERA_RESULT",photoPicker)
+                        putExtra("CAMERA_RESULT", mProduct.photo)
                         putExtra("NOMBRE",binding.textViewName.text.toString())
                         putExtra("PRECIO",binding.textViewPrecio.text)
                     }
@@ -235,11 +238,11 @@ class ProductDetailsActivity : AppCompatActivity() {
     private fun getDataFromIntent() {
 
         mProduct.barcode = intent.getStringExtra("CODE_RESULT").toString()
-        Log.e("TAG","CODE: ${mProduct.barcode}")
+        Log.e("TAG","CODE RECIBIDO: ${mProduct.barcode}")
 
         mProduct.photo = intent.getStringExtra("CAMERA_RESULT").toString()
 
-        Log.e("TAG","PHOTO: ${mProduct.photo}")
+        Log.e("TAG","PHOTO RECIBIDO: ${mProduct.photo}")
 
 
         var nombre = intent.getStringExtra("NOMBRE").toString()
@@ -265,40 +268,48 @@ class ProductDetailsActivity : AppCompatActivity() {
 
         if(mProduct.photo!= null)
         {
-            if(!mProduct.photo.equals(""))
-            {
-                var tempUri = Uri.parse(mProduct.photo.subSequence(1,mProduct.photo.length-1).toString())
+            Log.e("TAG","PHOTO PATH: PHOTO PATH ES DIFERENTE A NULL")
 
-                //var uri = "content://media/external/file/7252".toUri()
+           if(!mProduct.photo.equals("null"))
+           {
+               Log.e("TAG","PHOTO PATH: PHOTO PATH NO CONTIENE NULL")
 
-                var path = RealPathUtil.getRealPath(this,tempUri)
+               if(!mProduct.photo.equals(""))
+               {
+                   Log.e("TAG","PHOTO PATH: PHOTO PATH ES DIFERENTE A VACIO")
 
-                mProduct.photo = path!!
+                   var tempUri = Uri.parse(mProduct.photo.subSequence(1,mProduct.photo.length-1).toString())
 
-                Log.e("TAG","PHOTO PATH: ${mProduct.photo}")
-                Log.e("TAG","PHOTO URI: ${tempUri}")
-                binding.circleImageProduct.setImageURI(null)
+                   //var uri = "content://media/external/file/7252".toUri()
 
-                val imgFile = File(path)
-                binding.circleImageProduct.borderColor = 0
-                binding.circleImageProduct.borderWidth = 0
-                binding.circleImageProduct.setImageBitmap(BitmapFactory.decodeFile(imgFile.absolutePath))
+                   var path = RealPathUtil.getRealPath(this,tempUri)
 
+                   mProduct.photo = path!!
 
-            }
-            else
-            {
-                if (mProduct.photo.equals("null")) {
+                   Log.e("TAG","PHOTO PATH: ${mProduct.photo}")
+                   Log.e("TAG","PHOTO URI: ${tempUri}")
+                   binding.circleImageProduct.setImageURI(null)
 
-                    binding.circleImageProduct.setImageDrawable(resources.getDrawable(R.drawable.ic_image))
-
-                } else {
-                    binding.circleImageProduct.setImageBitmap(BitmapFactory.decodeFile(File(mProduct.photo).absolutePath))
-                }
-            }
+                   val imgFile = File(path)
+                   binding.circleImageProduct.borderColor = 0
+                   binding.circleImageProduct.borderWidth = 0
+                   binding.circleImageProduct.setImageBitmap(BitmapFactory.decodeFile(imgFile.absolutePath))
 
 
+               }else
+               {
+                   binding.circleImageProduct.setImageDrawable(resources.getDrawable(R.drawable.ic_image))
+               }
 
+           }else
+           {
+               binding.circleImageProduct.setImageDrawable(resources.getDrawable(R.drawable.ic_image))
+           }
+
+
+        }else
+        {
+            binding.circleImageProduct.setImageDrawable(resources.getDrawable(R.drawable.ic_image))
         }
 
 
