@@ -41,6 +41,8 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     var isCameraOpen = false
 
+    var photoPicker = ""
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityProductDetailsBinding.inflate(layoutInflater)
@@ -126,15 +128,15 @@ class ProductDetailsActivity : AppCompatActivity() {
             when (it.status)
             {
                 PixEventCallback.Status.SUCCESS -> {
-                    it.data
 
+                     photoPicker= it.data.toString()
 
                     Log.e("TAG","PRECIO ENVIADO: ${binding.textViewPrecio.text}")
                     Log.e("TAG","NOMBRE ENVIADO: ${binding.textViewName.text}")
 
                     val intent: Intent = Intent(baseContext, ProductDetailsActivity::class.java).apply{
                         putExtra("CODE_RESULT",mProduct.barcode)
-                        putExtra("CAMERA_RESULT",it.data.toString())
+                        putExtra("CAMERA_RESULT",photoPicker)
                         putExtra("NOMBRE",binding.textViewName.text.toString())
                         putExtra("PRECIO",binding.textViewPrecio.text)
                     }
@@ -259,17 +261,11 @@ class ProductDetailsActivity : AppCompatActivity() {
         }
 
 
-
-
-
-
-        getDataFirestore()
-
         binding.textViewBarcode.setText(mProduct.barcode)
 
         if(mProduct.photo!= null)
         {
-            if(!mProduct.photo.equals("null"))
+            if(!mProduct.photo.equals(""))
             {
                 var tempUri = Uri.parse(mProduct.photo.subSequence(1,mProduct.photo.length-1).toString())
 
@@ -317,7 +313,7 @@ class ProductDetailsActivity : AppCompatActivity() {
             isCameraOpen= !isCameraOpen
             val intent: Intent = Intent(baseContext, ProductDetailsActivity::class.java).apply{
                 putExtra("CODE_RESULT",mProduct.barcode)
-                putExtra("CAMERA_RESULT","null")
+                putExtra("CAMERA_RESULT",photoPicker)
                 putExtra("NOMBRE",binding.textViewName.text.toString())
                 putExtra("PRECIO",binding.textViewPrecio.text)
             }
