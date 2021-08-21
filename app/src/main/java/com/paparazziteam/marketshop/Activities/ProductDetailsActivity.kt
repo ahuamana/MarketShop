@@ -1,6 +1,7 @@
 package com.paparazziteam.marketshop.Activities
 
 import RealPathUtil
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -15,6 +16,7 @@ import com.paparazziteam.marketshop.Fragments.BottomSheetName
 import com.paparazziteam.marketshop.Fragments.BottomSheetPrecio
 import com.paparazziteam.marketshop.Models.Product
 import com.paparazziteam.marketshop.Providers.ProductProvider
+import com.paparazziteam.marketshop.R
 import com.paparazziteam.marketshop.databinding.ActivityProductDetailsBinding
 import io.ak1.pix.helpers.PixEventCallback
 import io.ak1.pix.helpers.addPixToActivity
@@ -126,11 +128,15 @@ class ProductDetailsActivity : AppCompatActivity() {
                 PixEventCallback.Status.SUCCESS -> {
                     it.data
 
+
+                    Log.e("TAG","PRECIO ENVIADO: ${binding.textViewPrecio.text}")
+                    Log.e("TAG","NOMBRE ENVIADO: ${binding.textViewName.text}")
+
                     val intent: Intent = Intent(baseContext, ProductDetailsActivity::class.java).apply{
                         putExtra("CODE_RESULT",mProduct.barcode)
                         putExtra("CAMERA_RESULT",it.data.toString())
-                        putExtra("NOMBRE",mProduct.name)
-                        putExtra("PRECIO",mProduct.precioUnitario)
+                        putExtra("NOMBRE",binding.textViewName.text.toString())
+                        putExtra("PRECIO",binding.textViewPrecio.text)
                     }
 
                     startActivity(intent)
@@ -211,14 +217,19 @@ class ProductDetailsActivity : AppCompatActivity() {
     {
         binding.textViewName.setText(nameNew)
         mProduct.name = nameNew
+
+        Log.i("TAG","NOMBRE ASIGNADO: ${mProduct.name}")
     }
 
     fun setPrecioNew(precioNew: String)
     {
         binding.textViewPrecio.setText(precioNew)
         mProduct.precioUnitario =  precioNew.toDouble()
+
+        Log.i("TAG","PRECIO ASIGNADO: ${mProduct.precioUnitario}")
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun getDataFromIntent() {
 
         mProduct.barcode = intent.getStringExtra("CODE_RESULT").toString()
@@ -230,18 +241,20 @@ class ProductDetailsActivity : AppCompatActivity() {
 
 
         var nombre = intent.getStringExtra("NOMBRE").toString()
+        Log.e("TAG","NOMBRE RECIBIDO: ${nombre}")
 
         if(!nombre.equals("null"))
         {
-            Log.e("TAG","NOMBRE RECIBIDO: ${nombre}")
+
             binding.textViewName.text = nombre
         }
 
         var precio = intent.getStringExtra("PRECIO").toString()
+        Log.e("TAG","PRECIO RECIBIDO: ${precio}")
 
         if(!precio.equals("null"))
         {
-            Log.e("TAG","PRECIO RECIBIDO: ${precio}")
+            //Log.e("TAG","PRECIO RECIBIDO: ${precio}")
             binding.textViewPrecio.text = precio
         }
 
@@ -276,10 +289,18 @@ class ProductDetailsActivity : AppCompatActivity() {
                 binding.circleImageProduct.setImageBitmap(BitmapFactory.decodeFile(imgFile.absolutePath))
 
 
-            }else
-            {
-                binding.circleImageProduct.setImageBitmap(BitmapFactory.decodeFile(File(mProduct.photo).absolutePath))
             }
+            else
+            {
+                if (mProduct.photo.equals("null")) {
+
+                    binding.circleImageProduct.setImageDrawable(resources.getDrawable(R.drawable.ic_image))
+
+                } else {
+                    binding.circleImageProduct.setImageBitmap(BitmapFactory.decodeFile(File(mProduct.photo).absolutePath))
+                }
+            }
+
 
 
         }
@@ -289,14 +310,16 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
 
+        Log.e("TAG","ONBACKPRESSED")
+
         if(isCameraOpen)
         {
             isCameraOpen= !isCameraOpen
             val intent: Intent = Intent(baseContext, ProductDetailsActivity::class.java).apply{
                 putExtra("CODE_RESULT",mProduct.barcode)
                 putExtra("CAMERA_RESULT","null")
-                putExtra("NOMBRE",mProduct.name)
-                putExtra("PRECIO",mProduct.precioUnitario)
+                putExtra("NOMBRE",binding.textViewName.text.toString())
+                putExtra("PRECIO",binding.textViewPrecio.text)
             }
             startActivity(intent)
 
