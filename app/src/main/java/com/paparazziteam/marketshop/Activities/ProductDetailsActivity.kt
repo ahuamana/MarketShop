@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.paparazziteam.marketshop.Fragments.BottomSheetName
@@ -308,27 +309,43 @@ class ProductDetailsActivity : AppCompatActivity() {
 
                if(!mProduct.photo.equals(""))
                {
-                   Log.e("TAG","PHOTO PATH: PHOTO PATH ES DIFERENTE A VACIO")
-
-                   //show real path from URI
-                   var tempUri = Uri.parse(mProduct.photo.subSequence(1,mProduct.photo.length-1).toString())
-                   //var uri = "content://media/external/file/7252".toUri()
-                   var path = RealPathUtil.getRealPath(this,tempUri)
-
-                   val imgFile = File(path)
-                   //mProduct.photo = path!!
-
-                   Log.e("TAG","PHOTO PRODUCT PATH: ${mProduct.photo}")
-                   Log.e("TAG","PHOTO URI: ${tempUri}")
-                   binding.circleImageProduct.setImageURI(null)
-
-
+                   //Remove border and color when image it's set
                    binding.circleImageProduct.borderColor = 0
                    binding.circleImageProduct.borderWidth = 0
-                   binding.circleImageProduct.setImageBitmap(BitmapFactory.decodeFile(imgFile.absolutePath))
+
+                  if(mProduct.photo.contains("https"))
+                  {
+                      Log.e("TAG","PHOTO PATH: containg HTTPS")
+
+                      Glide.with(this@ProductDetailsActivity)
+                          .load(mProduct.photo)
+                          .centerCrop()
+                          .placeholder(R.drawable.ic_launcher_background)
+                          .into(binding.circleImageProduct)
+
+                  }
+                  else
+                  {
+                      Log.e("TAG","PHOTO PATH: PHOTO PATH ES DIFERENTE A VACIO")
+
+                      //show real path from URI
+                      var tempUri = Uri.parse(mProduct.photo.subSequence(1,mProduct.photo.length-1).toString())
+                      //var uri = "content://media/external/file/7252".toUri()
+                      var path = RealPathUtil.getRealPath(this,tempUri)
+
+                      val imgFile = File(path)
+                      //mProduct.photo = path!!
+
+                      Log.e("TAG","PHOTO PRODUCT PATH: ${mProduct.photo}")
+                      Log.e("TAG","PHOTO URI: ${tempUri}")
+                      binding.circleImageProduct.setImageURI(null)
+                      binding.circleImageProduct.setImageBitmap(BitmapFactory.decodeFile(imgFile.absolutePath))
+                  }
 
 
-               }else
+
+               }
+               else
                {
                    binding.circleImageProduct.setImageDrawable(resources.getDrawable(R.drawable.ic_image))
                }
