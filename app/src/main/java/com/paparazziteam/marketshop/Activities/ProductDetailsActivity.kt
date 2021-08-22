@@ -144,6 +144,42 @@ class ProductDetailsActivity : AppCompatActivity() {
     }
 
     private fun updateProduct() {
+
+        if(!mProduct.photo.contains("https"))
+        {
+            //show real path from URI
+            var tempUri = Uri.parse(mProduct.photo.subSequence(1,mProduct.photo.length-1).toString())
+            //var uri = "content://media/external/file/7252".toUri()
+            var path = RealPathUtil.getRealPath(this,tempUri)
+
+            val imgFile = File(path)
+
+            mImageProvider.save(applicationContext,imgFile).addOnCompleteListener {
+
+                if(it.isSuccessful)
+                {
+
+                    //Inicia otra tarea para descargar la URL que se subira a firestorage
+                    mImageProvider.getDownloadUri().addOnSuccessListener {
+
+                        mProduct.photo = it.toString()
+                        updateProductOnFirebase()
+
+                    }
+
+                }else
+                {
+                    mDialog!!.dismiss()
+                    Toast.makeText(this@ProductDetailsActivity, "No se pudo almacenar la imagen", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+
+    }
+
+    private fun updateProductOnFirebase() {
+
         mProductProvider.update(mProduct).addOnSuccessListener {
 
             Toast.makeText(this@ProductDetailsActivity, "Los datos se actualizaron correctamente", Toast.LENGTH_SHORT).show()
@@ -186,6 +222,7 @@ class ProductDetailsActivity : AppCompatActivity() {
                         putExtra("CAMERA_RESULT", mProduct.photo)
                         putExtra("NOMBRE",binding.textViewName.text.toString())
                         putExtra("PRECIO",binding.textViewPrecio.text)
+                        putExtra("EXISTE",dataExiste)
                     }
 
                     startActivity(intent)
@@ -344,6 +381,8 @@ class ProductDetailsActivity : AppCompatActivity() {
         }
 
         dataExiste = intent.getStringExtra("EXISTE").toString()
+        Log.e("TAG","DATA EXISTE: ${dataExiste}")
+
         if(dataExiste.equals("true"))
         {
             binding.btnRegistrarProductDetails.setText("ACTUALIZAR")
@@ -435,6 +474,7 @@ class ProductDetailsActivity : AppCompatActivity() {
                 putExtra("CAMERA_RESULT",mProduct.photo)
                 putExtra("NOMBRE",binding.textViewName.text.toString())
                 putExtra("PRECIO",binding.textViewPrecio.text)
+                putExtra("EXISTE",dataExiste)
             }
             startActivity(intent)
 
