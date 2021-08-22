@@ -215,6 +215,7 @@ class ProductDetailsActivity : AppCompatActivity() {
 
             if(it.isSuccessful)
             {
+
                 //Inicia otra tarea para descargar la URL que se subira a firestorage
                 mImageProvider.getDownloadUri().addOnSuccessListener {
 
@@ -241,14 +242,14 @@ class ProductDetailsActivity : AppCompatActivity() {
 
             if(task.isSuccessful)
             {
+                mDialog!!.dismiss()
                 Toast.makeText(applicationContext,"Creado en la base de datos correctamente!",Toast.LENGTH_SHORT).show()
                 Log.i("TAG","id creado: true")
             }else
             {
                 Log.i("TAG","id creado: false")
+                mDialog!!.dismiss()
             }
-
-
 
         }
     }
