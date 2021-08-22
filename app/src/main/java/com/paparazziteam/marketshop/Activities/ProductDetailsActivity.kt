@@ -47,6 +47,8 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     private var mDialog:ProgressDialog ? = null
 
+    var dataExiste: String ? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,7 +95,16 @@ class ProductDetailsActivity : AppCompatActivity() {
         //Registrar data on firestore
         binding.btnRegistrarProductDetails.setOnClickListener(View.OnClickListener {
 
-           createData()
+            if(dataExiste.equals("true"))
+            {
+                //actualizar
+                updateData()
+            }else
+            {
+                //actualizar campos
+                createData()
+            }
+
 
         })
 
@@ -103,6 +114,95 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     }
 
+    private fun updateData() {
+
+
+
+        if(!binding.textViewName.text.toString().equals("Ingresa nombre de producto"))
+        {
+            if(!binding.textViewPrecio.text.toString().equals("0.0"))
+            {
+                if(!mProduct.photo.equals("null"))
+                {
+                    if(mProduct.photo != null)
+                    {
+                        updateProduct()
+                    }
+                }
+                else
+                {
+                    Toast.makeText(this@ProductDetailsActivity,"Debes añadir una foto ",Toast.LENGTH_SHORT).show()
+                }
+
+            }else
+            {
+                Toast.makeText(this@ProductDetailsActivity,"El precio no puede ser 0.0",Toast.LENGTH_SHORT).show()
+            }
+
+        }else
+        {
+            Toast.makeText(this@ProductDetailsActivity,"Debe asignar un nombre de producto ",Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun updateProduct() {
+
+        mDialog!!.show()
+
+        if(!mProduct.photo.contains("https"))
+        {
+            Log.e("TAG","La photo no contiene https")
+            //show real path from URI
+            var tempUri = Uri.parse(mProduct.photo.subSequence(1,mProduct.photo.length-1).toString())
+            //var uri = "content://media/external/file/7252".toUri()
+            var path = RealPathUtil.getRealPath(this,tempUri)
+
+            val imgFile = File(path)
+
+            mImageProvider.save(applicationContext,imgFile).addOnCompleteListener {
+
+                if(it.isSuccessful)
+                {
+
+                    //Inicia otra tarea para descargar la URL que se subira a firestorage
+                    mImageProvider.getDownloadUri().addOnSuccessListener {
+
+                        mProduct.photo = it.toString()
+                        updateProductOnFirebase()
+
+                    }
+
+                }else
+                {
+                    mDialog!!.dismiss()
+                    Toast.makeText(this@ProductDetailsActivity, "No se pudo almacenar la imagen", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+                .addOnFailureListener{
+                    mDialog!!.dismiss()
+                    Log.e("ERROR","Error al subir una photo ->${it.message} ")
+                }
+        }else
+        {
+            updateProductOnFirebase()
+        }
+
+
+    }
+
+    private fun updateProductOnFirebase() {
+
+        mProductProvider.update(mProduct).addOnSuccessListener {
+
+            mDialog!!.dismiss()
+            Toast.makeText(this@ProductDetailsActivity, "Los datos se actualizaron correctamente", Toast.LENGTH_SHORT).show()
+        }
+            .addOnFailureListener{
+                mDialog!!.dismiss()
+                Log.e("ERROR","Error al actualizar los datos ->${it.message} ")
+            }
+    }
 
 
     private fun showCameraWhatsapp() {
@@ -140,6 +240,7 @@ class ProductDetailsActivity : AppCompatActivity() {
                         putExtra("CAMERA_RESULT", mProduct.photo)
                         putExtra("NOMBRE",binding.textViewName.text.toString())
                         putExtra("PRECIO",binding.textViewPrecio.text)
+                        putExtra("EXISTE",dataExiste)
                     }
 
                     startActivity(intent)
@@ -198,8 +299,8 @@ class ProductDetailsActivity : AppCompatActivity() {
 
         mDialog!!.show()
 
-        mProduct.name = binding.textViewName.text.toString()
-        mProduct.precioUnitario = binding.textViewPrecio.text.toString().toDouble()
+        //mProduct.name = binding.textViewName.text.toString()
+        //mProduct.precioUnitario = binding.textViewPrecio.text.toString().toDouble()
 
         //show real path from URI
         var tempUri = Uri.parse(mProduct.photo.subSequence(1,mProduct.photo.length-1).toString())
@@ -251,6 +352,7 @@ class ProductDetailsActivity : AppCompatActivity() {
         }
     }
 
+    //Update on XML data
     fun setNameNew(nameNew: String)
     {
         binding.textViewName.setText(nameNew)
@@ -278,13 +380,13 @@ class ProductDetailsActivity : AppCompatActivity() {
         Log.e("TAG","PHOTO RECIBIDO: ${mProduct.photo}")
 
 
-        var nombre = intent.getStringExtra("NOMBRE").toString()
-        Log.e("TAG","NOMBRE RECIBIDO: ${nombre}")
+        mProduct.name = intent.getStringExtra("NOMBRE").toString()
+        Log.e("TAG","NOMBRE RECIBIDO: ${mProduct.name}")
 
-        if(!nombre.equals("null"))
+        if(!mProduct.name.equals("null"))
         {
 
-            binding.textViewName.text = nombre
+            binding.textViewName.text = mProduct.name
         }
 
         var precio = intent.getStringExtra("PRECIO").toString()
@@ -292,9 +394,24 @@ class ProductDetailsActivity : AppCompatActivity() {
 
         if(!precio.equals("null"))
         {
+            mProduct.precioUnitario = precio.toDouble()
             //Log.e("TAG","PRECIO RECIBIDO: ${precio}")
-            binding.textViewPrecio.text = precio
+            binding.textViewPrecio.text = mProduct.precioUnitario.toString()
         }
+
+        dataExiste = intent.getStringExtra("EXISTE").toString()
+        Log.e("TAG","DATA EXISTE: ${dataExiste}")
+
+        if(dataExiste.equals("true"))
+        {
+            binding.btnRegistrarProductDetails.setText("ACTUALIZAR")
+            binding.btnRegistrarProductDetails.isEnabled = true
+        }else
+        {
+            binding.btnRegistrarProductDetails.setText("REGISTRAR")
+            binding.btnRegistrarProductDetails.isEnabled = true
+        }
+
 
 
         binding.textViewBarcode.setText(mProduct.barcode)
@@ -376,6 +493,7 @@ class ProductDetailsActivity : AppCompatActivity() {
                 putExtra("CAMERA_RESULT",mProduct.photo)
                 putExtra("NOMBRE",binding.textViewName.text.toString())
                 putExtra("PRECIO",binding.textViewPrecio.text)
+                putExtra("EXISTE",dataExiste)
             }
             startActivity(intent)
 

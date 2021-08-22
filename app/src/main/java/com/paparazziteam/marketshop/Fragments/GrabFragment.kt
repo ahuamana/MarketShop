@@ -133,6 +133,7 @@ class GrabFragment : Fragment() {
                         Log.e("TAG","documentSnapshot: no existe")
                         val intent: Intent = Intent(requireContext(), ProductDetailsActivity::class.java).apply{
                             putExtra("CODE_RESULT",barcode)
+                            putExtra("EXISTE","false")
                         }
 
                         startActivity(intent)
@@ -154,6 +155,8 @@ class GrabFragment : Fragment() {
                             putExtra("NOMBRE",name)
                             putExtra("PRECIO",precio)
                             putExtra("CAMERA_RESULT",photo)
+                            putExtra("EXISTE","true")
+
                         }
 
                         startActivity(intent)
