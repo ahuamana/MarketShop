@@ -151,6 +151,7 @@ class ProductDetailsActivity : AppCompatActivity() {
 
         if(!mProduct.photo.contains("https"))
         {
+            Log.e("TAG","La photo no contiene https")
             //show real path from URI
             var tempUri = Uri.parse(mProduct.photo.subSequence(1,mProduct.photo.length-1).toString())
             //var uri = "content://media/external/file/7252".toUri()
@@ -177,6 +178,14 @@ class ProductDetailsActivity : AppCompatActivity() {
                     Toast.makeText(this@ProductDetailsActivity, "No se pudo almacenar la imagen", Toast.LENGTH_SHORT).show()
                 }
             }
+
+                .addOnFailureListener{
+                    mDialog!!.dismiss()
+                    Log.e("ERROR","Error al subir una photo ->${it.message} ")
+                }
+        }else
+        {
+            updateProductOnFirebase()
         }
 
 
@@ -189,6 +198,10 @@ class ProductDetailsActivity : AppCompatActivity() {
             mDialog!!.dismiss()
             Toast.makeText(this@ProductDetailsActivity, "Los datos se actualizaron correctamente", Toast.LENGTH_SHORT).show()
         }
+            .addOnFailureListener{
+                mDialog!!.dismiss()
+                Log.e("ERROR","Error al actualizar los datos ->${it.message} ")
+            }
     }
 
 
@@ -367,13 +380,13 @@ class ProductDetailsActivity : AppCompatActivity() {
         Log.e("TAG","PHOTO RECIBIDO: ${mProduct.photo}")
 
 
-        var nombre = intent.getStringExtra("NOMBRE").toString()
-        Log.e("TAG","NOMBRE RECIBIDO: ${nombre}")
+        mProduct.name = intent.getStringExtra("NOMBRE").toString()
+        Log.e("TAG","NOMBRE RECIBIDO: ${mProduct.name}")
 
-        if(!nombre.equals("null"))
+        if(!mProduct.name.equals("null"))
         {
 
-            binding.textViewName.text = nombre
+            binding.textViewName.text = mProduct.name
         }
 
         var precio = intent.getStringExtra("PRECIO").toString()
@@ -381,8 +394,9 @@ class ProductDetailsActivity : AppCompatActivity() {
 
         if(!precio.equals("null"))
         {
+            mProduct.precioUnitario = precio.toDouble()
             //Log.e("TAG","PRECIO RECIBIDO: ${precio}")
-            binding.textViewPrecio.text = precio
+            binding.textViewPrecio.text = mProduct.precioUnitario.toString()
         }
 
         dataExiste = intent.getStringExtra("EXISTE").toString()
