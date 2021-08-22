@@ -164,10 +164,6 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     private fun createData() {
 
-        var document = mProductProvider.mCollection.document().id
-
-        mProduct.id = document
-
         if(!binding.textViewName.text.toString().equals("Ingresa nombre de producto"))
         {
             if(!binding.textViewPrecio.text.toString().equals("0.0"))
@@ -181,17 +177,17 @@ class ProductDetailsActivity : AppCompatActivity() {
                 }
                 else
                 {
-                    Toast.makeText(applicationContext,"Debes añadir una foto ",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ProductDetailsActivity,"Debes añadir una foto ",Toast.LENGTH_SHORT).show()
                 }
 
             }else
             {
-                Toast.makeText(applicationContext,"El precio no puede ser 0.0",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ProductDetailsActivity,"El precio no puede ser 0.0",Toast.LENGTH_SHORT).show()
             }
 
         }else
         {
-            Toast.makeText(applicationContext,"Debe asignar un nombre de producto ",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@ProductDetailsActivity,"Debe asignar un nombre de producto ",Toast.LENGTH_SHORT).show()
         }
 
 
@@ -377,40 +373,7 @@ class ProductDetailsActivity : AppCompatActivity() {
     }
 
 
-    private fun getDataFirestore() {
 
-       if (mProduct.barcode != null)
-       {
-
-            mProductProvider.getBarcodeInfo(mProduct.barcode).get().addOnSuccessListener {documents ->
-
-                    if(documents != null)
-                    {
-
-                        for (document in documents) {
-
-
-                            //var data = document.data.get("precioUnitario").toString()
-                            binding.textViewName.setText(document.data.get("name").toString())
-                            binding.textViewPrecio.setText(document.data.get("precioUnitario").toString())
-
-                            Log.e("TAG","documentSnapshot: ${document.data.get("precioUnitario")}")
-                            //Log.e("TAG","documentSnapshot: ${document.data.get("name")}")
-                            //Log.d("TAG", "${document.id} => ${document.data}")
-                            break;
-                        }
-
-
-
-                    }else
-                    {
-                        Log.e("TAG","documentSnapshot: null")
-                    }
-
-                }
-
-        }
-    }
 
 
 }
