@@ -10,25 +10,31 @@ import java.io.IOException
 
 class CompressorBitmapImage {
 
-    fun getImage(
-        ctx: Context?,
-        path: String?,
-        width: Int,
-        height: Int
-    ): ByteArray? {
-        val file_thumb_path = File(path)
-        var thumb_bitmap: Bitmap? = null
-        try {
-            thumb_bitmap = Compressor(ctx)
-                .setMaxWidth(width)
-                .setMaxHeight(height)
-                .setQuality(75)
-                .compressToBitmap(file_thumb_path)
-        } catch (e: IOException) {
-            e.printStackTrace()
+    companion object
+    {
+        @JvmStatic
+        fun getImage(
+            ctx: Context?,
+            path: String?,
+            width: Int,
+            height: Int
+        ): ByteArray? {
+            val file_thumb_path = File(path)
+            var thumb_bitmap: Bitmap? = null
+            try {
+                thumb_bitmap = Compressor(ctx)
+                    .setMaxWidth(width)
+                    .setMaxHeight(height)
+                    .setQuality(75)
+                    .compressToBitmap(file_thumb_path)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            val baos = ByteArrayOutputStream()
+            thumb_bitmap!!.compress(Bitmap.CompressFormat.JPEG, 80, baos)
+            return baos.toByteArray()
         }
-        val baos = ByteArrayOutputStream()
-        thumb_bitmap!!.compress(Bitmap.CompressFormat.JPEG, 80, baos)
-        return baos.toByteArray()
     }
+
+
 }

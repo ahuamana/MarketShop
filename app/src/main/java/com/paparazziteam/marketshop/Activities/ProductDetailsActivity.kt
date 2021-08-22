@@ -2,6 +2,8 @@ package com.paparazziteam.marketshop.Activities
 
 import RealPathUtil
 import android.annotation.SuppressLint
+import android.app.Dialog
+import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -10,11 +12,13 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.paparazziteam.marketshop.Fragments.BottomSheetName
 import com.paparazziteam.marketshop.Fragments.BottomSheetPrecio
 import com.paparazziteam.marketshop.Models.Product
+import com.paparazziteam.marketshop.Providers.ImageProvider
 import com.paparazziteam.marketshop.Providers.ProductProvider
 import com.paparazziteam.marketshop.R
 import com.paparazziteam.marketshop.databinding.ActivityProductDetailsBinding
@@ -34,14 +38,15 @@ class ProductDetailsActivity : AppCompatActivity() {
     var mBottomSheetName = BottomSheetName()
     var mBottomSheetPrecio = BottomSheetPrecio()
 
-
     var mProductProvider = ProductProvider()
+    var mImageProvider = ImageProvider()
 
     var mProduct = Product()
 
     var isCameraOpen = false
 
-    var photoPicker = ""
+    private var mDialog:ProgressDialog ? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,16 +55,12 @@ class ProductDetailsActivity : AppCompatActivity() {
         setContentView(view)
         getDataFromIntent()
 
+        mDialog= ProgressDialog(this@ProductDetailsActivity)
 
-
+        mDialog!!.setTitle("Espere un momento")
+        mDialog!!.setMessage("Guardando Información")
 
         setOnClickListener()
-
-
-
-
-
-
 
     }
 
@@ -164,33 +165,30 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     private fun createData() {
 
-        var document = mProductProvider.mCollection.document().id
-
-        mProduct.id = document
-
         if(!binding.textViewName.text.toString().equals("Ingresa nombre de producto"))
         {
             if(!binding.textViewPrecio.text.toString().equals("0.0"))
             {
                 if(!mProduct.photo.equals("null"))
                 {
-                    mProduct.name = binding.textViewName.text.toString()
-                    mProduct.precioUnitario = binding.textViewPrecio.text.toString().toDouble()
-                    createProduct()
+                    if(mProduct.photo != null)
+                    {
+                        createProduct()
+                    }
                 }
                 else
                 {
-                    Toast.makeText(applicationContext,"Debes añadir una foto ",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@ProductDetailsActivity,"Debes añadir una foto ",Toast.LENGTH_SHORT).show()
                 }
 
             }else
             {
-                Toast.makeText(applicationContext,"El precio no puede ser 0.0",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ProductDetailsActivity,"El precio no puede ser 0.0",Toast.LENGTH_SHORT).show()
             }
 
         }else
         {
-            Toast.makeText(applicationContext,"Debe asignar un nombre de producto ",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@ProductDetailsActivity,"Debe asignar un nombre de producto ",Toast.LENGTH_SHORT).show()
         }
 
 
@@ -198,21 +196,59 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     private fun createProduct() {
 
-        mProductProvider.createProduct(mProduct).addOnCompleteListener(OnCompleteListener { task->
+        mDialog!!.show()
+
+        mProduct.name = binding.textViewName.text.toString()
+        mProduct.precioUnitario = binding.textViewPrecio.text.toString().toDouble()
+
+        //show real path from URI
+        var tempUri = Uri.parse(mProduct.photo.subSequence(1,mProduct.photo.length-1).toString())
+        //var uri = "content://media/external/file/7252".toUri()
+        var path = RealPathUtil.getRealPath(this,tempUri)
+
+        val imgFile = File(path)
+
+        mImageProvider.save(applicationContext,imgFile).addOnCompleteListener {
+
+            if(it.isSuccessful)
+            {
+
+                //Inicia otra tarea para descargar la URL que se subira a firestorage
+                mImageProvider.getDownloadUri().addOnSuccessListener {
+
+                    mProduct.photo = it.toString()
+                    saveOnfirebase()
+
+                }
+
+            }else
+            {
+                mDialog!!.dismiss()
+                Toast.makeText(this@ProductDetailsActivity, "No se pudo almacenar la imagen", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
+
+
+    }
+
+    fun saveOnfirebase()
+    {
+        mProductProvider.createProduct(mProduct).addOnCompleteListener{ task->
 
             if(task.isSuccessful)
             {
+                mDialog!!.dismiss()
                 Toast.makeText(applicationContext,"Creado en la base de datos correctamente!",Toast.LENGTH_SHORT).show()
                 Log.i("TAG","id creado: true")
             }else
             {
                 Log.i("TAG","id creado: false")
+                mDialog!!.dismiss()
             }
 
-
-
-        })
-
+        }
     }
 
     fun setNameNew(nameNew: String)
@@ -273,26 +309,43 @@ class ProductDetailsActivity : AppCompatActivity() {
 
                if(!mProduct.photo.equals(""))
                {
-                   Log.e("TAG","PHOTO PATH: PHOTO PATH ES DIFERENTE A VACIO")
-
-                   //show real path from URI
-                   var tempUri = Uri.parse(mProduct.photo.subSequence(1,mProduct.photo.length-1).toString())
-                   //var uri = "content://media/external/file/7252".toUri()
-                   var path = RealPathUtil.getRealPath(this,tempUri)
-
-                   //mProduct.photo = path!!
-
-                   Log.e("TAG","PHOTO PRODUCT PATH: ${mProduct.photo}")
-                   Log.e("TAG","PHOTO URI: ${tempUri}")
-                   binding.circleImageProduct.setImageURI(null)
-
-                   val imgFile = File(path)
+                   //Remove border and color when image it's set
                    binding.circleImageProduct.borderColor = 0
                    binding.circleImageProduct.borderWidth = 0
-                   binding.circleImageProduct.setImageBitmap(BitmapFactory.decodeFile(imgFile.absolutePath))
+
+                  if(mProduct.photo.contains("https"))
+                  {
+                      Log.e("TAG","PHOTO PATH: containg HTTPS")
+
+                      Glide.with(this@ProductDetailsActivity)
+                          .load(mProduct.photo)
+                          .centerCrop()
+                          .placeholder(R.drawable.ic_launcher_background)
+                          .into(binding.circleImageProduct)
+
+                  }
+                  else
+                  {
+                      Log.e("TAG","PHOTO PATH: PHOTO PATH ES DIFERENTE A VACIO")
+
+                      //show real path from URI
+                      var tempUri = Uri.parse(mProduct.photo.subSequence(1,mProduct.photo.length-1).toString())
+                      //var uri = "content://media/external/file/7252".toUri()
+                      var path = RealPathUtil.getRealPath(this,tempUri)
+
+                      val imgFile = File(path)
+                      //mProduct.photo = path!!
+
+                      Log.e("TAG","PHOTO PRODUCT PATH: ${mProduct.photo}")
+                      Log.e("TAG","PHOTO URI: ${tempUri}")
+                      binding.circleImageProduct.setImageURI(null)
+                      binding.circleImageProduct.setImageBitmap(BitmapFactory.decodeFile(imgFile.absolutePath))
+                  }
 
 
-               }else
+
+               }
+               else
                {
                    binding.circleImageProduct.setImageDrawable(resources.getDrawable(R.drawable.ic_image))
                }
@@ -337,41 +390,7 @@ class ProductDetailsActivity : AppCompatActivity() {
     }
 
 
-    private fun getDataFirestore() {
 
-       if (mProduct.barcode != null)
-       {
-
-            mProductProvider.getBarcodeInfo(mProduct.barcode).get().addOnSuccessListener(
-                OnSuccessListener {documents ->
-
-                    if(documents != null)
-                    {
-
-                        for (document in documents) {
-
-
-                            //var data = document.data.get("precioUnitario").toString()
-                            binding.textViewName.setText(document.data.get("name").toString())
-                            binding.textViewPrecio.setText(document.data.get("precioUnitario").toString())
-
-                            Log.e("TAG","documentSnapshot: ${document.data.get("precioUnitario")}")
-                            //Log.e("TAG","documentSnapshot: ${document.data.get("name")}")
-                            //Log.d("TAG", "${document.id} => ${document.data}")
-                            break;
-                        }
-
-
-
-                    }else
-                    {
-                        Log.e("TAG","documentSnapshot: null")
-                    }
-
-                })
-
-        }
-    }
 
 
 }

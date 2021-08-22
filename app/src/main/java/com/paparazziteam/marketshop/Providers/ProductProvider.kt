@@ -21,14 +21,24 @@ class ProductProvider {
 
     fun createProduct(product:Product): Task<Void>
     {
-        return mCollection.document(product.id).set(product)
+        return mCollection.document(product.barcode).set(product)
     }
 
+
+    fun getProductInfo(barcode:String) :DocumentReference
+    {
+        return mCollection.document(barcode)
+    }
+
+    /*
     fun getBarcodeInfo(barcode: String) : Query
     {
         return mCollection
             .whereEqualTo("barcode",barcode)
     }
+     */
+
+
 
 
 

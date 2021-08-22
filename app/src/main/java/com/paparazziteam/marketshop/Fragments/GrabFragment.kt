@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
 import com.paparazziteam.marketshop.Activities.ProductDetailsActivity
+import com.paparazziteam.marketshop.Providers.ProductProvider
 import com.paparazziteam.marketshop.databinding.FragmentGrabBinding
 
 
@@ -24,6 +26,8 @@ class GrabFragment : Fragment() {
 
     val CAMERA_PERMISION_CODE = 100
     private lateinit var codeScanner: CodeScanner
+
+    private var mProductProvider:ProductProvider = ProductProvider()
 
     private val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission())
     { isGranted:Boolean ->
@@ -88,11 +92,7 @@ class GrabFragment : Fragment() {
 
                 android.util.Log.e("Scan result","QR CODE: ${it.text}")
 
-                val intent: Intent = Intent(requireContext(), ProductDetailsActivity::class.java).apply{
-                    putExtra("CODE_RESULT",it.text)
-                }
-
-                startActivity(intent)
+                showNextActivity(it.text.toString())
 
                 //Toast.makeText(requireActivity(), it.text, Toast.LENGTH_LONG).show()
 
@@ -117,13 +117,69 @@ class GrabFragment : Fragment() {
 
     }
 
+    private fun showNextActivity(barcode: String) {
+
+
+
+            if (barcode != null)
+            {
+                Log.e("TAG","BARCODE: $barcode es diferente de nulo")
+
+                mProductProvider.getProductInfo(barcode).get().addOnSuccessListener {document->
+
+                    if(!document.exists())
+                    {
+                        //If document exist on db
+                        Log.e("TAG","documentSnapshot: no existe")
+                        val intent: Intent = Intent(requireContext(), ProductDetailsActivity::class.java).apply{
+                            putExtra("CODE_RESULT",barcode)
+                        }
+
+                        startActivity(intent)
+
+                    }else
+                    {
+                        var barcode=document.data!!.get("barcode").toString()
+                        var name=document.data!!.get("name").toString()
+                        var precio=document.data!!.get("precioUnitario").toString()
+                        var photo=document.data!!.get("photo").toString()
+
+                        Log.e("TAG","documentSnapshot: ${document.data!!.get("precioUnitario")}")
+                        //Log.e("TAG","documentSnapshot: ${document.data.get("name")}")
+                        //Log.d("TAG", "${document.id} => ${document.data}")
+
+
+                        val intent: Intent = Intent(requireContext(), ProductDetailsActivity::class.java).apply{
+                            putExtra("CODE_RESULT",barcode)
+                            putExtra("NOMBRE",name)
+                            putExtra("PRECIO",precio)
+                            putExtra("CAMERA_RESULT",photo)
+                        }
+
+                        startActivity(intent)
+
+
+
+                    }
+
+                }
+
+
+        }
+
+
+
+
+
+    }
+
 
     override fun onStop() {
         super.onStop()
-        android.util.Log.e("ON STOP","FRAGMENT")
+        Log.e("ON STOP","FRAGMENT")
         if(codeScanner!= null)
         {
-            android.util.Log.e("ON PAUSE","RUN")
+           Log.e("ON PAUSE","RUN")
             codeScanner.releaseResources()
         }
     }
@@ -136,7 +192,7 @@ class GrabFragment : Fragment() {
 
         }else
         {
-            android.util.Log.e("CAMERA PERMISION","Permision Granted Already")
+            Log.e("CAMERA PERMISION","Permision Granted Already")
             getDataCodeScanner()
         }
 
