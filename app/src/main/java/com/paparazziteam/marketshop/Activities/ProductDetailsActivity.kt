@@ -2,6 +2,8 @@ package com.paparazziteam.marketshop.Activities
 
 import RealPathUtil
 import android.annotation.SuppressLint
+import android.app.Dialog
+import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -41,7 +43,7 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     var isCameraOpen = false
 
-    var photoPicker = ""
+    var mDialog = ProgressDialog(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,16 +52,10 @@ class ProductDetailsActivity : AppCompatActivity() {
         setContentView(view)
         getDataFromIntent()
 
-
-
+        mDialog.setTitle("Espere un momento")
+        mDialog.setMessage("Guardando Información")
 
         setOnClickListener()
-
-
-
-
-
-
 
     }
 
@@ -164,6 +160,8 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     private fun createData() {
 
+
+
         var document = mProductProvider.mCollection.document().id
 
         mProduct.id = document
@@ -174,9 +172,10 @@ class ProductDetailsActivity : AppCompatActivity() {
             {
                 if(!mProduct.photo.equals("null"))
                 {
-                    mProduct.name = binding.textViewName.text.toString()
-                    mProduct.precioUnitario = binding.textViewPrecio.text.toString().toDouble()
-                    createProduct()
+                    if(mProduct.photo != null)
+                    {
+                        createProduct()
+                    }
                 }
                 else
                 {
@@ -198,7 +197,13 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     private fun createProduct() {
 
-        mProductProvider.createProduct(mProduct).addOnCompleteListener(OnCompleteListener { task->
+        mDialog.show()
+
+        mProduct.name = binding.textViewName.text.toString()
+        mProduct.precioUnitario = binding.textViewPrecio.text.toString().toDouble()
+
+
+        mProductProvider.createProduct(mProduct).addOnCompleteListener{ task->
 
             if(task.isSuccessful)
             {
@@ -211,7 +216,7 @@ class ProductDetailsActivity : AppCompatActivity() {
 
 
 
-        })
+        }
 
     }
 
