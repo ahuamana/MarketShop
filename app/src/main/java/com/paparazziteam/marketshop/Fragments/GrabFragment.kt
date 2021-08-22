@@ -120,51 +120,46 @@ class GrabFragment : Fragment() {
     private fun showNextActivity(barcode: String) {
 
 
+
             if (barcode != null)
             {
+                Log.e("TAG","BARCODE: $barcode es diferente de nulo")
 
-                mProductProvider.getBarcodeInfo(barcode).get().addOnSuccessListener {documents ->
+                mProductProvider.getProductInfo(barcode).get().addOnSuccessListener {document->
 
-                    if(documents != null)
+                    if(!document.exists())
                     {
-                        for (document in documents) {
-                            //var data = document.data.get("precioUnitario").toString()
-
-                            var barcode=document.data.get("barcode").toString()
-                            var name=document.data.get("name").toString()
-                            var precio=document.data.get("precioUnitario").toString()
-                            var photo=document.data.get("photo").toString()
-
-
-
-
-                            Log.e("TAG","documentSnapshot: ${document.data.get("precioUnitario")}")
-                            //Log.e("TAG","documentSnapshot: ${document.data.get("name")}")
-                            //Log.d("TAG", "${document.id} => ${document.data}")
-
-
-                            val intent: Intent = Intent(requireContext(), ProductDetailsActivity::class.java).apply{
-                                putExtra("CODE_RESULT",barcode)
-                                putExtra("NOMBRE",name)
-                                putExtra("PRECIO",precio)
-                                putExtra("photo",photo)
-                            }
-
-                            startActivity(intent)
-
-                            break;
-                        }
-
-
-
-                    }else
-                    {
-                        Log.e("TAG","documentSnapshot: null")
+                        //If document exist on db
+                        Log.e("TAG","documentSnapshot: no existe")
                         val intent: Intent = Intent(requireContext(), ProductDetailsActivity::class.java).apply{
                             putExtra("CODE_RESULT",barcode)
                         }
 
                         startActivity(intent)
+
+                    }else
+                    {
+                        var barcode=document.data.get("barcode").toString()
+                        var name=document.data.get("name").toString()
+                        var precio=document.data.get("precioUnitario").toString()
+                        var photo=document.data.get("photo").toString()
+
+                        Log.e("TAG","documentSnapshot: ${document.data.get("precioUnitario")}")
+                        //Log.e("TAG","documentSnapshot: ${document.data.get("name")}")
+                        //Log.d("TAG", "${document.id} => ${document.data}")
+
+
+                        val intent: Intent = Intent(requireContext(), ProductDetailsActivity::class.java).apply{
+                            putExtra("CODE_RESULT",barcode)
+                            putExtra("NOMBRE",name)
+                            putExtra("PRECIO",precio)
+                            putExtra("photo",photo)
+                        }
+
+                        startActivity(intent)
+
+
+
                     }
 
                 }

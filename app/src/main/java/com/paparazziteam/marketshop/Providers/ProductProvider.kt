@@ -24,11 +24,19 @@ class ProductProvider {
         return mCollection.document(product.barcode).set(product)
     }
 
+
+    fun getProductInfo(barcode:String) :DocumentReference
+    {
+        return mCollection.document(barcode)
+    }
+
+    /*
     fun getBarcodeInfo(barcode: String) : Query
     {
         return mCollection
             .whereEqualTo("barcode",barcode)
     }
+     */
 
 
 
