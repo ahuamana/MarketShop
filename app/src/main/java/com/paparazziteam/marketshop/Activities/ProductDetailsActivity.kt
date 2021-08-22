@@ -116,6 +116,8 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     private fun updateData() {
 
+
+
         if(!binding.textViewName.text.toString().equals("Ingresa nombre de producto"))
         {
             if(!binding.textViewPrecio.text.toString().equals("0.0"))
@@ -144,6 +146,8 @@ class ProductDetailsActivity : AppCompatActivity() {
     }
 
     private fun updateProduct() {
+
+        mDialog!!.show()
 
         if(!mProduct.photo.contains("https"))
         {
@@ -182,6 +186,7 @@ class ProductDetailsActivity : AppCompatActivity() {
 
         mProductProvider.update(mProduct).addOnSuccessListener {
 
+            mDialog!!.dismiss()
             Toast.makeText(this@ProductDetailsActivity, "Los datos se actualizaron correctamente", Toast.LENGTH_SHORT).show()
         }
     }
