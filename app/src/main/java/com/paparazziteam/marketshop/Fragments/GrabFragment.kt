@@ -130,9 +130,12 @@ class GrabFragment : Fragment() {
                         for (document in documents) {
                             //var data = document.data.get("precioUnitario").toString()
 
-                            var name=document.data.get("name").toString()
-                            var photo=document.data.get("photo").toString()
                             var barcode=document.data.get("barcode").toString()
+                            var name=document.data.get("name").toString()
+                            var precio=document.data.get("precioUnitario").toString()
+                            var photo=document.data.get("photo").toString()
+
+
 
 
                             Log.e("TAG","documentSnapshot: ${document.data.get("precioUnitario")}")
@@ -143,6 +146,7 @@ class GrabFragment : Fragment() {
                             val intent: Intent = Intent(requireContext(), ProductDetailsActivity::class.java).apply{
                                 putExtra("CODE_RESULT",barcode)
                                 putExtra("NOMBRE",name)
+                                putExtra("PRECIO",precio)
                                 putExtra("photo",photo)
                             }
 
