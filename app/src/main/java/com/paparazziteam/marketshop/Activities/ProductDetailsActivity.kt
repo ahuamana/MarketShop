@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.paparazziteam.marketshop.Fragments.BottomSheetName
 import com.paparazziteam.marketshop.Fragments.BottomSheetPrecio
 import com.paparazziteam.marketshop.Models.Product
+import com.paparazziteam.marketshop.Providers.ImageProvider
 import com.paparazziteam.marketshop.Providers.ProductProvider
 import com.paparazziteam.marketshop.R
 import com.paparazziteam.marketshop.databinding.ActivityProductDetailsBinding
@@ -36,14 +37,15 @@ class ProductDetailsActivity : AppCompatActivity() {
     var mBottomSheetName = BottomSheetName()
     var mBottomSheetPrecio = BottomSheetPrecio()
 
-
     var mProductProvider = ProductProvider()
+    var mImageProvider = ImageProvider()
 
     var mProduct = Product()
 
     var isCameraOpen = false
 
-    var mDialog = ProgressDialog(this)
+    private var mDialog:ProgressDialog ? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,8 +54,10 @@ class ProductDetailsActivity : AppCompatActivity() {
         setContentView(view)
         getDataFromIntent()
 
-        mDialog.setTitle("Espere un momento")
-        mDialog.setMessage("Guardando Información")
+        mDialog= ProgressDialog(this@ProductDetailsActivity)
+
+        mDialog!!.setTitle("Espere un momento")
+        mDialog!!.setMessage("Guardando Información")
 
         setOnClickListener()
 
@@ -160,8 +164,6 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     private fun createData() {
 
-
-
         var document = mProductProvider.mCollection.document().id
 
         mProduct.id = document
@@ -197,12 +199,44 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     private fun createProduct() {
 
-        mDialog.show()
+        mDialog!!.show()
 
         mProduct.name = binding.textViewName.text.toString()
         mProduct.precioUnitario = binding.textViewPrecio.text.toString().toDouble()
 
+        //show real path from URI
+        var tempUri = Uri.parse(mProduct.photo.subSequence(1,mProduct.photo.length-1).toString())
+        //var uri = "content://media/external/file/7252".toUri()
+        var path = RealPathUtil.getRealPath(this,tempUri)
 
+        val imgFile = File(path)
+
+        mImageProvider.save(applicationContext,imgFile).addOnCompleteListener {
+
+            if(it.isSuccessful)
+            {
+                //Inicia otra tarea para descargar la URL que se subira a firestorage
+                mImageProvider.getDownloadUri().addOnSuccessListener {
+
+                    mProduct.photo = it.toString()
+                    saveOnfirebase()
+
+                }
+
+            }else
+            {
+                mDialog!!.dismiss()
+                Toast.makeText(this@ProductDetailsActivity, "No se pudo almacenar la imagen", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+
+
+
+    }
+
+    fun saveOnfirebase()
+    {
         mProductProvider.createProduct(mProduct).addOnCompleteListener{ task->
 
             if(task.isSuccessful)
@@ -217,7 +251,6 @@ class ProductDetailsActivity : AppCompatActivity() {
 
 
         }
-
     }
 
     fun setNameNew(nameNew: String)
@@ -285,13 +318,14 @@ class ProductDetailsActivity : AppCompatActivity() {
                    //var uri = "content://media/external/file/7252".toUri()
                    var path = RealPathUtil.getRealPath(this,tempUri)
 
+                   val imgFile = File(path)
                    //mProduct.photo = path!!
 
                    Log.e("TAG","PHOTO PRODUCT PATH: ${mProduct.photo}")
                    Log.e("TAG","PHOTO URI: ${tempUri}")
                    binding.circleImageProduct.setImageURI(null)
 
-                   val imgFile = File(path)
+
                    binding.circleImageProduct.borderColor = 0
                    binding.circleImageProduct.borderWidth = 0
                    binding.circleImageProduct.setImageBitmap(BitmapFactory.decodeFile(imgFile.absolutePath))
@@ -347,8 +381,7 @@ class ProductDetailsActivity : AppCompatActivity() {
        if (mProduct.barcode != null)
        {
 
-            mProductProvider.getBarcodeInfo(mProduct.barcode).get().addOnSuccessListener(
-                OnSuccessListener {documents ->
+            mProductProvider.getBarcodeInfo(mProduct.barcode).get().addOnSuccessListener {documents ->
 
                     if(documents != null)
                     {
@@ -373,7 +406,7 @@ class ProductDetailsActivity : AppCompatActivity() {
                         Log.e("TAG","documentSnapshot: null")
                     }
 
-                })
+                }
 
         }
     }
