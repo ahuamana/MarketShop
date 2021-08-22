@@ -47,6 +47,8 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     private var mDialog:ProgressDialog ? = null
 
+    var dataExiste: String ? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -93,7 +95,16 @@ class ProductDetailsActivity : AppCompatActivity() {
         //Registrar data on firestore
         binding.btnRegistrarProductDetails.setOnClickListener(View.OnClickListener {
 
-           createData()
+            if(dataExiste.equals("true"))
+            {
+                //actualizar
+                updateData()
+            }else
+            {
+                //actualizar campos
+                createData()
+            }
+
 
         })
 
@@ -103,6 +114,41 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     }
 
+    private fun updateData() {
+
+        if(!binding.textViewName.text.toString().equals("Ingresa nombre de producto"))
+        {
+            if(!binding.textViewPrecio.text.toString().equals("0.0"))
+            {
+                if(!mProduct.photo.equals("null"))
+                {
+                    if(mProduct.photo != null)
+                    {
+                        updateProduct()
+                    }
+                }
+                else
+                {
+                    Toast.makeText(this@ProductDetailsActivity,"Debes añadir una foto ",Toast.LENGTH_SHORT).show()
+                }
+
+            }else
+            {
+                Toast.makeText(this@ProductDetailsActivity,"El precio no puede ser 0.0",Toast.LENGTH_SHORT).show()
+            }
+
+        }else
+        {
+            Toast.makeText(this@ProductDetailsActivity,"Debe asignar un nombre de producto ",Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun updateProduct() {
+        mProductProvider.update(mProduct).addOnSuccessListener {
+
+            Toast.makeText(this@ProductDetailsActivity, "Los datos se actualizaron correctamente", Toast.LENGTH_SHORT).show()
+        }
+    }
 
 
     private fun showCameraWhatsapp() {
@@ -198,8 +244,8 @@ class ProductDetailsActivity : AppCompatActivity() {
 
         mDialog!!.show()
 
-        mProduct.name = binding.textViewName.text.toString()
-        mProduct.precioUnitario = binding.textViewPrecio.text.toString().toDouble()
+        //mProduct.name = binding.textViewName.text.toString()
+        //mProduct.precioUnitario = binding.textViewPrecio.text.toString().toDouble()
 
         //show real path from URI
         var tempUri = Uri.parse(mProduct.photo.subSequence(1,mProduct.photo.length-1).toString())
@@ -251,6 +297,7 @@ class ProductDetailsActivity : AppCompatActivity() {
         }
     }
 
+    //Update on XML data
     fun setNameNew(nameNew: String)
     {
         binding.textViewName.setText(nameNew)
@@ -295,6 +342,18 @@ class ProductDetailsActivity : AppCompatActivity() {
             //Log.e("TAG","PRECIO RECIBIDO: ${precio}")
             binding.textViewPrecio.text = precio
         }
+
+        dataExiste = intent.getStringExtra("EXISTE").toString()
+        if(dataExiste.equals("true"))
+        {
+            binding.btnRegistrarProductDetails.setText("ACTUALIZAR")
+            binding.btnRegistrarProductDetails.isEnabled = true
+        }else
+        {
+            binding.btnRegistrarProductDetails.setText("REGISTRAR")
+            binding.btnRegistrarProductDetails.isEnabled = true
+        }
+
 
 
         binding.textViewBarcode.setText(mProduct.barcode)

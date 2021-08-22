@@ -30,6 +30,20 @@ class ProductProvider {
         return mCollection.document(barcode)
     }
 
+    fun update(product: Product):Task<Void>
+    {
+        //var map = HashMap<String>()
+
+        //Actualizar username
+        val map = mutableMapOf<String,Any?>()
+        map.put("barcode",product.barcode)
+        map.put("name",product.name)
+        map.put("precioUnitario",product.precioUnitario)
+        map.put("photo",product.photo)
+
+        return mCollection.document(product.barcode).update(map)
+    }
+
     /*
     fun getBarcodeInfo(barcode: String) : Query
     {
