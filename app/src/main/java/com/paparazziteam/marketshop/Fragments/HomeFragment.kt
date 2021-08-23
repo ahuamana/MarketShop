@@ -65,7 +65,7 @@ class HomeFragment : Fragment() {
                 }
 
                 //fill Recycler view
-                binding.recyclerViewProducts.adapter = ProductAdapter(productList)
+                binding.recyclerViewProducts.adapter = ProductAdapter(productList, requireContext())
             }
 
 
