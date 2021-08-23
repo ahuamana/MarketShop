@@ -3,15 +3,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.HomeFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragments.HomeFragment"
+    android:layout_marginBottom="?actionBarSize">
 
-    <!-- TODO: Update blank fragment layout -->
-    <com.google.android.material.textview.MaterialTextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:textColor="@color/black"
-        android:text="HOME FRAGMENT" />
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.mancj.materialsearchbar.MaterialSearchBar
+                android:id="@+id/searchProduct"
+                android:layout_width="match_parent"
+                app:background="@drawable/rounded_button_normal"
+                app:mt_searchBarColor="@color/primaryColor"
+                app:mt_searchIconTint="@color/white"
+                app:mt_placeholderColor="@color/white"
+                app:mt_backIconTint="@color/white"
+                app:mt_backIconUseTint="true"
+                app:mt_menuIconTint="@color/white"
+                app:mt_hint="nombre, codigo de barras"
+                app:mt_placeholder="Market Shop"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/img_qrcode"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:clickable="true"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginEnd="50dp"
+                android:src="@drawable/icon_qr_code_white"/>
+
+        </FrameLayout>
+
+
+
+
+
+    </LinearLayout>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
