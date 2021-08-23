@@ -72,21 +72,17 @@ class MainActivity : AppCompatActivity() {
     {
         val fragmentTransition = supportFragmentManager.beginTransaction()
 
-
             fragmentTransition
                 .replace(R.id.fragmentContainer, fragment)
                 .addToBackStack(Fragment::class.java.simpleName)
                 .commit()
 
             android.util.Log.d("FRAGMENT","REEMPLAZADO")
-
-
     }
 
     fun addFragment(fragment: Fragment)
     {
         val fragmentTransition = supportFragmentManager.beginTransaction()
-
 
         fragmentTransition
             .replace(R.id.fragmentContainer, fragment)
@@ -94,8 +90,6 @@ class MainActivity : AppCompatActivity() {
             .commit()
 
         android.util.Log.d("FRAGMENT","ADD FRAGMENT")
-
-
     }
 
 

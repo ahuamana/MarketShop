@@ -52,6 +52,7 @@
                         android:id="@+id/fabSelectImage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:contentDescription="Sube una foto"
                         android:src="@drawable/ic_camera_white"
                         android:tint="@color/white"
                         app:tint="@color/white"
@@ -99,7 +100,7 @@
                             android:text="Nombre"/>
                         <TextView
                             android:id="@+id/textViewName"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="text"
                             android:text="Ingresa nombre de producto"
@@ -242,6 +243,8 @@
         </FrameLayout>
 
     </ScrollView>
+
+
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
