@@ -6,8 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.ktx.toObject
+import com.paparazziteam.marketshop.Adapters.ProductAdapter
 import com.paparazziteam.marketshop.Models.Product
 import com.paparazziteam.marketshop.Providers.ProductProvider
 import com.paparazziteam.marketshop.R
@@ -20,6 +20,9 @@ class HomeFragment : Fragment() {
 
     var mLinearLayoutManager: LinearLayoutManager ? = null
     var mProductProvider = ProductProvider()
+
+    private lateinit var productList:ArrayList<Product>
+
    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,14 +49,27 @@ class HomeFragment : Fragment() {
 
     private fun getProducts() {
 
-        var query:Query = mProductProvider.getProductListByName()
+        productList = arrayListOf<Product>()
 
-        var options:FirestoreRecyclerOptions<Product> = FirestoreRecyclerOptions.Builder<Product>()
-            .setQuery(query,Product::class.java)
-            .build()
+        mProductProvider.getProductListByName().addSnapshotListener { querySnapshot, error ->
+
+            if(querySnapshot!!.isEmpty)
+            {
+                android.util.Log.e("TAG","QUERY VACIO")
+            }else
+            {
+                for (productsnaptshot in  querySnapshot.documents)
+                {
+                    val product = productsnaptshot.toObject<Product>()
+                    productList.add(product!!)
+                }
+
+                //fill Recycler view
+                binding.recyclerViewProducts.adapter = ProductAdapter(productList)
+            }
 
 
-
+        }
 
 
     }
