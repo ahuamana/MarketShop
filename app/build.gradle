@@ -60,6 +60,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
+    // FirebaseUI for Cloud Firestore
+    implementation 'com.firebaseui:firebase-ui-firestore:8.0.0'
 
     //https://github.com/oneHamidreza/MeowBottomNavigation
     implementation 'com.etebarian:meow-bottom-navigation:1.2.0'

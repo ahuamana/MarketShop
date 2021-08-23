@@ -5,6 +5,7 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.paparazziteam.marketshop.Models.Product
@@ -42,6 +43,11 @@ class ProductProvider {
         map.put("photo",product.photo)
 
         return mCollection.document(product.barcode).update(map)
+    }
+
+    fun getProductListByName():Query
+    {
+        return mCollection.orderBy("name")
     }
 
     /*
