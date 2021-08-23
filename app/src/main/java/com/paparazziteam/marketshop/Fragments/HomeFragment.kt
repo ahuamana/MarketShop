@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.toObject
 import com.paparazziteam.marketshop.Adapters.ProductAdapter
 import com.paparazziteam.marketshop.Models.Product
@@ -23,6 +24,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var productList:ArrayList<Product>
 
+    private lateinit var mListener: ListenerRegistration
    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +53,7 @@ class HomeFragment : Fragment() {
 
         productList = arrayListOf<Product>()
 
-        mProductProvider.getProductListByName().addSnapshotListener { querySnapshot, error ->
+        mListener = mProductProvider.getProductListByName().addSnapshotListener { querySnapshot, error ->
 
             if(querySnapshot!!.isEmpty)
             {
@@ -72,6 +74,15 @@ class HomeFragment : Fragment() {
         }
 
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        if(mListener != null)
+        {
+            mListener.remove()
+        }
     }
 
     private fun setOnclickListeners() {
