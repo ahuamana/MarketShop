@@ -18,4 +18,5 @@ Caracteristicas:
 PRIVACY & TERMS
 
 https://market-shop.flycricket.io/privacy.html
+
 https://market-shop.flycricket.io/terms.html
