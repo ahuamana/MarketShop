@@ -6,12 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.toObject
+import com.mancj.materialsearchbar.MaterialSearchBar
+import com.mancj.materialsearchbar.MaterialSearchBar.OnSearchActionListener
 import com.paparazziteam.marketshop.Adapters.ProductAdapter
 import com.paparazziteam.marketshop.Models.Product
 import com.paparazziteam.marketshop.Providers.ProductProvider
 import com.paparazziteam.marketshop.R
 import com.paparazziteam.marketshop.databinding.FragmentHomeBinding
+import android.text.Editable
+
+import android.text.TextWatcher
+
+
+
 
 class HomeFragment : Fragment() {
 
@@ -23,6 +32,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var productList:ArrayList<Product>
 
+    private lateinit var mListener: ListenerRegistration
    
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +48,9 @@ class HomeFragment : Fragment() {
         mLinearLayoutManager!!.stackFromEnd = true
         binding.recyclerViewProducts.layoutManager = mLinearLayoutManager
 
+
+
+
         setOnclickListeners()
 
         getProducts()
@@ -51,7 +64,7 @@ class HomeFragment : Fragment() {
 
         productList = arrayListOf<Product>()
 
-        mProductProvider.getProductListByName().addSnapshotListener { querySnapshot, error ->
+        mListener = mProductProvider.getProductListByName("").addSnapshotListener { querySnapshot, error ->
 
             if(querySnapshot!!.isEmpty)
             {
@@ -65,7 +78,7 @@ class HomeFragment : Fragment() {
                 }
 
                 //fill Recycler view
-                binding.recyclerViewProducts.adapter = ProductAdapter(productList)
+                binding.recyclerViewProducts.adapter = ProductAdapter(productList, requireContext())
             }
 
 
@@ -74,12 +87,60 @@ class HomeFragment : Fragment() {
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+
+        if(mListener != null)
+        {
+            mListener.remove()
+        }
+    }
+
     private fun setOnclickListeners() {
 
         binding.imgQrcode.setOnClickListener {
             android.util.Log.d("CLICKED","QRCODE")
             replaceFragment(GrabFragment.newInstance())
         }
+
+
+
+        //implementar metodos para buscar
+
+
+        binding.searchProduct.setOnSearchActionListener(object : OnSearchActionListener {
+            override fun onSearchStateChanged(enabled: Boolean) {
+
+            }
+            override fun onSearchConfirmed(text: CharSequence) {
+
+                android.util.Log.e("TAG","MENSAJE: $text")
+            }
+            override fun onButtonClicked(buttonCode: Int) {
+
+            }
+        })
+
+        //Set Text Change
+        binding.searchProduct.addTextChangeListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+
+            }
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+                android.util.Log.d("LOG_TAG", " text changed " + binding.searchProduct.getText())
+                updateSearchData(binding.searchProduct.getText())
+            }
+
+            override fun afterTextChanged(editable: Editable) {
+
+            }
+        })
+
+    }
+
+    private fun updateSearchData(text:String) {
+
+
 
     }
 

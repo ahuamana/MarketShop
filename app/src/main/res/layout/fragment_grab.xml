@@ -22,8 +22,7 @@
         app:frameAspectRatioHeight="1"
         app:frameSize="0.75"
         app:frameThickness="2dp"
-        app:maskColor="#77000000"
-        android:layout_marginBottom="?attr/actionBarSize"/>
+        app:maskColor="#77000000"/>
 
 
 

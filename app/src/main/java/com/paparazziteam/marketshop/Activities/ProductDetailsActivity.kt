@@ -327,6 +327,10 @@ class ProductDetailsActivity : AppCompatActivity() {
                 mDialog!!.dismiss()
                 Toast.makeText(this@ProductDetailsActivity, "No se pudo almacenar la imagen", Toast.LENGTH_SHORT).show()
             }
+        }.addOnFailureListener{
+
+            mDialog!!.dismiss()
+            Toast.makeText(this@ProductDetailsActivity,"Revisa tu conexion a internet o contacta con un administrador",Toast.LENGTH_SHORT).show()
         }
 
 
@@ -349,6 +353,10 @@ class ProductDetailsActivity : AppCompatActivity() {
                 mDialog!!.dismiss()
             }
 
+        }.addOnFailureListener {
+
+            mDialog!!.dismiss()
+            Toast.makeText(this@ProductDetailsActivity,"Revisa tu conexion a internet o contacta con un administrador",Toast.LENGTH_SHORT).show()
         }
     }
 

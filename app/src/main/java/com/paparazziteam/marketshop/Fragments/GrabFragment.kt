@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -113,8 +114,6 @@ class GrabFragment : Fragment() {
 
     private fun showNextActivity(barcode: String) {
 
-
-
             if (barcode != null)
             {
                 Log.e("TAG","BARCODE: $barcode es diferente de nulo")
@@ -158,6 +157,10 @@ class GrabFragment : Fragment() {
 
 
                     }
+
+                }.addOnFailureListener{
+
+                    Toast.makeText(context,"Error: Revisa tu conexion a internet o contacta con un administrador",Toast.LENGTH_SHORT).show()
 
                 }
 
