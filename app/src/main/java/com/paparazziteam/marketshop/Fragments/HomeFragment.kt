@@ -8,11 +8,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.toObject
+import com.mancj.materialsearchbar.MaterialSearchBar
+import com.mancj.materialsearchbar.MaterialSearchBar.OnSearchActionListener
 import com.paparazziteam.marketshop.Adapters.ProductAdapter
 import com.paparazziteam.marketshop.Models.Product
 import com.paparazziteam.marketshop.Providers.ProductProvider
 import com.paparazziteam.marketshop.R
 import com.paparazziteam.marketshop.databinding.FragmentHomeBinding
+import android.text.Editable
+
+import android.text.TextWatcher
+
+
+
 
 class HomeFragment : Fragment() {
 
@@ -40,6 +48,9 @@ class HomeFragment : Fragment() {
         mLinearLayoutManager!!.stackFromEnd = true
         binding.recyclerViewProducts.layoutManager = mLinearLayoutManager
 
+
+
+
         setOnclickListeners()
 
         getProducts()
@@ -53,7 +64,7 @@ class HomeFragment : Fragment() {
 
         productList = arrayListOf<Product>()
 
-        mListener = mProductProvider.getProductListByName().addSnapshotListener { querySnapshot, error ->
+        mListener = mProductProvider.getProductListByName("").addSnapshotListener { querySnapshot, error ->
 
             if(querySnapshot!!.isEmpty)
             {
@@ -91,6 +102,45 @@ class HomeFragment : Fragment() {
             android.util.Log.d("CLICKED","QRCODE")
             replaceFragment(GrabFragment.newInstance())
         }
+
+
+
+        //implementar metodos para buscar
+
+
+        binding.searchProduct.setOnSearchActionListener(object : OnSearchActionListener {
+            override fun onSearchStateChanged(enabled: Boolean) {
+
+            }
+            override fun onSearchConfirmed(text: CharSequence) {
+
+                android.util.Log.e("TAG","MENSAJE: $text")
+            }
+            override fun onButtonClicked(buttonCode: Int) {
+
+            }
+        })
+
+        //Set Text Change
+        binding.searchProduct.addTextChangeListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+
+            }
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+                android.util.Log.d("LOG_TAG", " text changed " + binding.searchProduct.getText())
+                updateSearchData(binding.searchProduct.getText())
+            }
+
+            override fun afterTextChanged(editable: Editable) {
+
+            }
+        })
+
+    }
+
+    private fun updateSearchData(text:String) {
+
+
 
     }
 

@@ -45,9 +45,14 @@ class ProductProvider {
         return mCollection.document(product.barcode).update(map)
     }
 
-    fun getProductListByName():Query
+    fun getProductListByName(newText: String):Query
     {
-        return mCollection.orderBy("name")
+        return mCollection.orderBy("name").startAt(newText.lowercase()).limit(25).endAt(newText.lowercase()+'\uf8ff')
+    }
+
+    fun getProductListByBarcode(newText: String):Query
+    {
+        return mCollection.orderBy("barcode").startAt(newText.lowercase()).limit(25).endAt(newText.lowercase()+'\uf8ff')
     }
 
     /*
