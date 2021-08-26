@@ -444,7 +444,6 @@ class ProductDetailsActivity : AppCompatActivity() {
 
                       Glide.with(this@ProductDetailsActivity)
                           .load(mProduct.photo)
-                          .centerCrop()
                           .placeholder(R.drawable.ic_launcher_background)
                           .into(binding.circleImageProduct)
 
