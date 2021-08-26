@@ -115,8 +115,8 @@ class HomeFragment : Fragment() {
             override fun onSearchConfirmed(text: CharSequence) {
 
                 android.util.Log.e("TAG","MENSAJE: ${text.toString().uppercase()}")
-                var new= StaticUtil.firstCharToLowercase(text.toString().uppercase())
-                android.util.Log.e("TAG","MENSAJE: $new")
+                //var new= StaticUtil.firstCharToLowercase(text.toString().uppercase())
+                //android.util.Log.e("TAG","MENSAJE: $new")
 
             }
             override fun onButtonClicked(buttonCode: Int) {
@@ -148,6 +148,10 @@ class HomeFragment : Fragment() {
             if(querySnapshot!!.isEmpty)
             {
                 android.util.Log.e("TAG","QUERY VACIO")
+
+                //Search Using barcode
+                updateSearchDataWithBarcode(text)
+
             }else
             {
                 productList.clear() // limpiamos los campos
@@ -164,6 +168,39 @@ class HomeFragment : Fragment() {
             }
 
         }
+
+    }
+
+    private fun updateSearchDataWithBarcode(text: String) {
+
+        mProductProvider.getProductListByBarcode(text).addSnapshotListener{ querySnapshot, error ->
+
+            if(querySnapshot!!.isEmpty)
+            {
+                android.util.Log.e("TAG","QUERY BARCODE VACIO")
+
+            }else
+            {
+                productList.clear() // limpiamos los campos
+
+                for (productsnaptshot in  querySnapshot.documents)
+                {
+                    val product = productsnaptshot.toObject<Product>()
+
+                    productList.add(product!!)
+                }
+
+                //fill Recycler view
+                binding.recyclerViewProducts.adapter = ProductAdapter(productList, requireContext())
+            }
+
+            if(querySnapshot.size() > 0)
+            {
+                android.util.Log.e("TAG","QUERY SNAPTSHOT CANTIDAD: ${querySnapshot.size()}")
+            }
+
+        }
+
 
     }
 
