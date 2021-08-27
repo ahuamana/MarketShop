@@ -363,8 +363,8 @@ class ProductDetailsActivity : AppCompatActivity() {
     //Update on XML data
     fun setNameNew(nameNew: String)
     {
-        binding.textViewName.setText(nameNew)
-        mProduct.name = nameNew
+        binding.textViewName.setText(nameNew.lowercase())
+        mProduct.name = nameNew.lowercase()
 
         Log.i("TAG","NOMBRE ASIGNADO: ${mProduct.name}")
     }

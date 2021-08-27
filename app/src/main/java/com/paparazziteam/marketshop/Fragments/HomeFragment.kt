@@ -131,7 +131,7 @@ class HomeFragment : Fragment() {
             }
             override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
                 android.util.Log.d("LOG_TAG", " text changed " + binding.searchProduct.getText())
-                updateSearchData(binding.searchProduct.getText())
+                updateSearchData(binding.searchProduct.getText().lowercase())
             }
 
             override fun afterTextChanged(editable: Editable) {
