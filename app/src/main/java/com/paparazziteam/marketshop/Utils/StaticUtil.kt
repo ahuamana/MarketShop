@@ -34,6 +34,22 @@ class StaticUtil {
 
         }
 
+        fun replaceFirstCharInSequenceToUppercase(text: String): String
+        {
+
+            val words = text.split(' ');
+            var subString = words.joinToString(" ") { word ->
+                word.replaceFirstChar {
+                    it.uppercase()
+                }
+
+            }
+
+            return subString
+
+
+        }
+
 
     }
 

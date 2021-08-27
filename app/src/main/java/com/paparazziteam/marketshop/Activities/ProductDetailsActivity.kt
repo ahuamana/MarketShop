@@ -21,6 +21,7 @@ import com.paparazziteam.marketshop.Models.Product
 import com.paparazziteam.marketshop.Providers.ImageProvider
 import com.paparazziteam.marketshop.Providers.ProductProvider
 import com.paparazziteam.marketshop.R
+import com.paparazziteam.marketshop.Utils.StaticUtil
 import com.paparazziteam.marketshop.databinding.ActivityProductDetailsBinding
 import io.ak1.pix.helpers.PixEventCallback
 import io.ak1.pix.helpers.addPixToActivity
@@ -364,7 +365,7 @@ class ProductDetailsActivity : AppCompatActivity() {
     fun setNameNew(nameNew: String)
     {
         binding.textViewName.setText(nameNew)
-        mProduct.name = nameNew
+        mProduct.name = nameNew.lowercase()
 
         Log.i("TAG","NOMBRE ASIGNADO: ${mProduct.name}")
     }
@@ -394,7 +395,7 @@ class ProductDetailsActivity : AppCompatActivity() {
         if(!mProduct.name.equals("null"))
         {
 
-            binding.textViewName.text = mProduct.name
+            binding.textViewName.text = StaticUtil.replaceFirstCharInSequenceToUppercase(mProduct.name)
         }
 
         var precio = intent.getStringExtra("PRECIO").toString()
