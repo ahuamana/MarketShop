@@ -93,6 +93,7 @@ class HomeFragment : Fragment() {
         if(mListener != null)
         {
             mListener.remove()
+            binding.recyclerViewProducts.adapter = null
         }
     }
 

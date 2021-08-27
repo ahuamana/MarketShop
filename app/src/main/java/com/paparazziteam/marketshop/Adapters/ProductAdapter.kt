@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.paparazziteam.marketshop.Models.Product
 import com.paparazziteam.marketshop.R
+import com.paparazziteam.marketshop.Utils.StaticUtil
 import com.paparazziteam.marketshop.databinding.CardviewProductBinding
 
 
@@ -43,7 +44,9 @@ class ProductAdapter(producList: ArrayList<Product>, context:Context) : Recycler
 
         fun bind(item:Product, context: Context)
         {
-            binding.productName.text = item.name
+            var new =StaticUtil.replaceFirstCharInSequenceToUppercase(item.name)
+            binding.productName.text = new
+
             binding.productBarcode.text = item.barcode
             binding.productPrice.text = item.precioUnitario.toString()
 
