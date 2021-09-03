@@ -31,6 +31,8 @@ class LoginActivity : AppCompatActivity() {
 
         binding.loginEmail.setOnClickListener {
 
+            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+            startActivity(intent)
         }
 
     }
