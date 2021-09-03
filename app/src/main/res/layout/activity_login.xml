@@ -142,7 +142,7 @@
             android:gravity="center"
             android:textStyle="bold"
             android:textColor="@color/white"
-            android:text="Find your ideal work"
+            android:text="@string/find_title"
             android:layout_marginTop="80dp"/>
 
         <LinearLayout
@@ -162,13 +162,13 @@
                     android:padding="13dp"
                     android:gravity="center"
                     android:background="@drawable/rounded_button_normal"
-                    android:backgroundTint="@color/colorPrimary"
+                    android:backgroundTint="@color/colorGray"
                     android:orientation="horizontal">
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/ic_email"/>
+                        android:src="@drawable/ic_profile_white"/>
 
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
@@ -177,7 +177,7 @@
                         android:textColor="@color/white"
                         android:layout_marginLeft="10dp"
                         android:layout_gravity="center_vertical"
-                        android:text="Continue with email"/>
+                        android:text="@string/continua_anonimo"/>
                 </LinearLayout>
 
 
@@ -201,64 +201,25 @@
                 android:padding="13dp"
                 android:gravity="center"
                 android:background="@drawable/rounded_button_normal"
-                android:backgroundTint="@color/white"
+                android:backgroundTint="@color/primaryColor"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:src="@drawable/icon_google"/>
+                    android:src="@drawable/ic_email_white"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:textColor="#004ef9"
+                    android:textColor="@color/white"
                     android:layout_marginLeft="10dp"
                     android:layout_gravity="center_vertical"
-                    android:text="Continue with Google"/>
+                    android:text="@string/continua_correo"/>
 
 
             </LinearLayout>
-
-
-        </FrameLayout>
-
-
-        <FrameLayout
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="13dp"
-                android:gravity="center"
-                android:background="@drawable/custom_button_white"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@drawable/icon_fb"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textColor="#004ef9"
-                    android:layout_marginLeft="10dp"
-                    android:layout_gravity="center_vertical"
-                    android:text="Continue with Facebook"/>
-
-
-            </LinearLayout>
-
-
-
 
 
         </FrameLayout>

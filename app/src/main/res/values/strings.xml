@@ -6,5 +6,8 @@
     <string name="username">Usuario!</string>
     <string name="profile">Perfil</string>
     <string name="app">Market Shop</string>
+    <string name="continua_correo">Continua con correo electrónico</string>
+    <string name="continua_anonimo">Continua anónimamente</string>
+    <string name="find_title">Encuentra todo lo que necesitas</string>
 
 </resources>
