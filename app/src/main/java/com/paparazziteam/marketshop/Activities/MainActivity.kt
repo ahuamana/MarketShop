@@ -1,5 +1,6 @@
 package com.paparazziteam.marketshop.Activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -93,6 +94,14 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        val intent = Intent(this@MainActivity, LoginActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+
+    }
 
 
 }
