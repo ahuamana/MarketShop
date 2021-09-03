@@ -1,5 +1,6 @@
 package com.paparazziteam.marketshop.Activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -93,6 +94,11 @@ class MainActivity : AppCompatActivity() {
     }
 
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+
+    }
 
 
 }

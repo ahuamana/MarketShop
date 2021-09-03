@@ -3,68 +3,123 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.ProfileFragment">
 
-   <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+    <FrameLayout
        android:layout_width="match_parent"
-       android:layout_marginStart="10dp"
-       android:layout_marginEnd="10dp"
-       android:layout_height="match_parent"
-       android:orientation="vertical">
+       android:layout_height="match_parent">
 
-       <com.google.android.material.textview.MaterialTextView
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:gravity="center"
-           android:textStyle="bold"
-           android:textColor="@color/black"
-           android:textSize="18dp"
-           android:text="@string/profile" />
-
-       <LinearLayout
+       <FrameLayout
            android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:layout_marginTop="15dp">
-
-           <de.hdodenhof.circleimageview.CircleImageView
-               android:layout_width="70dp"
-               android:layout_height="70dp"
-               android:src="@drawable/user_profile512"/>
+           android:background="@color/primaryColor"
+           android:layout_height="170dp">
 
            <LinearLayout
-               android:layout_width="wrap_content"
-               android:layout_weight="1"
-               android:layout_gravity="center"
-               android:layout_marginStart="15dp"
+               android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:orientation="vertical">
+               android:layout_marginTop="10dp"
+               android:layout_marginStart="10dp"
+               android:layout_marginEnd="10dp"
+               android:orientation="horizontal">
+
+               <com.google.android.material.imageview.ShapeableImageView
+                   android:layout_width="30dp"
+                   android:src="@drawable/ic_home_white"
+                   android:layout_height="30dp"/>
 
                <com.google.android.material.textview.MaterialTextView
-                   android:layout_width="wrap_content"
+                   android:layout_width="match_parent"
                    android:layout_height="wrap_content"
-                   android:textSize="20dp"
-                   android:textColor="@color/black"
-                   android:text="Nombre Apellido"/>
-
-               <com.google.android.material.textview.MaterialTextView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:textSize="15dp"
-                   android:text="Email"/>
-
+                   android:layout_gravity="center"
+                   android:textStyle="bold"
+                   android:textColor="@color/white"
+                   android:textSize="23dp"
+                   android:gravity="center"
+                   android:text="@string/profile" />
 
            </LinearLayout>
 
-       </LinearLayout>
 
-       <View
-           android:layout_width="match_parent"
-           android:layout_marginTop="30dp"
-           android:background="@color/colorGray"
-           android:layout_height="1dp"/>
+       </FrameLayout>
 
 
-   </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_marginTop="40dp"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:cardElevation="10dp"
+                android:layout_gravity="top"
+                android:layout_marginTop="50dp"
+                app:cardCornerRadius="10dp"
+                app:cardBackgroundColor="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp"
+                    android:orientation="horizontal">
+
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="150dp"
+                        android:src="@drawable/user_profile512"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="15dp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="20dp"
+                            android:textColor="@color/black"
+                            android:text="Nombre Apellido"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="15dp"
+                            android:text="Email"/>
+
+
+                    </LinearLayout>
+
+
+
+                </LinearLayout>
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+        </LinearLayout>
+
+
+
+
+
+
+
+   </FrameLayout>
+
+    </LinearLayout>
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

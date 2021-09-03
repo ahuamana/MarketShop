@@ -157,6 +157,7 @@
                 android:layout_height="match_parent">
 
                 <LinearLayout
+                    android:id="@+id/login_anonymous"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="13dp"
@@ -196,6 +197,7 @@
 
 
             <LinearLayout
+                android:id="@+id/login_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="13dp"

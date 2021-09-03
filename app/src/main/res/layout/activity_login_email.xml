@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.LoginEmailActivity">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circular_imageview_back"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="15dp"
+        android:layout_width="35dp"
+        android:src="@drawable/ic_back_white"
+        app:civ_circle_background_color="@color/primaryColor"
+        app:civ_border_color="@color/primaryColor"
+        app:civ_border_width="10dp"
+        android:layout_height="35dp"/>
+
+    <LinearLayout
+
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
+
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:src="@mipmap/ic_launcher_circular"
+            android:layout_gravity="center"
+            android:layout_height="200dp"/>
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:fontFamily="sans-serif-medium"
+            android:layout_marginBottom="30dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="BIENVENIDO"
+            android:textSize="25dp"/>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/BElastname"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edittext"
+                android:backgroundTint="@color/colorGrayLight"
+                android:hint="Apellidos"
+                android:digits="abcdefghijklmnñopqrstuvwxyz0123456789 "
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:singleLine="true"
+                android:textColor="@color/primaryColor"
+                android:textColorHint="#9A9797"
+                android:textSize="15dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/BEemail"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_edittext"
+                android:backgroundTint="@color/colorGrayLight"
+                android:hint="Correo electrónico"
+                android:inputType="textEmailAddress"
+                android:paddingStart="20dp"
+                android:digits="abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXY0123456789@_.- "
+                android:paddingEnd="20dp"
+                android:singleLine="true"
+                android:textColor="@color/primaryColor"
+                android:textColorHint="#9A9797"
+                android:textSize="15dp"/>
+
+        </LinearLayout>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnbegining"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/rounded_button_normal"
+            app:backgroundTint="@color/primaryColor"
+            android:scrollHorizontally="true"
+            android:text="Ingresar"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/white" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/BEtxtcontactSupport"
+            android:layout_width="wrap_content"
+            android:textColor="@color/colorGray"
+            android:text="Contacte soporte si no puedes ingresar"
+            android:layout_gravity="center"
+            android:layout_marginBottom="30dp"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
