@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:src="@mipmap/ic_launcher_circular"
             android:layout_gravity="center"
-            android:layout_height="200dp"></com.google.android.material.imageview.ShapeableImageView>
+            android:layout_height="200dp"/>
 
 
         <com.google.android.material.textview.MaterialTextView
@@ -40,6 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
+            android:fontFamily="sans-serif-medium"
             android:layout_marginBottom="30dp"
             android:gravity="center_vertical|center_horizontal"
             android:text="BIENVENIDO"
@@ -60,6 +61,7 @@
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:background="@drawable/custom_edittext"
+                android:backgroundTint="@color/colorGrayLight"
                 android:hint="Apellidos"
                 android:digits="abcdefghijklmnñopqrstuvwxyz0123456789 "
                 android:paddingStart="20dp"
@@ -78,12 +80,13 @@
             android:layout_marginBottom="10dp"
             android:orientation="horizontal">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/BEemail"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:background="@drawable/custom_edittext"
+                android:backgroundTint="@color/colorGrayLight"
                 android:hint="Correo electrónico"
                 android:inputType="textEmailAddress"
                 android:paddingStart="20dp"
@@ -92,13 +95,12 @@
                 android:singleLine="true"
                 android:textColor="@color/primaryColor"
                 android:textColorHint="#9A9797"
-                android:textSize="15dp"></EditText>
+                android:textSize="15dp"/>
+
         </LinearLayout>
 
 
-
-
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnbegining"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -108,17 +110,17 @@
             android:scrollHorizontally="true"
             android:text="Ingresar"
             android:layout_marginBottom="30dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:textColor="@color/white" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/BEtxtcontactSupport"
             android:layout_width="wrap_content"
             android:textColor="@color/colorGray"
             android:text="Contacte soporte si no puedes ingresar"
             android:layout_gravity="center"
             android:layout_marginBottom="30dp"
-            android:layout_height="wrap_content"></TextView>
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
 
