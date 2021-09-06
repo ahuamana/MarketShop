@@ -17,7 +17,39 @@ class LoginEmailActivity : AppCompatActivity() {
         setContentView(view)
 
 
+        setOnClickListener()
 
+
+
+
+    }
+
+    private fun setOnClickListener() {
+
+        binding.circularImageviewBack.setOnClickListener {
+            finish()
+        }
+
+        binding.btnLogin.setOnClickListener {
+
+            checkIfuserExist()
+
+        }
+
+    }
+
+    private fun checkIfuserExist() {
+
+        var user = binding.editextEmail.text.toString()
+        var pass = binding.edittextPassword.text.toString()
+
+        if(user != null)
+        {
+            if(!user.equals(""))
+            {
+
+            }
+        }
 
     }
 }

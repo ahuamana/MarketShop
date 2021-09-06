@@ -11,6 +11,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginStart="15dp"
         android:layout_width="35dp"
+        android:clickable="true"
         android:src="@drawable/ic_back_white"
         app:civ_circle_background_color="@color/primaryColor"
         app:civ_border_color="@color/primaryColor"
@@ -56,13 +57,14 @@
             android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/BElastname"
+                android:id="@+id/editext_email"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:background="@drawable/custom_edittext"
                 android:backgroundTint="@color/colorGrayLight"
-                android:hint="Apellidos"
+                android:hint="Correo electrónico"
+                android:inputType="textEmailAddress"
                 android:digits="abcdefghijklmnñopqrstuvwxyz0123456789 "
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
@@ -81,14 +83,14 @@
             android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/BEemail"
+                android:id="@+id/edittext_password"
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_weight="1"
                 android:background="@drawable/custom_edittext"
                 android:backgroundTint="@color/colorGrayLight"
-                android:hint="Correo electrónico"
-                android:inputType="textEmailAddress"
+                android:hint="Contraseña"
+                android:inputType="textVisiblePassword"
                 android:paddingStart="20dp"
                 android:digits="abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXY0123456789@_.- "
                 android:paddingEnd="20dp"
@@ -101,7 +103,7 @@
 
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnbegining"
+            android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -114,7 +116,7 @@
             android:textColor="@color/white" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/BEtxtcontactSupport"
+            android:id="@+id/textview_contact_support"
             android:layout_width="wrap_content"
             android:textColor="@color/colorGray"
             android:text="Contacte soporte si no puedes ingresar"
