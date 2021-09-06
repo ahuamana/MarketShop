@@ -18,11 +18,15 @@ import com.paparazziteam.marketshop.databinding.FragmentHomeBinding
 import android.text.Editable
 
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.Toast
+import com.paparazziteam.marketshop.Providers.UserProvider
 import com.paparazziteam.marketshop.Utils.StaticUtil
 
 
 class HomeFragment : Fragment() {
+
+    var mUser = UserProvider()
 
     var _binding:FragmentHomeBinding ? = null
     private val binding get() = _binding!!
@@ -33,7 +37,37 @@ class HomeFragment : Fragment() {
     private lateinit var productList:ArrayList<Product>
 
     private lateinit var mListener: ListenerRegistration
-   
+
+    var emailReceiver = ""
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        arguments?.let {
+            emailReceiver = it.getString("username")!!
+        }
+
+
+
+    }
+
+    private fun getUserInfo() {
+
+        mUser.getUserInfo(emailReceiver).get().addOnSuccessListener {
+            if(it.exists())
+            {
+                var name= it.data!!.get("nombre")
+                binding.username.setText(name.toString())
+
+            }else
+            {
+                Log.e("DATA","Username data no existe")
+            }
+        }
+
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,6 +77,7 @@ class HomeFragment : Fragment() {
         var view = binding.root
 
         //Code Here
+
 
         mLinearLayoutManager = LinearLayoutManager(context)
         mLinearLayoutManager!!.stackFromEnd = true
@@ -55,7 +90,7 @@ class HomeFragment : Fragment() {
 
         getProducts()
 
-
+        getUserInfo()
 
         return view
     }
@@ -224,6 +259,14 @@ class HomeFragment : Fragment() {
         fun newInstance() =
             HomeFragment().apply {
                 arguments = Bundle().apply {  }
+            }
+
+        @JvmStatic
+        fun newInstance(email:String) =
+            HomeFragment().apply {
+                arguments = Bundle().apply {
+                    putString("username",email)
+                }
             }
     }
 
