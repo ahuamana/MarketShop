@@ -15,8 +15,7 @@ import com.paparazziteam.marketshop.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-
-
+    var email = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,13 +24,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
         //Your Code Here
 
+        email = intent.extras!!["username"].toString()
+
         setBotomNavigation()
 
     }
 
     fun setBotomNavigation()
     {
-        addFragment(HomeFragment.newInstance())
+        addFragment(HomeFragment.newInstance(email))
 
         with(binding.bottomNavigation) {
             this?.add(MeowBottomNavigation.Model(1, R.drawable.ic_home))
@@ -44,8 +45,9 @@ class MainActivity : AppCompatActivity() {
             when(it.id)
             {
                 1 -> {
+
                     android.util.Log.d("CLICKED","HOME")
-                    replaceFragment(HomeFragment.newInstance())
+                    replaceFragment(HomeFragment.newInstance(email))
                 }
 
                 2 -> {

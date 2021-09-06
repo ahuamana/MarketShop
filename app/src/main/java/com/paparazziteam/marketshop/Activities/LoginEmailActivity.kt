@@ -1,5 +1,6 @@
 package com.paparazziteam.marketshop.Activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -96,10 +97,14 @@ class LoginEmailActivity : AppCompatActivity() {
 
         mAuth.login(user, pass).addOnCompleteListener { task->
             if (task.isSuccessful) {
-                // Sign in success, update UI with the signed-in user's information
+
                 Log.e("TAG", "Iniciando Session!")
-                //val user = auth.currentUser
-                //updateUI(user)
+                var intent = Intent(this@LoginEmailActivity,MainActivity::class.java).apply {
+                 putExtra("username",user)
+                }
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+                startActivity(intent)
+
             } else {
                 // If sign in fails, display a message to the user.
                 Log.w("TAG", "signInWithEmail:failure", task.exception)

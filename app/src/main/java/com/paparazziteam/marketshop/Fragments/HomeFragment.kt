@@ -18,6 +18,7 @@ import com.paparazziteam.marketshop.databinding.FragmentHomeBinding
 import android.text.Editable
 
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.Toast
 import com.paparazziteam.marketshop.Utils.StaticUtil
 
@@ -33,7 +34,10 @@ class HomeFragment : Fragment() {
     private lateinit var productList:ArrayList<Product>
 
     private lateinit var mListener: ListenerRegistration
-   
+
+    var emailRecivier = ""
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,7 +52,9 @@ class HomeFragment : Fragment() {
         mLinearLayoutManager!!.stackFromEnd = true
         binding.recyclerViewProducts.layoutManager = mLinearLayoutManager
 
-
+        arguments?.let {
+               Log.e("USERNAME",""+ it.getString("username"))
+        }
 
 
         setOnclickListeners()
@@ -224,6 +230,14 @@ class HomeFragment : Fragment() {
         fun newInstance() =
             HomeFragment().apply {
                 arguments = Bundle().apply {  }
+            }
+
+        @JvmStatic
+        fun newInstance(email:String) =
+            HomeFragment().apply {
+                arguments = Bundle().apply {
+                    putString("username",email)
+                }
             }
     }
 

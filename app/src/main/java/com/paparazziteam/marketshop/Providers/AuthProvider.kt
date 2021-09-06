@@ -6,7 +6,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 class AuthProvider {
 
-    private lateinit var mAuth: FirebaseAuth
+    var mAuth: FirebaseAuth
 
     init {
         mAuth = FirebaseAuth.getInstance()
