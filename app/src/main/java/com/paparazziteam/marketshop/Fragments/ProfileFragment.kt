@@ -36,5 +36,13 @@ class ProfileFragment : Fragment() {
             ProfileFragment().apply {
                 arguments = Bundle().apply {  }
             }
+
+        @JvmStatic
+        fun newInstance(email:String) =
+            ProfileFragment().apply {
+                arguments = Bundle().apply {
+                    putString("username",email)
+                }
+            }
     }
 }
