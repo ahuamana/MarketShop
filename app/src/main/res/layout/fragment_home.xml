@@ -49,6 +49,7 @@
                             android:text="@string/emoji_hand"/>
 
                         <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/username"
                             android:layout_width="wrap_content"
                             android:textColor="@color/white"
                             android:layout_marginTop="5dp"

@@ -20,10 +20,13 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.Toast
+import com.paparazziteam.marketshop.Providers.UserProvider
 import com.paparazziteam.marketshop.Utils.StaticUtil
 
 
 class HomeFragment : Fragment() {
+
+    var mUser = UserProvider()
 
     var _binding:FragmentHomeBinding ? = null
     private val binding get() = _binding!!
@@ -35,8 +38,35 @@ class HomeFragment : Fragment() {
 
     private lateinit var mListener: ListenerRegistration
 
-    var emailRecivier = ""
+    var emailReceiver = ""
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        arguments?.let {
+            emailReceiver = it.getString("username")!!
+        }
+
+
+
+    }
+
+    private fun getUserInfo() {
+
+        mUser.getUserInfo(emailReceiver).get().addOnSuccessListener {
+            if(it.exists())
+            {
+                var name= it.data!!.get("nombre")
+                binding.username.setText(name.toString())
+
+            }else
+            {
+                Log.e("DATA","Username data no existe")
+            }
+        }
+
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,20 +78,19 @@ class HomeFragment : Fragment() {
 
         //Code Here
 
+
         mLinearLayoutManager = LinearLayoutManager(context)
         mLinearLayoutManager!!.stackFromEnd = true
         binding.recyclerViewProducts.layoutManager = mLinearLayoutManager
 
-        arguments?.let {
-               Log.e("USERNAME",""+ it.getString("username"))
-        }
+
 
 
         setOnclickListeners()
 
         getProducts()
 
-
+        getUserInfo()
 
         return view
     }

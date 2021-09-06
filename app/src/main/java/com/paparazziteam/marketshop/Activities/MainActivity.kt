@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
 
     fun setBotomNavigation()
     {
+        //first time added home fragment
         addFragment(HomeFragment.newInstance(email))
 
         with(binding.bottomNavigation) {
