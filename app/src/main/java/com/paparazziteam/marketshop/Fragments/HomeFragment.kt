@@ -1,5 +1,6 @@
 package com.paparazziteam.marketshop.Fragments
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -47,22 +48,33 @@ class HomeFragment : Fragment() {
             emailReceiver = it.getString("username")!!
         }
 
-
+        getUserInfo()
 
     }
 
     private fun getUserInfo() {
+
+        var mDialog: ProgressDialog? = null
+        mDialog= ProgressDialog(context)
+        mDialog!!.setTitle("Espere un momento")
+        mDialog!!.setMessage("Cargando Información")
+        mDialog.show()
 
         mUser.getUserInfo(emailReceiver).get().addOnSuccessListener {
             if(it.exists())
             {
                 var name= it.data!!.get("nombre")
                 binding.username.setText(name.toString())
+                mDialog.dismiss()
 
             }else
             {
                 Log.e("DATA","Username data no existe")
+                mDialog.dismiss()
             }
+        }.addOnFailureListener{
+            Log.e("DATA","Error al cargar datos")
+            mDialog.dismiss()
         }
 
 
@@ -90,7 +102,7 @@ class HomeFragment : Fragment() {
 
         getProducts()
 
-        getUserInfo()
+
 
         return view
     }
