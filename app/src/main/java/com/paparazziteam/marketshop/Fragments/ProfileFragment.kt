@@ -1,10 +1,13 @@
 package com.paparazziteam.marketshop.Fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import com.paparazziteam.marketshop.Providers.AuthProvider
 import com.paparazziteam.marketshop.R
 import com.paparazziteam.marketshop.databinding.FragmentProfileBinding
 
@@ -14,6 +17,7 @@ class ProfileFragment : Fragment() {
     var _binding:FragmentProfileBinding ? = null
     private val binding get() = _binding!!
 
+    var mAuth = AuthProvider()
     
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,9 +28,25 @@ class ProfileFragment : Fragment() {
 
         //All your code here
 
+        setOnClickListener()
 
 
         return view
+    }
+
+    private fun setOnClickListener() {
+
+        binding.linearLayoutSalir.setOnClickListener {
+
+            if(mAuth.mAuth.currentUser != null)
+            {
+                mAuth.mAuth.signOut()
+                Toast.makeText(context,"Session Cerrada, Exitosamente",Toast.LENGTH_SHORT).show()
+
+            }
+        }
+
+
     }
 
 
