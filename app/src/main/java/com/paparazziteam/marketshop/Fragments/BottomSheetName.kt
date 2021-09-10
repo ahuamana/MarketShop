@@ -41,7 +41,9 @@ class BottomSheetName : BottomSheetDialogFragment() {
     private fun setOnclickListeners() {
 
 
-
+        binding.imageViewTrash.setOnClickListener {
+            binding.editTextName.setText("")
+        }
 
 
         binding.btnSave.setOnClickListener{

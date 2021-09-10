@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.paparazziteam.marketshop.Fragments.BottomSheetName
 import com.paparazziteam.marketshop.Fragments.BottomSheetPrecio
 import com.paparazziteam.marketshop.Models.Product
+import com.paparazziteam.marketshop.Providers.AuthProvider
 import com.paparazziteam.marketshop.Providers.ImageProvider
 import com.paparazziteam.marketshop.Providers.ProductProvider
 import com.paparazziteam.marketshop.R
@@ -50,6 +51,7 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     var dataExiste: String ? = null
 
+    var mAuth = AuthProvider()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -348,6 +350,9 @@ class ProductDetailsActivity : AppCompatActivity() {
                 mDialog!!.dismiss()
                 Toast.makeText(applicationContext,"Creado en la base de datos correctamente!",Toast.LENGTH_SHORT).show()
                 Log.i("TAG","id creado: true")
+
+                finish() // finish activity
+
             }else
             {
                 Log.i("TAG","id creado: false")

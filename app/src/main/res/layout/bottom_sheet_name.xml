@@ -10,19 +10,34 @@
         android:orientation="vertical"
         android:layout_margin="20dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Escribe un nombre"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            android:layout_marginLeft="3dp"/>
+            android:orientation="horizontal">
 
-        <EditText
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:text="Escribe un nombre"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_marginLeft="3dp"/>
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imageViewTrash"
+                android:layout_width="25dp"
+                android:src="@drawable/ic_trash"
+                android:layout_height="25dp"/>
+
+        </LinearLayout>
+
+
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextName"
             android:layout_width="match_parent"
-            android:inputType="text"
             android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 "
             android:layout_height="wrap_content"/>
 
@@ -33,7 +48,7 @@
             android:gravity="end"
             android:layout_marginTop="10dp">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnCancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -41,7 +56,7 @@
                 android:textColor="@color/primaryColorDark"
                 android:background="@android:color/transparent"/>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
