@@ -23,7 +23,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
         //Your Code Here
 
-        email = intent.extras!!["username"].toString()
+
+        var userReceiver = intent.extras!!["username"].toString()
+
+        if(userReceiver.equals(""))
+        {
+            email = "Usuario!"
+        }else
+        {
+            email = userReceiver
+        }
 
         setBotomNavigation()
 
