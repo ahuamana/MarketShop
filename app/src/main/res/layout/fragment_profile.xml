@@ -11,184 +11,187 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-    <FrameLayout
-       android:layout_width="match_parent"
-       android:layout_height="match_parent">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-       <FrameLayout
-           android:layout_width="match_parent"
-           android:background="@color/primaryColor"
-           android:layout_height="170dp">
-
-           <LinearLayout
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_marginTop="10dp"
-               android:layout_marginStart="10dp"
-               android:layout_marginEnd="10dp"
-               android:orientation="horizontal">
-
-               <com.google.android.material.imageview.ShapeableImageView
-                   android:layout_width="30dp"
-                   android:src="@drawable/ic_home_white"
-                   android:layout_height="30dp"/>
-
-               <com.google.android.material.textview.MaterialTextView
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:layout_gravity="center"
-                   android:textStyle="bold"
-                   android:textColor="@color/white"
-                   android:textSize="23dp"
-                   android:gravity="center"
-                   android:text="@string/profile" />
-
-           </LinearLayout>
-
-
-       </FrameLayout>
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_marginTop="40dp"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.card.MaterialCardView
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                app:cardElevation="10dp"
-                android:layout_gravity="top"
-                android:layout_marginTop="50dp"
-                app:cardCornerRadius="10dp"
-                app:cardBackgroundColor="@color/white">
+                android:background="@color/primaryColor"
+                android:layout_height="170dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
                     android:orientation="horizontal">
 
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:layout_width="30dp"
+                        android:src="@drawable/ic_home_white"
+                        android:layout_height="30dp"/>
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="150dp"
-                        android:src="@drawable/user_profile512"/>
+                    <com.google.android.material.textview.MaterialTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/white"
+                        android:textSize="23dp"
+                        android:gravity="center"
+                        android:text="@string/profile" />
+
+                </LinearLayout>
+
+
+            </FrameLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_marginTop="40dp"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    app:cardElevation="10dp"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="50dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardBackgroundColor="@color/white">
 
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="15dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:padding="20dp"
+                        android:orientation="horizontal">
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="20dp"
-                            android:textColor="@color/black"
-                            android:text="Nombre Apellido"/>
 
-                        <com.google.android.material.textview.MaterialTextView
-                            android:layout_width="wrap_content"
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="150dp"
+                            android:src="@drawable/user_profile512"/>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="15dp"
                             android:layout_height="wrap_content"
-                            android:textSize="15dp"
-                            android:text="Email"/>
+                            android:orientation="vertical">
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/fullname"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="15dp"
+                                android:textColor="@color/black"
+                                android:text="Nombre Apellido"/>
+
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/emailMain"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="15dp"
+                                android:text="Email"/>
+
+
+                        </LinearLayout>
+
 
 
                     </LinearLayout>
 
 
-
-                </LinearLayout>
-
-
-            </com.google.android.material.card.MaterialCardView>
+                </com.google.android.material.card.MaterialCardView>
 
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                app:cardElevation="10dp"
-                android:layout_gravity="top"
-                android:layout_marginTop="50dp"
-                app:cardCornerRadius="10dp"
-                app:cardBackgroundColor="@color/white">
-
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="20dp"
-                    android:orientation="horizontal">
+                    android:layout_margin="10dp"
+                    app:cardElevation="10dp"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="50dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardBackgroundColor="@color/white">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:src="@drawable/ic_email_primary_color"/>
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_marginStart="10dp"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:textSize="15dp"
-                        android:text="Email"/>
+                        android:padding="20dp"
+                        android:orientation="horizontal">
 
-                </LinearLayout>
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/ic_email_primary_color"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/email"
+                            android:layout_marginStart="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:textSize="15dp"
+                            android:text="Email"/>
+
+                    </LinearLayout>
 
 
-            </com.google.android.material.card.MaterialCardView>
+                </com.google.android.material.card.MaterialCardView>
 
 
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="20dp"
-                app:cardElevation="10dp"
-                android:layout_gravity="top"
-
-                app:cardCornerRadius="10dp"
-                app:cardBackgroundColor="@color/white">
-
-                <LinearLayout
-                    android:id="@+id/linearLayoutSalir"
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="20dp"
-                    android:orientation="horizontal">
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    app:cardElevation="10dp"
+                    android:layout_gravity="top"
 
-                    <de.hdodenhof.circleimageview.CircleImageView
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:src="@drawable/ic_power_red"/>
+                    app:cardCornerRadius="10dp"
+                    app:cardBackgroundColor="@color/white">
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_marginStart="10dp"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/linearLayoutSalir"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:textSize="15dp"
-                        android:text="Salir"/>
+                        android:padding="20dp"
+                        android:orientation="horizontal">
 
-                </LinearLayout>
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:src="@drawable/ic_power_red"/>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_marginStart="10dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:textSize="15dp"
+                            android:text="Salir"/>
+
+                    </LinearLayout>
 
 
-            </com.google.android.material.card.MaterialCardView>
+                </com.google.android.material.card.MaterialCardView>
 
 
 
-        </LinearLayout>
+            </LinearLayout>
 
 
 
@@ -196,7 +199,7 @@
 
 
 
-   </FrameLayout>
+        </FrameLayout>
 
     </LinearLayout>
 
