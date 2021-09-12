@@ -30,9 +30,13 @@ class ProfileFragment : Fragment() {
 
         setOnClickListener()
 
-        getUserInfo
+        getUserInfo()
 
         return view
+    }
+
+    private fun getUserInfo() {
+
     }
 
     private fun setOnClickListener() {
