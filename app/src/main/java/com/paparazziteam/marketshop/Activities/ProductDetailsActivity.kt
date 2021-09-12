@@ -51,7 +51,7 @@ class ProductDetailsActivity : AppCompatActivity() {
 
     var dataExiste: String ? = null
 
-    var mAuth = AuthProvider()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -30,6 +30,7 @@ class ProfileFragment : Fragment() {
 
         setOnClickListener()
 
+        getUserInfo
 
         return view
     }
