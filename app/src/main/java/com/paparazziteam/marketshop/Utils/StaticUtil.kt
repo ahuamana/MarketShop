@@ -21,7 +21,7 @@ class StaticUtil {
         fun replaceFirstCharInSequenceToLowecase(text: String): String
         {
 
-            val words = text.split(' ');
+            val words = text.split(' ')
             var subString = words.joinToString("_") { word ->
                 word.replaceFirstChar {
                     it.lowercase()
