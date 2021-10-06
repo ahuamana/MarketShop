@@ -13,8 +13,8 @@ android {
         applicationId "com.paparazziteam.marketshop"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode 7
+        versionName "2.7"
         vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

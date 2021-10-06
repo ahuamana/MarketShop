@@ -75,6 +75,7 @@ class ProductDetailsActivity : AppCompatActivity() {
         binding.backImage.setOnClickListener(View.OnClickListener {
 
             val intent: Intent = Intent(baseContext, MainActivity::class.java).apply{
+                putExtra("username","")
 
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK) //Eliminar actividades que quedaron atras
@@ -507,13 +508,14 @@ class ProductDetailsActivity : AppCompatActivity() {
                 putExtra("NOMBRE",binding.textViewName.text.toString())
                 putExtra("PRECIO",binding.textViewPrecio.text)
                 putExtra("EXISTE",dataExiste)
+
             }
             startActivity(intent)
 
         }else
         {
             val intent: Intent = Intent(baseContext, MainActivity::class.java).apply{
-
+                putExtra("username","")
             }
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK) //Eliminar actividades que quedaron atras
             startActivity(intent)
