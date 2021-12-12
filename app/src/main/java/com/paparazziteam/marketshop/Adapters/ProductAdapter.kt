@@ -46,7 +46,6 @@ class ProductAdapter(producList: ArrayList<Product>, context:Context) : Recycler
         {
             var new =StaticUtil.replaceFirstCharInSequenceToUppercase(item.name)
             binding.productName.text = new
-
             binding.productBarcode.text = item.barcode
             binding.productPrice.text = item.precioUnitario.toString()
 
