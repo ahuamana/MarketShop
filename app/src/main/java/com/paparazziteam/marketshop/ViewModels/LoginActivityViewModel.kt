@@ -9,16 +9,17 @@ import com.paparazziteam.marketshop.Activities.MainActivity
 import com.paparazziteam.marketshop.Providers.AuthProvider
 import com.paparazziteam.marketshop.databinding.ActivityLoginBinding
 
-class LoginActivityViewModel(private var mAuthProvider: AuthProvider,private val context: Context,private val binding: ActivityLoginBinding) :ViewModel() {
+class LoginActivityViewModel(private val context: Context,private val binding: ActivityLoginBinding) :ViewModel() {
 
 
     init {
+        mAuth = AuthProvider()
         clickListeners()
     }
 
     fun checkUserLoginAlready()
     {
-        val currentUser =  mAuthProvider.mAuth.currentUser
+        val currentUser =  mAuth.mAuth.currentUser
 
         if(currentUser != null)
         {
@@ -49,6 +50,10 @@ class LoginActivityViewModel(private var mAuthProvider: AuthProvider,private val
                 context.startActivity(intent)
             }
 
+    }
+
+    companion object{
+        private lateinit var mAuth:AuthProvider
     }
 
 }

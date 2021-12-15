@@ -12,10 +12,9 @@ import com.paparazziteam.marketshop.databinding.ActivityLoginBinding
 
 class LoginActivity : AppCompatActivity() {
 
-    var mAuth = AuthProvider()
     lateinit var viewModel: LoginActivityViewModel
-
     private lateinit var binding: ActivityLoginBinding
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,7 +22,7 @@ class LoginActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        viewModel = LoginActivityViewModel(mAuth,this@LoginActivity, binding)
+        viewModel = LoginActivityViewModel(this@LoginActivity, binding)
 
     }
 
