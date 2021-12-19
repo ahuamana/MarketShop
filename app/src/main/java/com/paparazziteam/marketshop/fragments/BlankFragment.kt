@@ -1,4 +1,4 @@
-package com.paparazziteam.marketshop.Fragments
+package com.paparazziteam.marketshop.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

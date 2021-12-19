@@ -1,7 +1,6 @@
-package com.paparazziteam.marketshop.Fragments
+package com.paparazziteam.marketshop.fragments
 
 import android.app.ProgressDialog
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,10 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.paparazziteam.marketshop.Providers.AuthProvider
-import com.paparazziteam.marketshop.Providers.UserProvider
-import com.paparazziteam.marketshop.R
-import com.paparazziteam.marketshop.Utils.StaticUtil
+import com.paparazziteam.marketshop.providers.AuthProvider
+import com.paparazziteam.marketshop.providers.UserProvider
+import com.paparazziteam.marketshop.utils.StaticUtil
 import com.paparazziteam.marketshop.databinding.FragmentProfileBinding
 
 

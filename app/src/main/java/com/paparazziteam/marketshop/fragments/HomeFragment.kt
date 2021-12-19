@@ -1,4 +1,4 @@
-package com.paparazziteam.marketshop.Fragments
+package com.paparazziteam.marketshop.fragments
 
 import android.app.ProgressDialog
 import android.os.Bundle
@@ -9,20 +9,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.toObject
-import com.mancj.materialsearchbar.MaterialSearchBar
 import com.mancj.materialsearchbar.MaterialSearchBar.OnSearchActionListener
-import com.paparazziteam.marketshop.Adapters.ProductAdapter
-import com.paparazziteam.marketshop.Models.Product
-import com.paparazziteam.marketshop.Providers.ProductProvider
+import com.paparazziteam.marketshop.adapters.ProductAdapter
+import com.paparazziteam.marketshop.models.Product
+import com.paparazziteam.marketshop.providers.ProductProvider
 import com.paparazziteam.marketshop.R
 import com.paparazziteam.marketshop.databinding.FragmentHomeBinding
 import android.text.Editable
 
 import android.text.TextWatcher
 import android.util.Log
-import android.widget.Toast
-import com.paparazziteam.marketshop.Providers.UserProvider
-import com.paparazziteam.marketshop.Utils.StaticUtil
+import com.paparazziteam.marketshop.providers.UserProvider
 
 
 class HomeFragment : Fragment() {

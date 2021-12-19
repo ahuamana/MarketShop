@@ -1,4 +1,4 @@
-package com.paparazziteam.marketshop.Models
+package com.paparazziteam.marketshop.models
 
 data class Product (
 

@@ -1,4 +1,4 @@
-package com.paparazziteam.marketshop.Providers
+package com.paparazziteam.marketshop.providers
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult

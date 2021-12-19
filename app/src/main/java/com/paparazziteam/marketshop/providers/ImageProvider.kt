@@ -1,4 +1,4 @@
-package com.paparazziteam.marketshop.Providers
+package com.paparazziteam.marketshop.providers
 
 import android.content.Context
 import android.net.Uri
@@ -8,7 +8,7 @@ import com.google.firebase.appcheck.safetynet.SafetyNetAppCheckProviderFactory
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.UploadTask
-import com.paparazziteam.marketshop.Utils.CompressorBitmapImage
+import com.paparazziteam.marketshop.utils.CompressorBitmapImage
 import java.io.File
 import java.util.*
 
