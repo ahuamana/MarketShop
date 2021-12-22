@@ -2,6 +2,8 @@ package com.paparazziteam.marketshop.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.PersistableBundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation
 import com.paparazziteam.marketshop.fragments.GrabFragment
@@ -18,6 +20,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainActivityViewModel
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -25,7 +28,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
         //Your Code Here
 
-        viewModel = MainActivityViewModel(binding, this@MainActivity)
+        //Log.e("EXTRA", "${intent.getStringExtra("username")}")
+        //intent.getStringExtra("username")
+
+        viewModel = MainActivityViewModel()
 
         setBotomNavigation()
     }

@@ -1,5 +1,6 @@
 package com.paparazziteam.marketshop.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
@@ -19,16 +20,52 @@ class LoginActivity : AppCompatActivity() {
             viewmodel = _viewModel
         }
 
+        openLoginWithEmail()
+        openAnonymousPrincipal()
+
+
+        binding.loginEmail.setOnClickListener {
+            openLoginWithEmail()
+        }
+        binding.loginAnonymous.setOnClickListener {
+            openAnonymousPrincipal()
+        }
+
+
         setContentView(binding.root)
     }
 
+    fun openLoginWithEmail()
+    {
+        var i = Intent(applicationContext,LoginEmailActivity::class.java)
+        startActivity(i)
+    }
+
+    fun openAnonymousPrincipal()
+    {
+        var i = Intent(applicationContext,MainActivity::class.java).apply {
+            putExtra("username", email)
+        }
+        startActivity(i)
+    }
 
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
+         email=_viewModel.checkUserLoginAlready()
 
-        _viewModel.checkUserLoginAlready()
+        if(email!= null && !email.equals("None"))
+        {
+            openAnonymousPrincipal()
+        }else
+        {
+            android.util.Log.e("email","null")
+        }
+    }
 
+    companion object{
+
+        var email: String = "None"
     }
 }
 

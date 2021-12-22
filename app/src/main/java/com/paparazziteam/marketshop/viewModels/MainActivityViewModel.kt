@@ -5,30 +5,11 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import com.paparazziteam.marketshop.databinding.ActivityMainBinding
 
-class MainActivityViewModel(private val binding: ActivityMainBinding,private val context: Context) : ViewModel() {
+class MainActivityViewModel() : ViewModel() {
 
     init {
-
-        getExtras()
-
+        //nothing
     }
-
-    fun getExtras()
-    {
-        var userReceiver =  (context as Activity).intent.extras!!["username"].toString()
-
-        if(userReceiver.equals(""))
-        {
-            email = "Usuario!"
-        }else
-        {
-            email = userReceiver
-        }
-
-    }
-
-
-
 
     companion object{
         var email = ""

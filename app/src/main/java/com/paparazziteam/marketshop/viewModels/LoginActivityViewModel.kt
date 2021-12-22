@@ -11,34 +11,34 @@ class LoginActivityViewModel :ViewModel() {
     private val _title = MutableLiveData<String>()
     val title:LiveData<String> = _title
 
-
-
     init {
-        mAuth = AuthProvider()
+        startVariables()
         //clickListeners()
     }
 
     fun startVariables()
     {
+        mAuth = AuthProvider()
         _title.value = "Market Shop"
+
     }
 
-    fun checkUserLoginAlready()
+    fun checkUserLoginAlready() : String
     {
-        val currentUser =  mAuth.mAuth.currentUser
+        var currentUser = mAuth.mAuth.currentUser?.email
 
-        if(currentUser != null)
+        if(currentUser != null && !currentUser.equals(""))
         {
-            Log.e("TAG", "Iniciando Session!")
-            Log.e("TAG", "Email: ${currentUser.email}")
+            Log.e("viewModel_login", "Iniciando Session!")
+            Log.e("viewModel_login", "email: ${currentUser}")
 
-            /*
-            var intent = Intent(context, MainActivity::class.java).apply {
-                putExtra("username",currentUser.email)
-            }
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-            context.startActivity(intent)*/
+        }else
+        {
+            currentUser = "None"
+            Log.e("viewModel_login", ""+currentUser)
         }
+
+        return currentUser
 
     }
 

@@ -36,43 +36,52 @@ class HomeFragment : Fragment() {
 
     private lateinit var mListener: ListenerRegistration
 
-    var emailReceiver = ""
+    var extraEmail = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        arguments?.let {
-            emailReceiver = it.getString("username")!!
-        }
+        extraEmail= activity?.intent?.getStringExtra("username").toString()
 
-        getUserInfo()
 
     }
 
     private fun getUserInfo() {
 
-        var mDialog: ProgressDialog? = null
-        mDialog= ProgressDialog(context)
-        mDialog!!.setTitle("Espere un momento")
-        mDialog!!.setMessage("Cargando Información")
-        mDialog.show()
+        Log.e("DATA","Email recibido: ${extraEmail}")
 
-        mUser.getUserInfo(emailReceiver).get().addOnSuccessListener {
-            if(it.exists())
-            {
-                var name= it.data!!.get("nombre")
-                binding.username.setText(name.toString())
-                mDialog.dismiss()
 
-            }else
-            {
-                Log.e("DATA","Username data no existe")
+
+        if(!extraEmail.equals("None"))
+        {
+            val mDialog: ProgressDialog?
+            mDialog= ProgressDialog(context)
+            mDialog!!.setTitle("Espere un momento")
+            mDialog!!.setMessage("Cargando Información")
+            mDialog.show()
+
+            mUser.getUserInfo(extraEmail).get().addOnSuccessListener {
+                if(it.exists())
+                {
+                    var name= it.data!!.get("nombre")
+                    binding.username.setText(name.toString())
+                    mDialog.dismiss()
+
+                }else
+                {
+                    Log.e("DATA","Username data no existe")
+                    mDialog.dismiss()
+                }
+            }.addOnFailureListener{
+                Log.e("DATA","Error al cargar datos")
                 mDialog.dismiss()
             }
-        }.addOnFailureListener{
-            Log.e("DATA","Error al cargar datos")
-            mDialog.dismiss()
+        }else
+        {
+            //If user not log in
+            binding.username.setText("Usuario!")
         }
+
 
 
     }
@@ -92,13 +101,10 @@ class HomeFragment : Fragment() {
         mLinearLayoutManager!!.stackFromEnd = true
         binding.recyclerViewProducts.layoutManager = mLinearLayoutManager
 
-
-
-
         setOnclickListeners()
 
         getProducts()
-
+        getUserInfo()
 
 
         return view
