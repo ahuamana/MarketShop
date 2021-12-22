@@ -20,8 +20,7 @@ class LoginActivity : AppCompatActivity() {
             viewmodel = _viewModel
         }
 
-        openLoginWithEmail()
-        openAnonymousPrincipal()
+
 
 
         binding.loginEmail.setOnClickListener {
@@ -59,7 +58,7 @@ class LoginActivity : AppCompatActivity() {
             openAnonymousPrincipal()
         }else
         {
-            android.util.Log.e("email","null")
+            android.util.Log.e("login_activity","email:"+ email)
         }
     }
 
