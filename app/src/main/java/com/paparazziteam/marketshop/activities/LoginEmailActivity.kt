@@ -1,5 +1,6 @@
 package com.paparazziteam.marketshop.activities
 
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.paparazziteam.marketshop.viewModels.LoginEmailActivityViewModel
@@ -18,7 +19,19 @@ class LoginEmailActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        //all code here
         viewModel = LoginEmailActivityViewModel(binding, this@LoginEmailActivity)
+
+        binding.circularImageviewBack.setOnClickListener {
+            finish()
+        }
+
+        binding.btnLogin.setOnClickListener {
+
+            //checkIfuserExist()
+
+        }
+
 
 
     }

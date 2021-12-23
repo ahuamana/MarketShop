@@ -13,22 +13,10 @@ import com.paparazziteam.marketshop.databinding.ActivityLoginEmailBinding
 
 class LoginEmailActivityViewModel(private val binding:ActivityLoginEmailBinding,private val context: Context) : ViewModel() {
 
+
+
     init {
         mAuth= AuthProvider()
-        setOnClickListener()
-    }
-
-    private fun setOnClickListener() {
-
-        binding.circularImageviewBack.setOnClickListener {
-            (context as Activity).finish()
-        }
-
-        binding.btnLogin.setOnClickListener {
-
-            checkIfuserExist()
-
-        }
 
     }
 
@@ -36,6 +24,7 @@ class LoginEmailActivityViewModel(private val binding:ActivityLoginEmailBinding,
 
         var user = binding.editextEmail.text.toString()
         var pass = binding.edittextPassword.text.toString()
+
 
         if(user != null)
         {
