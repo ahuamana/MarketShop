@@ -1,4 +1,4 @@
-package com.paparazziteam.marketshop.Fragments
+package com.paparazziteam.marketshop.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -6,12 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.paparazziteam.marketshop.Activities.ProductDetailsActivity
+import com.paparazziteam.marketshop.activities.ProductDetailsActivity
 import com.paparazziteam.marketshop.databinding.BottomSheetPrecioBinding
-
-import android.text.InputFilter
-
-
 
 
 class BottomSheetPrecio : BottomSheetDialogFragment() {

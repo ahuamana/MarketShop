@@ -1,14 +1,13 @@
-package com.paparazziteam.marketshop.Providers
+package com.paparazziteam.marketshop.providers
 
 
 import com.google.android.gms.tasks.Task
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Query
-import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.paparazziteam.marketshop.Models.Product
+import com.paparazziteam.marketshop.models.Product
 
 
 class ProductProvider {

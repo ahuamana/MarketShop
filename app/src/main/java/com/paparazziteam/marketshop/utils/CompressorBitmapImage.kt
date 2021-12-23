@@ -1,4 +1,4 @@
-package com.paparazziteam.marketshop.Utils
+package com.paparazziteam.marketshop.utils
 
 import android.content.Context
 import android.graphics.Bitmap

@@ -1,4 +1,4 @@
-package com.paparazziteam.marketshop.ViewModels
+package com.paparazziteam.marketshop.viewModels
 
 import android.app.Activity
 import android.content.Context
@@ -6,9 +6,9 @@ import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
-import com.paparazziteam.marketshop.Activities.MainActivity
-import com.paparazziteam.marketshop.Providers.AuthProvider
-import com.paparazziteam.marketshop.Providers.UserProvider
+import com.paparazziteam.marketshop.activities.MainActivity
+import com.paparazziteam.marketshop.providers.AuthProvider
+import com.paparazziteam.marketshop.providers.UserProvider
 import com.paparazziteam.marketshop.databinding.ActivityLoginEmailBinding
 
 class LoginEmailActivityViewModel(private val binding:ActivityLoginEmailBinding,private val context: Context) : ViewModel() {

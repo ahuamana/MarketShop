@@ -17,10 +17,10 @@
         android:theme="@style/Theme.MarketShop"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".Activities.LoginEmailActivity"
+            android:name=".activities.LoginEmailActivity"
             android:exported="true" />
         <activity
-            android:name=".Activities.LoginActivity"
+            android:name=".activities.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,9 +28,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.ProductDetailsActivity"
+        <activity android:name=".activities.ProductDetailsActivity"
             android:windowSoftInputMode="stateVisible|adjustResize"/>
-        <activity android:name=".Activities.MainActivity" />
+        <activity android:name=".activities.MainActivity" />
     </application>
 
 </manifest>

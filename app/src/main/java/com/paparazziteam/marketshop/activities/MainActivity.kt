@@ -1,43 +1,45 @@
-package com.paparazziteam.marketshop.ViewModels
+package com.paparazziteam.marketshop.activities
 
-import android.app.Activity
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.os.PersistableBundle
+import android.util.Log
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation
-import com.paparazziteam.marketshop.Fragments.GrabFragment
-import com.paparazziteam.marketshop.Fragments.HomeFragment
-import com.paparazziteam.marketshop.Fragments.ProfileFragment
+import com.paparazziteam.marketshop.fragments.GrabFragment
+import com.paparazziteam.marketshop.fragments.HomeFragment
+import com.paparazziteam.marketshop.fragments.ProfileFragment
 import com.paparazziteam.marketshop.R
+import com.paparazziteam.marketshop.viewModels.MainActivityViewModel
 import com.paparazziteam.marketshop.databinding.ActivityMainBinding
 
-class MainActivityViewModel(private val binding: ActivityMainBinding,private val context: Context) : ViewModel() {
 
-    init {
+class MainActivity : AppCompatActivity() {
 
-        getExtras()
+    private lateinit var binding: ActivityMainBinding
+
+    private lateinit var viewModel: MainActivityViewModel
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+        //Your Code Here
+
+        //Log.e("EXTRA", "${intent.getStringExtra("username")}")
+        //intent.getStringExtra("username")
+
+        viewModel = MainActivityViewModel()
+
         setBotomNavigation()
-    }
-
-    fun getExtras()
-    {
-        var userReceiver =  (context as Activity).intent.extras!!["username"].toString()
-
-        if(userReceiver.equals(""))
-        {
-            email = "Usuario!"
-        }else
-        {
-            email = userReceiver
-        }
-
     }
 
     fun setBotomNavigation()
     {
         //first time added home fragment
-        addFragment(HomeFragment.newInstance(email))
+        addFragment(HomeFragment.newInstance(MainActivityViewModel.email))
 
         with(binding.bottomNavigation) {
             this?.add(MeowBottomNavigation.Model(1, R.drawable.ic_home))
@@ -52,7 +54,7 @@ class MainActivityViewModel(private val binding: ActivityMainBinding,private val
                 1 -> {
 
                     android.util.Log.d("CLICKED","HOME")
-                    replaceFragment(HomeFragment.newInstance(email))
+                    replaceFragment(HomeFragment.newInstance(MainActivityViewModel.email))
                 }
 
                 2 -> {
@@ -61,7 +63,7 @@ class MainActivityViewModel(private val binding: ActivityMainBinding,private val
                 }
                 3 -> {
                     android.util.Log.d("CLICKED","PROFILE")
-                    replaceFragment(ProfileFragment.newInstance(email))
+                    replaceFragment(ProfileFragment.newInstance(MainActivityViewModel.email))
                 }
 
 
@@ -78,7 +80,8 @@ class MainActivityViewModel(private val binding: ActivityMainBinding,private val
     //This code replace current fragment with other
     fun replaceFragment(fragment: Fragment)
     {
-        val fragmentTransition = (context as AppCompatActivity).supportFragmentManager.beginTransaction()
+        //val fragmentTransition = (context as AppCompatActivity).supportFragmentManager.beginTransaction()
+        val fragmentTransition = supportFragmentManager.beginTransaction()
 
         fragmentTransition
             .replace(R.id.fragmentContainer, fragment)
@@ -90,7 +93,7 @@ class MainActivityViewModel(private val binding: ActivityMainBinding,private val
 
     fun addFragment(fragment: Fragment)
     {
-        val fragmentTransition =  (context as AppCompatActivity).supportFragmentManager.beginTransaction()
+        val fragmentTransition =  (this as AppCompatActivity).supportFragmentManager.beginTransaction()
 
         fragmentTransition
             .replace(R.id.fragmentContainer, fragment)
@@ -101,7 +104,13 @@ class MainActivityViewModel(private val binding: ActivityMainBinding,private val
     }
 
 
-    companion object{
-        var email = ""
+
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+
     }
+
+
 }

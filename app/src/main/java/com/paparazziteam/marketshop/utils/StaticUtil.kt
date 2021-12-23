@@ -1,4 +1,4 @@
-package com.paparazziteam.marketshop.Utils
+package com.paparazziteam.marketshop.utils
 
 class StaticUtil {
 

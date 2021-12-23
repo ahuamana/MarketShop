@@ -1,4 +1,4 @@
-package com.paparazziteam.marketshop.Providers
+package com.paparazziteam.marketshop.providers
 
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentReference

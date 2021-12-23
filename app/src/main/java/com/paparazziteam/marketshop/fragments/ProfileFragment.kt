@@ -1,7 +1,6 @@
-package com.paparazziteam.marketshop.Fragments
+package com.paparazziteam.marketshop.fragments
 
 import android.app.ProgressDialog
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,10 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.paparazziteam.marketshop.Providers.AuthProvider
-import com.paparazziteam.marketshop.Providers.UserProvider
-import com.paparazziteam.marketshop.R
-import com.paparazziteam.marketshop.Utils.StaticUtil
+import com.paparazziteam.marketshop.providers.AuthProvider
+import com.paparazziteam.marketshop.providers.UserProvider
+import com.paparazziteam.marketshop.utils.StaticUtil
 import com.paparazziteam.marketshop.databinding.FragmentProfileBinding
 
 
@@ -24,14 +22,12 @@ class ProfileFragment : Fragment() {
     var mAuth = AuthProvider()
     var mUser = UserProvider()
 
-    var emailReceiver = ""
+    var extraEmail = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        arguments?.let {
-            emailReceiver = it.getString("username")!!
-        }
+        extraEmail= activity?.intent?.getStringExtra("username").toString()
 
         getUserInfo()
     }
@@ -53,14 +49,14 @@ class ProfileFragment : Fragment() {
 
     private fun getUserInfo() {
 
-        if (mAuth.mAuth.currentUser != null) {
+        if (!extraEmail.equals("") && extraEmail!= null) {
             var mDialog: ProgressDialog? = null
             mDialog = ProgressDialog(context)
             mDialog!!.setTitle("Espere un momento")
             mDialog!!.setMessage("Cargando Información")
             mDialog.show()
 
-            mUser.getUserInfo(emailReceiver).get().addOnSuccessListener {
+            mUser.getUserInfo(extraEmail).get().addOnSuccessListener {
                 if (it.exists()) {
                     var name = it.data!!.get("nombre")
                     var ape = it.data!!.get("apellidos")
@@ -69,8 +65,8 @@ class ProfileFragment : Fragment() {
                     ape = StaticUtil.replaceFirstCharInSequenceToUppercase(ape.toString())
 
 
-                    binding.email.setText(emailReceiver)
-                    binding.emailMain.setText(emailReceiver)
+                    binding.email.setText(extraEmail)
+                    binding.emailMain.setText(extraEmail)
                     binding.fullname.setText("${name} ${ape}")
 
                     mDialog.dismiss()

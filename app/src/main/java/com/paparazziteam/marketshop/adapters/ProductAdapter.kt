@@ -1,15 +1,14 @@
-package com.paparazziteam.marketshop.Adapters
+package com.paparazziteam.marketshop.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.paparazziteam.marketshop.Models.Product
+import com.paparazziteam.marketshop.models.Product
 import com.paparazziteam.marketshop.R
-import com.paparazziteam.marketshop.Utils.StaticUtil
+import com.paparazziteam.marketshop.utils.StaticUtil
 import com.paparazziteam.marketshop.databinding.CardviewProductBinding
 
 

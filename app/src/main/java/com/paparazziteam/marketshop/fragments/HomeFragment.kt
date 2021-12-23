@@ -1,4 +1,4 @@
-package com.paparazziteam.marketshop.Fragments
+package com.paparazziteam.marketshop.fragments
 
 import android.app.ProgressDialog
 import android.os.Bundle
@@ -9,20 +9,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.ktx.toObject
-import com.mancj.materialsearchbar.MaterialSearchBar
 import com.mancj.materialsearchbar.MaterialSearchBar.OnSearchActionListener
-import com.paparazziteam.marketshop.Adapters.ProductAdapter
-import com.paparazziteam.marketshop.Models.Product
-import com.paparazziteam.marketshop.Providers.ProductProvider
+import com.paparazziteam.marketshop.adapters.ProductAdapter
+import com.paparazziteam.marketshop.models.Product
+import com.paparazziteam.marketshop.providers.ProductProvider
 import com.paparazziteam.marketshop.R
 import com.paparazziteam.marketshop.databinding.FragmentHomeBinding
 import android.text.Editable
 
 import android.text.TextWatcher
 import android.util.Log
-import android.widget.Toast
-import com.paparazziteam.marketshop.Providers.UserProvider
-import com.paparazziteam.marketshop.Utils.StaticUtil
+import com.paparazziteam.marketshop.providers.UserProvider
 
 
 class HomeFragment : Fragment() {
@@ -39,43 +36,52 @@ class HomeFragment : Fragment() {
 
     private lateinit var mListener: ListenerRegistration
 
-    var emailReceiver = ""
+    var extraEmail = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        arguments?.let {
-            emailReceiver = it.getString("username")!!
-        }
+        extraEmail= activity?.intent?.getStringExtra("username").toString()
 
-        getUserInfo()
 
     }
 
     private fun getUserInfo() {
 
-        var mDialog: ProgressDialog? = null
-        mDialog= ProgressDialog(context)
-        mDialog!!.setTitle("Espere un momento")
-        mDialog!!.setMessage("Cargando Información")
-        mDialog.show()
+        Log.e("DATA","Email recibido: ${extraEmail}")
 
-        mUser.getUserInfo(emailReceiver).get().addOnSuccessListener {
-            if(it.exists())
-            {
-                var name= it.data!!.get("nombre")
-                binding.username.setText(name.toString())
-                mDialog.dismiss()
 
-            }else
-            {
-                Log.e("DATA","Username data no existe")
+
+        if(!extraEmail.equals("None"))
+        {
+            val mDialog: ProgressDialog?
+            mDialog= ProgressDialog(context)
+            mDialog!!.setTitle("Espere un momento")
+            mDialog!!.setMessage("Cargando Información")
+            mDialog.show()
+
+            mUser.getUserInfo(extraEmail).get().addOnSuccessListener {
+                if(it.exists())
+                {
+                    var name= it.data!!.get("nombre")
+                    binding.username.setText(name.toString())
+                    mDialog.dismiss()
+
+                }else
+                {
+                    Log.e("DATA","Username data no existe")
+                    mDialog.dismiss()
+                }
+            }.addOnFailureListener{
+                Log.e("DATA","Error al cargar datos")
                 mDialog.dismiss()
             }
-        }.addOnFailureListener{
-            Log.e("DATA","Error al cargar datos")
-            mDialog.dismiss()
+        }else
+        {
+            //If user not log in
+            binding.username.setText("Usuario!")
         }
+
 
 
     }
@@ -95,13 +101,10 @@ class HomeFragment : Fragment() {
         mLinearLayoutManager!!.stackFromEnd = true
         binding.recyclerViewProducts.layoutManager = mLinearLayoutManager
 
-
-
-
         setOnclickListeners()
 
         getProducts()
-
+        getUserInfo()
 
 
         return view

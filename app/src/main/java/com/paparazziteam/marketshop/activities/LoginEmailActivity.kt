@@ -1,8 +1,8 @@
-package com.paparazziteam.marketshop.Activities
+package com.paparazziteam.marketshop.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.paparazziteam.marketshop.ViewModels.LoginEmailActivityViewModel
+import com.paparazziteam.marketshop.viewModels.LoginEmailActivityViewModel
 import com.paparazziteam.marketshop.databinding.ActivityLoginEmailBinding
 
 class LoginEmailActivity : AppCompatActivity() {

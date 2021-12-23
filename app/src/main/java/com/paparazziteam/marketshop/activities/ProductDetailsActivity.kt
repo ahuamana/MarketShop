@@ -1,8 +1,7 @@
-package com.paparazziteam.marketshop.Activities
+package com.paparazziteam.marketshop.activities
 
 import RealPathUtil
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -13,16 +12,13 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.OnSuccessListener
-import com.paparazziteam.marketshop.Fragments.BottomSheetName
-import com.paparazziteam.marketshop.Fragments.BottomSheetPrecio
-import com.paparazziteam.marketshop.Models.Product
-import com.paparazziteam.marketshop.Providers.AuthProvider
-import com.paparazziteam.marketshop.Providers.ImageProvider
-import com.paparazziteam.marketshop.Providers.ProductProvider
+import com.paparazziteam.marketshop.fragments.BottomSheetName
+import com.paparazziteam.marketshop.fragments.BottomSheetPrecio
+import com.paparazziteam.marketshop.models.Product
+import com.paparazziteam.marketshop.providers.ImageProvider
+import com.paparazziteam.marketshop.providers.ProductProvider
 import com.paparazziteam.marketshop.R
-import com.paparazziteam.marketshop.Utils.StaticUtil
+import com.paparazziteam.marketshop.utils.StaticUtil
 import com.paparazziteam.marketshop.databinding.ActivityProductDetailsBinding
 import io.ak1.pix.helpers.PixEventCallback
 import io.ak1.pix.helpers.addPixToActivity
