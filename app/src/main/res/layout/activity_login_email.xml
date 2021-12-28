@@ -133,6 +133,35 @@
     </LinearLayout>
 
 
+    <FrameLayout
+        android:id="@+id/cortina"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/progress_bar_busqueda"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:elevation="10dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="90dp"
+            android:progressDrawable="@drawable/circular_progress_bar" />
+
+        <View
+            android:id="@+id/cortina_busq"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorCortina"
+            />
+
+
+    </FrameLayout>
+
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

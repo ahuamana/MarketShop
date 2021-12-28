@@ -16,4 +16,7 @@ class AuthProvider {
     {
         return mAuth.signInWithEmailAndPassword(email,password)
     }
+
+
 }
+

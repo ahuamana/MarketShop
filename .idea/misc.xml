@@ -3,7 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Antony/Desarrollo/Android/KotlinProjects/MarketShop/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />
+        <entry key="..\:/Antony/Desarrollo/Android/KotlinProjects/MarketShop/app/src/main/res/drawable/circular_progress_bar.xml" value="0.3828125" />
+        <entry key="..\:/Antony/Desarrollo/Android/KotlinProjects/MarketShop/app/src/main/res/layout/activity_login.xml" value="0.33" />
         <entry key="..\:/Antony/Desarrollo/Android/KotlinProjects/MarketShop/app/src/main/res/layout/activity_login_email.xml" value="0.36666666666666664" />
         <entry key="..\:/Antony/Desarrollo/Android/KotlinProjects/MarketShop/app/src/main/res/layout/fragment_grab.xml" value="0.23020833333333332" />
         <entry key="..\:/Antony/Desarrollo/Android/KotlinProjects/MarketShop/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />

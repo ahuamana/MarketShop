@@ -5,93 +5,95 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.google.common.base.Strings.isNullOrEmpty
+import com.paparazziteam.marketshop.activities.LoginEmailActivity
 import com.paparazziteam.marketshop.activities.MainActivity
 import com.paparazziteam.marketshop.providers.AuthProvider
 import com.paparazziteam.marketshop.providers.UserProvider
 import com.paparazziteam.marketshop.databinding.ActivityLoginEmailBinding
+import com.paparazziteam.marketshop.root.Global
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class LoginEmailActivityViewModel(private val binding:ActivityLoginEmailBinding,private val context: Context) : ViewModel() {
+class LoginEmailActivityViewModel() : ViewModel() {
 
+    val email: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
 
+    private var _pass = MutableLiveData<String>()
+    var pass:LiveData<String> = _pass
 
     init {
         mAuth= AuthProvider()
-
     }
 
-    private fun checkIfuserExist() {
+    fun checkIfuserExist(user: String, pass: String) {
 
-        var user = binding.editextEmail.text.toString()
-        var pass = binding.edittextPassword.text.toString()
+        Global.disableUserInteraction()
 
+            if (!isNullOrEmpty(pass) && !isNullOrEmpty(user)) {
 
-        if(user != null)
-        {
-            if(!user.equals(""))
-            {
-                if(pass != null)
-                {
-                    if(!pass.equals(""))
-                    {
+                mUserProvider.getUserInfo(user).get().addOnSuccessListener {
+                    if (it.exists()) {
 
-                        mUserProvider.getUserInfo(user).get().addOnSuccessListener {
-                            if(it.exists())
-                            {
+                        var us = it.data!!.get("username")
+                        var pa = it.data!!.get("password")
 
-                                var us=it.data!!.get("username")
-                                var pa=it.data!!.get("password")
+                        if (us!!.equals(user) && pa!!.equals(pass)) {
 
-                                if(us!!.equals(user) && pa!!.equals(pass))
-                                {
-                                    //Login
-                                    loginEmail(user,pass)
+                            //Login
+                            loginEmail(user,pass)
 
-                                }else
-                                {
-                                    Toast.makeText(context,"Correo o Contraseña Incorrecto!",
-                                        Toast.LENGTH_SHORT).show()
-                                }
-
-                                //Log.e("DATA", "user: ${it.data}")
-                                //Log.e("DATA","user: ${it.data!!.get("username")}")
-                                //Log.e("DATA","pass: ${it.data!!.get("password")}")
-
-                            }else
-                            {
-                                Toast.makeText(context,"Usuario No Registrado",
-                                    Toast.LENGTH_SHORT).show()
-                            }
+                        } else {
+                            Global.enableUSerInteraction()
+                            Toast.makeText(Global.getAppContext(),"Correo o Contraseña Incorrecto!", Toast.LENGTH_SHORT).show()
                         }
 
+                    } else {
+                        Global.enableUSerInteraction()
+                        Toast.makeText(Global.getAppContext(),"Usuario No Registrado", Toast.LENGTH_SHORT).show()
                     }
                 }
+            } else {
+                    Global.enableUSerInteraction()
+                    Toast.makeText(Global.getAppContext(),"Usuario y/o Contraseña vacios", Toast.LENGTH_SHORT).show()
+
+
             }
-        }
 
     }
 
-    private fun loginEmail(user: String, pass: String) {
+    fun loginEmail(user: String, pass: String) {
 
         mAuth.login(user, pass).addOnCompleteListener { task->
-            if (task.isSuccessful) {
-
-                Log.e("TAG", "Iniciando Session!")
-                var intent = Intent(context, MainActivity::class.java).apply {
+            if (task.isSuccessful)
+            {
+                Toast.makeText(Global.getAppContext(),"Bienvenido!", Toast.LENGTH_SHORT).show()
+                var intent = Intent(Global.getAppContext(), MainActivity::class.java).apply {
                     putExtra("username",user)
                 }
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
-                context.startActivity(intent)
+                Global.getAppContext().startActivity(intent)
 
-            } else {
-                // If sign in fails, display a message to the user.
+                Global.enableUSerInteraction()
+            }
+            else {
                 Log.w("TAG", "signInWithEmail:failure", task.exception)
-                Toast.makeText(context, "Error, al iniciar session", Toast.LENGTH_SHORT).show()
-
+                Global.enableUSerInteraction()
             }
         }
 
+
     }
+
+
 
     companion object{
 
