@@ -18,7 +18,7 @@ class LoginEmailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginEmailBinding
 
 
-    lateinit var viewModel: LoginEmailActivityViewModel
+    var viewModel: LoginEmailActivityViewModel = LoginEmailActivityViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +31,7 @@ class LoginEmailActivity : AppCompatActivity() {
         setContentView(view)
 
         //all code here
-        viewModel = LoginEmailActivityViewModel()
+
 
 
         binding.circularImageviewBack.setOnClickListener {
@@ -39,9 +39,10 @@ class LoginEmailActivity : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener {
+
             binding.cortina.visibility = View.VISIBLE
             login()
-            binding.cortina.visibility= View.GONE
+            binding.cortina.visibility = View.GONE
         }
 
     }
